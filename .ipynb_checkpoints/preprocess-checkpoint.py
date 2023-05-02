@@ -6,7 +6,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
 def separate(X):
-    num=col in X.select_dtypes('int','object').columns
+    y=[]
+    num=[col for col in X.select_dtypes('int','float').columns]
     cat=[]
     text=[]
     for col in X.select_dtypes(['object', 'category']).columns:
@@ -17,10 +18,11 @@ def separate(X):
                 cat.append(col)
             else:
                 text.append(col)
+        else:
+            y.append(col)
                 
-    results=print(f"Numerical Columns: {num}\n\nCategorical Columns: {cat}\n\nText Columns: {text}")
+    results=print(f"Target Column: {y}\n\nNumerical Columns: {num}\n\nCategorical Columns: {cat}\n\nText Columns: {text}")
     return results
-  
     
 def preprocessor(X):              
     num_pipeline=Pipeline([
