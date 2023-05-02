@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 
+PROJECT_DIR="."
 DATASET_PATH=os.path.join('Datasets')
 
 

@@ -7,7 +7,6 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
 
 def preprocessor(X):
-    num= col in X.select_dtypes('int','float').columns
     cat=[]
     text=[]
     for col in X.select_dtypes(['object', 'category']).columns:
@@ -18,47 +17,60 @@ def preprocessor(X):
                 cat.append(col)
             else:
                 text.append(col)
-                
+    num= col in X.select_dtypes('int','float').columns
+             
     num_pipeline=Pipeline([
         ("imputer", KNNImputer(n_neighbors=3)),
-        ("scaler", StandardScaler())
+        ("scaler", StandardScaler()),
     ])
+    
     cat_pipeline=Pipeline([
         ("imputer", SimpleImputer(strategy='most_frequent')),
         ("encoder", OneHotEncoder(sparse=False)),
-
     ])
-    text_pipeline=([
+    
+    text_pipeline=Pipeline([
         ("imputer", SimpleImputer(strategy='most_frequent')),
-        ("vectorizer", CountVectorizer())
+        ("vectorizer", CountVectorizer()),
     ])
-
+    
     preprocessor=ColumnTransformer([
         ("cat", cat_pipeline, cat),
         ("num", num_pipeline, num),
         ("text", text_pipeline, text),
     ])
 
-    pipe=Pipeline([
-        ("preprocessor", preprocessor)
-    ])
+    pipe=Pipeline([("preprocessor", preprocessor)])
 
     return pipe.fit_transform(X)
 
 
-def preprocessor2(X):        
+def preprocessor2(X): 
+    cat=[]
+    text=[]
+    for col in X.select_dtypes(['object', 'category']).columns:
+        if col not in ['cost_category']:
+            num_values=len(X[col].unique())
+            
+            if num_values<=6:
+                cat.append(col)
+            else:
+                text.append(col)
+    num= col in X.select_dtypes('int','float').columns
+     
+      
     num_pipeline=Pipeline([
         ("imputer", SimpleImputer(strategy='median')),
         ("scaler", MinMaxScaler())
     ])
     cat_pipeline=Pipeline([
         ("imputer", SimpleImputer(strategy='most_frequent')),
-        ("encoder", OneHotEncoder(sparse=False)),
+        ("encoder", OneHotEncoder(sparse_output=False)),
         
     ])
-    text_pipeline=([
+    text_pipeline=Pipeline([
         ("imputer", SimpleImputer(strategy='most_frequent')),
-        ("vectorizer", TfidfVectorizer())
+        ("vectorizer", TfidfVectorizer()),
     ])
     
     preprocessor=ColumnTransformer([
@@ -67,8 +79,6 @@ def preprocessor2(X):
         ("text", text_pipeline, text),
     ])
     
-    pipe=Pipeline([
-        ("preprocessor", preprocessor)
-    ])
+    pipe=Pipeline([("preprocessor", preprocessor)])
     
     return pipe.fit_transform(X)
