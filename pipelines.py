@@ -82,3 +82,66 @@ def preprocessor2(X):
     pipe=Pipeline([("preprocessor", preprocessor)])
     
     return pipe.fit_transform(X)
+
+
+
+from sklearn.pipeline import Pipeline, FeatureUnion
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.base import BaseEstimator, TransformerMixin
+
+class TextSelector(BaseEstimator, TransformerMixin):
+    def __init__(self, key):
+        self.key = key
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        return X[self.key]
+
+class NumericSelector(BaseEstimator, TransformerMixin):
+    def __init__(self, key):
+        self.key = key
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        return X[[self.key]]
+
+class CategoricalSelector(BaseEstimator, TransformerMixin):
+    def __init__(self, key):
+        self.key = key
+
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        return X[[self.key]]
+
+text = Pipeline([
+                ('selector', TextSelector(key='text')),
+                ('tfidf', TfidfVectorizer())
+            ])
+
+numeric = Pipeline([
+                ('selector', NumericSelector(key='numeric')),
+                ('scaler', StandardScaler())
+            ])
+
+categorical = Pipeline([
+                ('selector', CategoricalSelector(key='categorical')),
+                ('onehot', OneHotEncoder())
+            ])
+
+features = FeatureUnion([
+            ('text', text),
+            ('numeric', numeric),
+            ('categorical', categorical)
+            ])
+
+pipeline = Pipeline([
+            ('features', features),
+            ('model', model)
+            ])
