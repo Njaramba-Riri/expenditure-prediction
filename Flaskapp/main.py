@@ -1,8 +1,8 @@
 from flask import Flask, redirect, url_for
 
-app= Flask(__name__)
+app= Flask(__name__, instance_relative_config=True)
 
-@app.route("/predict")
+@app.route('/predict')
 def predict():
     return 'Hello World'
 
