@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, request, render_template
 
 def create_app(test_config=None):
 
@@ -38,5 +38,23 @@ def create_app(test_config=None):
             return redirect(url_for('hello_admin'))
         else:
             return redirect(url_for('hello_guest', guest=name))
+
+
+    @app.route('/success/<name>')
+    def success(name):
+        return 'welcome %s' % name
+    
+    @app.route('/login', methods=['POST', 'GET'])
+    def login():
+        if request.method=='POST':
+            user= request.form['nm']
+            return redirect(url_for('success', name=user))
+        else:
+            user= request.args.get('nm')
+            return redirect(url_for('success', name= user))
+
+    @app.route('/hello/<there>')
+    def hello(there):
+        return render_template('index.html', name=there)
 
     return app
