@@ -57,4 +57,20 @@ def create_app(test_config=None):
     def hello(there):
         return render_template('index.html', name=there)
 
+
+    @app.route('/hello/<int:score>')
+    def hello2(score):
+        return render_template('hello.html', marks=score)
+    
+    
+    @app.route('/no')
+    def student():
+        return render_template('student.html')
+
+    @app.route('/result',methods = ['POST', 'GET'])
+    def result():
+         if request.method == 'POST':
+            result = request.form
+         return render_template("result.html",result = result)
+   
     return app
