@@ -1,0 +1,9 @@
+body{
+    background-image: url('images/lion.jpg');
+    background-size: auto;
+}
+
+label{
+    font-style: italic; 
+    font: optional;
+}
