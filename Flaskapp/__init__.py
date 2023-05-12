@@ -65,7 +65,7 @@ def create_app(test_config=None):
     
     @app.route('/no')
     def student():
-        return render_template('student.html')
+        return render_template('hello.html')
 
     @app.route('/result',methods = ['POST', 'GET'])
     def result():

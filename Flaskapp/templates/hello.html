@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hide/show input fields example</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#dropdown').change(function() {
+				var selectedValue = $(this).val();
+				if (selectedValue == 'Option A') {
+					$('#input-row-1').show();
+					$('#input-row-2').hide();
+					$('#input-row-3').hide();
+				} else if (selectedValue == 'Option B') {
+					$('#input-row-1').show();
+					$('#input-row-2').show();
+					$('#input-row-3').hide();
+				} else {
+					$('#input-row-1').show();
+					$('#input-row-2').show();
+					$('#input-row-3').show();
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<label for="dropdown">Select an option:</label>
+	<select id="dropdown" name="dropdown">
+		<option value="Option A">Option A</option>
+		<option value="Option B">Option B</option>
+		<option value="Option C">Option C</option>
+	</select>
+	<br><br>
+	<div id="input-row-1">
+		<label for="input-1">Input 1:</label>
+		<input type="text" id="input-1" name="input-1"><br><br>
+	</div>
+	<div id="input-row-2">
+		<label for="input-2">Input 2:</label>
+		<input type="text" id="input-2" name="input-2"><br><br>
+	</div>
+	<div id="input-row-3">
+		<label for="input-3">Input 3:</label>
+		<input type="text" id="input-3" name="input-3"><br><br>
+	</div>
+</body>
+</html>
+
+

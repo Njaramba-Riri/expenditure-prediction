@@ -1,9 +1,31 @@
 body{
     background-image: url('images/lion.jpg');
-    background-size: auto;
+    background-size: cover;
+    align-items: center;
+    display: block;
 }
 
 label{
     font-style: italic; 
     font: optional;
+}
+form{
+    display: flex;
+    background-color: whitesmoke;
+    align-items: center;
+    justify-content: center;
+}
+
+legend{
+    font-weight: bold;
+    font-style: italic;
+}
+
+div{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+select{
+    hid
 }
