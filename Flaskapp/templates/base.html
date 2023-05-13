@@ -14,6 +14,15 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename= 'responsive.js') }}"></script>
 
+    <script>
+        $(function () {
+            $("#slider1").responsiveSlides({
+                maxwidth: 1600,
+                speed: 600
+            });
+        });
+    </script>
+
     <nav class="navbar navbar-expand-sm bg-success  navbar-dark">
         <div class="container">
             <ul class="navbar-nav">
@@ -24,7 +33,7 @@
 </head>
 
 <section class="container-fluid">
-    <h2>Welcome to Let'sGo🤩</h2>
+    <header>{% block header %}{{ title }}{% endblock header %}</header>
     {% block content %}
 
     {% endblock content %}
