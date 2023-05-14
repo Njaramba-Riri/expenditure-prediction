@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 
+PROJECT_DIR="."
 DATASET_PATH=os.path.join('Datasets')
 
 
@@ -15,9 +16,9 @@ def fetch_data(path=DATASET_PATH):
 
 
 def load_data(filename):
-    fetch_data()
+    path = fetch_data()
     file=os.path.join(path, filename)
-    return(file, error_bad_lines=False)
+    return(file)
     
     
  

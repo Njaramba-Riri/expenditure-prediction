@@ -1,17 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %} Let'sGo {% endblock title %}
+{% block title %} Let'sGo|form {% endblock title %}
 
 {% block content %}
-<hr>
-    <p>Want to visit Tanzania but you don't know where to start?</p>
     <form class="col g-3" action="url_for({{ predict }})" method="post">
         <fieldset>
-            <legend>Prediction Form</legend>
+            <legend>Fill in relevant details: </legend>
             <div>
                 <label for="country" class="form-label">Country</label><br>
-                <input class="form-control" list="country" name="country">
-                <datalist  id="country">
+                <select class="form-control" name="country"  id="country">
+                    <option selected>Choose</option>
                     <option value="Afghanistan">Afghanistan</option>
                     <option value="Albania">Albania</option>
                     <option value="Algeria">Algeria</option>
@@ -131,7 +129,7 @@
                     <option value="Kyrgyzstan">Kyrgyzstan</option>
                     <option value="Lao">Lao People's Democratic Republic</option>
                     <option value="Latvia">Latvia</option>
-                    <option value="Lebanon" selected>Lebanon</option>
+                    <option value="Lebanon">Lebanon</option>
                     <option value="Lesotho">Lesotho</option>
                     <option value="Liberia">Liberia</option>
                     <option value="Libyan Arab Jamahiriya">Libyan Arab Jamahiriya</option>
@@ -251,33 +249,33 @@
                     <option value="Serbia">Serbia</option>
                     <option value="Zambia">Zambia</option>
                     <option value="Zimbabwe">Zimbabwe</option>
-                </datalist>
+                </select>
             </div>
             <div>
                 <div>
                     <label for="age" class="form-label">Age Group</label><br>
                 </div>
                 <div>
-                    <input class="form-control" list="age" name="age">
-                    <datalist id="age">
-                        <option value="<18">
-                        <option value="19-24">
-                        <option value="25-44">
-                        <option value="45-64">
-                        <option value="65+">
-                    </datalist>
+                    <select class="form-control" name="age" id="age" required>
+                        <option selected></option>
+                        <option value="<18">Less than 18</option>
+                        <option value="19-24">18-24</option>
+                        <option value="25-44">25-44</option>
+                        <option value="45-64">45-64</option>
+                        <option value="65+">65 and Above</option>
+                    </select>
                 </div>
             </div>
             <div class="col-12">
                 <label class="form-label" for="twith">Travel With</label>
-                <input class="form-control" list="twith" type="text" name="twith" required>
-                <datalist id="twith">
-                    <option value="Alone"></option>
-                    <option value="With Spouse"></option>
-                    <option value="With Children"></option>
-                    <option value="With Spouse and Children"></option>
-                    <option value="With Other Friends/Relatives"></option>
-                </datalist>
+                <select class="form-control" name="twith" id="twith">
+                    <option selected></option>
+                    <option value="Alone">Alone</option>
+                    <option value="With Spouse">Spouse</option>
+                    <option value="With Children">Children</option>
+                    <option value="With Spouse and Children">Spouse and Children</option>
+                    <option value="With Other Friends/Relatives">Other Friends/Relatives</option>
+                </select>
             </div>
             <div class="col-12">
                 <label class="form-label" for="female">Total Female</label>
@@ -289,57 +287,58 @@
             </div>
             <div  class="col-12">
                 <label class="text-lg" for="purpose">Purpose of Visit:</label><br>
-                <input class="form-control col-sm" list="purpose" name="purpose">
-                <datalist id="purpose">
-                    <option value="Business"></option>
-                    <option value="Leisure and Holidays"></option>
-                    <option value="Visiting Friends and Relatives"></option>
-                    <option value="Scientific and Academic"></option>
-                    <option value="Meetings and Conference"></option>
-                    <option value="Volunteering"></option>
-                    <option value="Medical"></option>
-                    <option value="Other"></option>
-                </datalist>
+                <select class="form-control" name="purpose" id="purpose">
+                    <option selected></option>
+                    <option value="Business">Business</option>
+                    <option value="Leisure and Holidays">Leisure and Holidays</option>
+                    <option value="Visiting Friends and Relatives">Visiting Friends and Relatives</option>
+                    <option value="Scientific and Academic">Scientific and Academic</option>
+                    <option value="Meetings and Conference">Meetings and Conference</option>
+                    <option value="Volunteering">Volunteering</option>
+                    <option value="Medical">Medical</option>
+                    <option value="Other">Other</option>
+                </select>
             </div>
             <div class="col sm">
                 <label for="activity">Main Activity of the trip</label><br>
-                <input class="form-control" list="activity"  name="activity">
-                <datalist name="activity" id="activity">
-                    <option value="Wildlife Tourism"></option>
-                    <option value="Beach Tourism"></option>
-                    <option value="Bird Hunting"></option>
-                    <option value="Cultural Tourism"></option>
-                    <option value="Hunting Tourism"></option>
-                    <option value="Conference Tourism"></option>
-                    <option value="Mountain Climbing"></option>
-                    <option value="Business"></option>
-                    <option value="Diving and Sport Fishing"></option>
-                </datalist>
+                <select class="form-control"  name="activity" id="activity">
+                    <option selected></option>
+                    <option value="Wildlife Tourism">Wildlife Tourism</option>
+                    <option value="Beach Tourism">Beach Tourism</option>
+                    <option value="Bird Hunting">Bird Hunting</option>
+                    <option value="Cultural Tourism">Cultural Tourism</option>
+                    <option value="Hunting Tourism">Hunting Tourism</option>
+                    <option value="Conference Tourism">Conference Tourism</option>
+                    <option value="Mountain Climbing">Mountain Climbing</option>
+                    <option value="Business">Business</option>
+                    <option value="Diving and Sport Fishing">Diving and Sport Fishing</option>
+                    <option>Other</option>
+                </select>
             </div>
             <div class="col-12">
                 <div class="col-sm">
                     <label for="info" class="form-label">Where did you hear about Tanzanian Tourism? </label>
-                    <input type="text" class="form-control" name="info" list="info">
-                    <datalist id="info">
-                        <option value="Friends, relatives"></option>
-                        <option value="Travel agent, tour operator"></option>
-                        <option value="Radio, Tv, Web"></option>
-                        <option value="Newspaper, magazines, brochures"></option>
-                        <option value="Tanzania Mission Abroad"></option>
-                        <option value="Inflight magazines"></option>
-                        <option value="Trade fair"></option>
-                        <option value="Others"></option>
-                    </datalist>
+                    <select class="form-control" name="info" id="info">
+                        <option selected></option>
+                        <option value="Friends, relatives">Friends, relatives</option>
+                        <option value="Travel agent, tour operator">Travel agent, tour operator</option>
+                        <option value="Radio, Tv, Web">Radio, Tv, Web</option>
+                        <option value="Newspaper, magazines, brochures">Newspaper, magazines, brochures</option>
+                        <option value="Tanzania Mission Abroad">Tanzania Mission Abroad</option>
+                        <option value="Inflight magazines">Inflight magazines</option>
+                        <option value="Trade fair">Trade fair</option>
+                        <option value="Others">Others</option>
+                    </select>
                 </div>
             </div>
             <div class="col-12">
                 <div class="col-sm">
                     <label for="tarr" class="form-label">What kind of tour arrangement do you have?:</label>
-                    <input type="text" id="tarra" class="form-control" name="tarr" list="tarr">
-                    <datalist id="tarr">
+                    <select class="form-control" name="tarr" id="tarr">
+                        <option selected></option>
                         <option value="Package Tour"></option>
                         <option value="Independent"></option>
-                    </datalist>
+                    </select>
                 </div>
             </div>
             <div class="pkg">
@@ -449,7 +448,7 @@
             </div>
             <div class="col-12">
                 <div class="col-sm">
-                    <label for="mainland" class="form-label">How many nights are you planning to spend on Mainland Tanzania?</label>
+                    <label for="mainland" class="form-label">How many nights are you planning to spend in Mainland Tanzania?</label>
                     <input type="number" class="form-control" max="365" min="0">
                 </div>
             </div>

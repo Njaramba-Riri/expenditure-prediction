@@ -10,18 +10,10 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ url_for('static', filename= 'responsive.js') }}"></script>
-
-    <script>
-        $(function () {
-            $("#slider1").responsiveSlides({
-                maxwidth: 1600,
-                speed: 600
-            });
-        });
-    </script>
 
     <nav class="navbar navbar-expand-sm bg-success  navbar-dark">
         <div class="container">

@@ -1,6 +1,8 @@
 import pandas as pd
 
 def separate(X):
+    X.set_index('Tour_ID', inplace=True)
+    
     y=[]
     num=[col for col in X.select_dtypes('int','float').columns]
     cat=[]

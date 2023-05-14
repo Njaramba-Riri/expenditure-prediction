@@ -1,66 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title%}Let'sGo{% endblock %}
+{% block title%}Let'sGo|home{% endblock %}
 
-{% block header %} <h2>Welcome to Let'sGo ✈</h2> {% endblock %}
+{% block header %} <h2>Let'sGo Tz  ✈</h2> {% endblock %}
 
 {% block content %}
-
-		<div id="carouselcaptions" class="carousel slide m-1 p-2" data-bs-ride="carousel">
-			<div class="carousel-indicators">
-				<button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="0" class="active"
-					aria-current="true" aria-label="Slide 1"></button>
-				<button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="1"
-					aria-label="Slide 2"></button>
-				<button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="2"
-					aria-label="Slide 3"></button>
-			</div>
-			<div class="carousel-inner">
-				<div class="carousel-item active">
-					<img src="Images/zanzi.jpeg" class="d-block w-100" width="700" height="400" alt="loading">
-					<div class="carousel-caption d-none d-md-block">
-						<h5>What's better than your health?.</h5>
-						<p>At City health clinic we offer world class services, visit us today and let us make your health
-							better..</p>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<img src="Images/gir.jpeg" class="d-block w-100" width="700" height="400" alt="loading">
-					<div class="carousel-caption d-none d-md-block">
-						<h5>We've experienced Doctors and Nurses.</h5>
-						<p>Feel free to talk to them, they're your friends.</p>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<img src="Images/fstress.jpeg" class="d-block w-100" width="700" height="400" alt="loading">
-					<div class="carousel-caption d-none d-md-block">
-						<h5>Our Facility.</h5>
-						<p>We offer laboratory services, this enhances our efficiency and accuracy while offering our services.
-						</p>
-					</div>
-				</div>
-			</div>
-			<button class="carousel-control-prev" type="button" data-bs-target="#carouselCaptions" data-bs-slide="prev">
-				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				<span class="visually-hidden">Previous</span>
-			</button>
-			<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-				<span class="carousel-control-next-icon" aria-hidden="true"></span>
-				<span class="visually-hidden">Next</span>
-			</button>
-			</div>
+<div>
+	<div class="card text-center bg-none"  style="width: 80rem; height: 25rem;">
+		<div class="card-body">
+			<p class="card-text">You probably have been dreaming about visiting Tanzania but you don't really know where to start, or rather you don't really know how much you could probably spend during the trip. Well, worry no more because this predictive ML model have the ability to tell you how much you will spend. 😎</p>
+			<hr> 
+			<p class="pull left"> Provide relevant details to see which spending category you're likely to fall in.</p>
 		</div>
-		<div class="card">
-			<img src="Images/zanzi2.jpeg" class="card-image" alt="...">
-			<div class="card-image-overlay">
-				<p class="card-text">Fill the form to generate predictions.</p>
-				<div class="">
-					<a href="{{ url_for('form') }}" class="btn btn-lg btn-success justify-content-md-end">Fill the Form.</a>
-				</div>
-			</div>
-		</div>
-
-
+	</div>
+	<div class="col-sm-4">
+		<a href="{{ url_for('hello') }}" class="btn btn-success gap-2 md-flex pull-right">Fill the Form.</a>
+	</div>
+</div>
 
 {% endblock %}
 

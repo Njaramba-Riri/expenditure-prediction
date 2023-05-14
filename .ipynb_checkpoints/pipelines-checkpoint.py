@@ -1,9 +1,10 @@
 from preprocess import separate
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.impute import SimpleImputer, KNNImputer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder, MinMaxScaler
+from sklearn.preprocessing import StandardScaler, OneHotEncoder, MinMaxScaler, OrdinalEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer, HashingVectorizer
+from sklearn.feature_extraction import DictVectorizer
 
 
 def preprocessor(X):
@@ -52,7 +53,7 @@ def preprocessor2(X):
         if col not in ['cost_category']:
             num_values=len(X[col].unique())
             
-            if num_values<=260:
+            if num_values<=6:
                 cat.append(col)
             else:
                 text.append(col)
@@ -66,13 +67,13 @@ def preprocessor2(X):
         
         cat_pipeline=Pipeline([
             ("imputer", SimpleImputer(strategy='most_frequent')),
-            ("ohe", OneHotEncoder(sparse_output=False)),
+            ("ohe", OneHotEncoder()),
         
         ])
         
         text_pipeline=Pipeline([
             ("imputer", SimpleImputer(strategy='most_frequent')),
-            ("vectorizer", OneHotEncoder(sparse_output=False)),
+            ("encoder", OrdinalEncoder()),
         ])
     
         preprocessor=ColumnTransformer([
