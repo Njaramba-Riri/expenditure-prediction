@@ -14,7 +14,7 @@ def preprocessor(X):
         if col not in ['cost_category']:
             num_values=len(X[col].unique())
             
-            if num_values<=6:
+            if num_values<=10:
                 cat.append(col)
             else:
                 text.append(col)
