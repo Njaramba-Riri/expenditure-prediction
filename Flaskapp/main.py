@@ -1,7 +1,11 @@
 import os
+import pickle 
+
 from flask import Flask, redirect, url_for, request, render_template
 
 app= Flask(__name__, instance_relative_config=True, template_folder='templates')
+
+model= with(open )
 
 app.config.from_mapping(
         SECRET_KEY='exp',

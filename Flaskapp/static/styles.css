@@ -1,6 +1,6 @@
 body{
     background-image: url('images/lion.jpg');
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-repeat: calc();
     background-size:auto;
     align-items: center;
@@ -13,6 +13,7 @@ label{
     font-style: italic; 
     font: optional;
 }
+
 form{
     display: flex;
     background-color: whitesmoke;
@@ -29,6 +30,7 @@ div{
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
 p{
     font-size: 2em;
     font-weight:500;
