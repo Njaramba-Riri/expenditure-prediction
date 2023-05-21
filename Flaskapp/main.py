@@ -29,7 +29,7 @@ def predict():
         return "Enter Details On The Form to Get Predictions."
 
     if request.method == 'POST':
-        details  =  request.form
+        details  =  request.form.get
         country  =  details['country']
         age      =  details['age']
         tmale    =  details['tmale']
@@ -51,15 +51,14 @@ def predict():
         ftrip    =  details['ftrip']  
 
         cur=mysql.connection.cursor()
-        cur.execute("INSERT INTO Users(Country, Age, Total_male, Total_Female, Travel_with, Purpose, Main_activity, Info_Source, Tour_arrangement, Package_Int_Travel, Package_Accomodation, Package_Food, Package_Transport_TZ, Package_SightSeeing, Guided_Tour, Package_Insurance, Nights_MainlandTZ, Nights_Zanzibar, First_Trip) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)" (country, age, tmale, tfemale, twith, purpose, activity, info, tarr, pint, pacc, pfood, ptra, psigh, pgt, pins, nmain, nzanzi, ftrip))
+        cur.execute("INSERT INTO Users(Country, Age, Total_male, Total_Female, Travel_with, Purpose, Main_activity, Info_Source, Tour_arrangement, Package_Int_Travel, Package_Accomodation, Package_Food, Package_Transport_TZ, Package_SightSeeing, Guided_Tour, Package_Insurance, Nights_MainlandTZ, Nights_Zanzibar, First_Trip) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (country, age, tmale, tfemale, twith, purpose, activity, info, tarr, pint, pacc, pfood, ptra, psigh, pgt, pins, nmain, nzanzi, ftrip))
 
         mysql.connection.commit()
         cur.close()
         return "Success"
     
-    results = {}
-    
-    return render_template('form.html')
+    results = {}    
+    return render_template('form.html', inplace=True)
 
 
 
