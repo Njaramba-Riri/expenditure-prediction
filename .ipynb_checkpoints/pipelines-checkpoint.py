@@ -32,7 +32,7 @@ def preprocessor(X):
     
     text_pipeline=Pipeline([
         ("imputer", SimpleImputer(strategy='most_frequent')),
-        ("vectorizer",DictVectorizer(sparse=False, dtype=int)),
+        ("vectorizer",DictVectorizer(sparse=True, dtype=float)),
     ])
     
     preprocessor=ColumnTransformer([
