@@ -67,13 +67,13 @@ def preprocessor2(X):
         
         cat_pipeline=Pipeline([
             ("imputer", SimpleImputer(strategy='most_frequent')),
-            ("ohe", OneHotEncoder()),
+            ("ohe", OrdinalEncoder()),
         
         ])
         
         text_pipeline=Pipeline([
             ("imputer", SimpleImputer(strategy='most_frequent')),
-            ("encoder", OrdinalEncoder()),
+            ("encoder", OneHotEncoder() ),
         ])
     
         preprocessor=ColumnTransformer([
