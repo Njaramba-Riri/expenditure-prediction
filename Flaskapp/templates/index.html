@@ -6,16 +6,21 @@
 
 {% block content %}
 <div>
-	<div class="card text-center bg-none"  style="width: 80rem; height: 25rem;">
-		<div class="card-body">
-			<p class="card-text">You probably have been dreaming about visiting Tanzania but you don't really know where to start, or rather you don't really know how much you could probably spend during the trip. Well, worry no more because this predictive ML model have the ability to tell you how much you will spend. 😎</p>
+	<div class="card text-center"  style="width: 80rem; height: auto;">
+		<div>
+			<p class="text-center text-white">Embark on a mesmerizing journey to Tanzania, where adventure meets tranquility, and let our predictive ML model unveil the secrets of your travel expenses! 🌍💰✨ <br> Discover the ultimate thrill of exploring Tanzania's stunning landscapes, captivating wildlife, and vibrant cultures, while our cutting-edge technology predicts your spending category with unrivaled accuracy. Whether you're dreaming of safari adventures, pristine beaches, or cultural escapades, our ML app empowers you to plan your trip with confidence. From budget-friendly explorations to luxurious getaways, unlock the key to your personalized spending category and unleash the extraordinary memories that await. Get ready to embrace Tanzania like never before and embark on an unforgettable journey tailored just for you! 🌟🔮✈️ <br> Don't miss out on this unique opportunity to experience Tanzania with a touch of AI magic. Start your adventure now!</p>
+
 			<hr> 
-			<p class="pull-left"> Provide relevant details to see which spending category you're likely to fall in.</p>
+			<br>
 		</div>
 	</div>
-	<div class="col-sm-4">
-		<a href="{{ url_for('hello') }}" class="btn btn-success gap-2 md-flex pull-right">Fill the Form.</a>
+	<div class="">
+		<p style="text-decoration-thickness: 20px;"> Provide relevant details to see which spending category you're likely to fall in.</p>
+		<div class="col-sm-4">
+			<a href="{{ url_for('hello') }}" class="btn btn-success gap-2 md-flex pull-right">Fill the Form.</a>
+		</div>
 	</div>
+	
 </div>
 
 {% endblock %}

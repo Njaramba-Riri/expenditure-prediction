@@ -23,10 +23,10 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/predict', methods=['GET', 'POST'])
+@app.route('/predict/', methods=['GET', 'POST'])
 def predict():
     if request.method == 'GET':
-        return "Enter Details On The Form to Get Predictions."
+        return "Kindly Enter Details On The Form to Get Predictions."
 
     if request.method == 'POST':
         details  =  request.form.get
@@ -56,7 +56,7 @@ def predict():
         mysql.connection.commit()
         cur.close()
         return "Success"
-    
+
     results = {}    
     return render_template('form.html', inplace=True)
 

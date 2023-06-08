@@ -1,11 +1,11 @@
 body{
     background-image: url('images/lion.jpg');
-    background-repeat: repeat;
+    background-repeat: no-repeat;
     background-repeat: calc();
-    background-size:auto;
+    background-size: 1400px;
     align-items: center;
     display: block;
-    width: 100%;
+    width: auto;
     height: 100%;
 }
 
@@ -32,18 +32,19 @@ div{
 }
 
 p{
-    font-size: 2em;
     font-weight:500;
+    font-size: 30;
     font-family: 'Montserrat', sans-serif;
-    font-style: italic;
-    color: tomato;
+    /*font-style: italic;*/
+    color: whitesmoke;
+
 }
 
 .card{
     width: 300px;
     height: 100px;
     background-color: transparent;
-    border: none;
+    border: pink;
 }
 
 .carousel {
