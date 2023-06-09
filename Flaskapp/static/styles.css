@@ -1,5 +1,6 @@
 body{
-    background-image: url('images/lion.jpg');
+    background-image: none;
+    background-color: whitesmoke;
     background-repeat: no-repeat;
     background-repeat: calc();
     background-size: 1400px;
@@ -35,9 +36,14 @@ p{
     font-weight:500;
     font-size: 30;
     font-family: 'Montserrat', sans-serif;
-    /*font-style: italic;*/
+    font-style: italic;
     color: whitesmoke;
 
+}
+
+hr{
+    color: red;
+    size: 50px;
 }
 
 .card{
@@ -51,6 +57,17 @@ p{
     z-index: -99;
 }
 
+#tzcarousel {
+    margin-top: 30px;
+    min-height: 300px;
+    min-width: 100%;
+}
+
+#tzcarousel img{
+    height: 500px;
+    width: 100%;
+}
+
 /* keeps this behind all content */
 .carousel .item {
     position: fixed;
@@ -62,6 +79,12 @@ p{
     -o-transition: opacity 1s;
     transition: opacity 1s;
 
+}
+
+.carousel-item p {
+    top: 50%;
+    transform: translateY(-50%%);
+    bottom: initial;
 }
 
 .carousel .one {
