@@ -1,90 +1,108 @@
-from preprocess import separate
-from sklearn.pipeline import Pipeline, FeatureUnion
+#from preprocess import separate
+from sklearn.pipeline import Pipeline, FeatureUnion, make_pipeline
 from sklearn.impute import SimpleImputer, KNNImputer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder, MinMaxScaler, OrdinalEncoder
+from sklearn.preprocessing import StandardScaler, OneHotEncoder, MinMaxScaler, OrdinalEncoder, RobustScaler
 from sklearn.compose import ColumnTransformer
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer, HashingVectorizer
 from sklearn.feature_extraction import DictVectorizer
+import pandas as pd
+import itertools
 
-
-def preprocessor(X):
-    cat=[]
-    text=[]
-    for col in X.select_dtypes(['object', 'category']).columns:
-        if col not in ['cost_category']:
-            num_values=len(X[col].unique())
-            
-            if num_values<=10:
-                cat.append(col)
-            else:
-                text.append(col)
-    num= [col for col in X.select_dtypes('int','float').columns]
-             
-    num_pipeline=Pipeline([
-        ("imputer", KNNImputer(n_neighbors=3)),
-        ("scaler", StandardScaler()),
-    ])
+def extra_features(df, categorical_cols):
+    combi = list(itertools.combinations(categorical_cols, 2))
     
+    for cat1, cat2 in combi:
+        df.loc[:, cat1 + "_" + cat2] = df[cat1].astype(str) + "_" + df[cat2].astype(str)
+    
+    
+    return df
+
+
+def pipe(df):
+    cat = []
+    huge_cat = []
+    num = [c for c in df.select_dtypes('int','float').columns]
+    for col in df.select_dtypes(['object', 'category']).columns:
+        num_values = len(df[col].unique())
+        if num_values <= 20:
+            cat.append(col)
+        else:
+            huge_cat.append(col)
+
+        num_pipeline=Pipeline([
+            ("imputer", SimpleImputer(strategy='median')),
+            ("scaler", StandardScaler()),
+        ])
+
+        cat_pipeline=Pipeline([
+            ("imputer", SimpleImputer(strategy='most_frequent')),
+            ("encoder", OneHotEncoder(sparse_output=False)),
+        ])
+
+        lcat_pipeline=Pipeline([
+            ('imputer', SimpleImputer(strategy='most_frequent')),
+            ("enc", OrdinalEncoder()),
+        ])
+
+        pipe=ColumnTransformer([ 
+            ("cat", cat_pipeline, cat),
+            ("num", num_pipeline, num),
+            ("text", lcat_pipeline, huge_cat),
+        ])
+
+        tra = Pipeline([
+            ('pipe', pipe),
+            ('scaler', StandardScaler())
+        ])
+    
+
+    return tra.fit_transform(df)
+
+
+def pipe2(X):
+    num= [c for c in X.select_dtypes('int','float').columns]
+    cat=[]
+    huge_cat=[]
+    for col in X.select_dtypes(['object', 'category']).columns:
+        num_values=len(X[col].unique())
+
+        if num_values<=10:
+            cat.append(col)
+        else:
+            huge_cat.append(col)
+
+
+    num_pipeline=Pipeline([
+        ("imputer", SimpleImputer(strategy='median')),
+        ("scaler", RobustScaler())
+    ])
+
     cat_pipeline=Pipeline([
+        ("imputer", SimpleImputer(strategy='most_frequent')),
+        ("encoder", OrdinalEncoder()),
+        ])
+
+    lcat_pipeline=Pipeline([
         ("imputer", SimpleImputer(strategy='most_frequent')),
         ("encoder", OneHotEncoder(sparse_output=False)),
     ])
-    
-    text_pipeline=Pipeline([
-        ("imputer", SimpleImputer(strategy='most_frequent')),
-        ("vectorizer",OneHotEncoder(sparse_output=False)),
-    ])
-    
-    preprocessor=ColumnTransformer([
+
+    pipe = ColumnTransformer([
         ("cat", cat_pipeline, cat),
         ("num", num_pipeline, num),
-        ("text", text_pipeline, text),
+        ("text", lcat_pipeline, huge_cat)
     ])
-
-    pipe=Pipeline([("preprocessor", preprocessor)])
-
-    return pipe.fit_transform(X)
-
-
-def preprocessor2(X): 
-    cat=[]
-    text=[]
-    for col in X.select_dtypes(['object', 'category']).columns:
-        if col not in ['cost_category']:
-            num_values=len(X[col].unique())
-            
-            if num_values<=10:
-                cat.append(col)
-            else:
-                text.append(col)
-        num= [col for col in X.select_dtypes('int','float').columns]
-     
-      
-        num_pipeline=Pipeline([
-            ("imputer", SimpleImputer(strategy='median')),
-            ("scaler", MinMaxScaler())
-        ])
-        
-        cat_pipeline=Pipeline([
-            ("imputer", SimpleImputer(strategy='most_frequent')),
-            ("ohe", OrdinalEncoder()),
-        
-        ])
-        
-        text_pipeline=Pipeline([
-            ("imputer", SimpleImputer(strategy='most_frequent')),
-            ("encoder", OneHotEncoder() ),
-        ])
     
-        preprocessor=ColumnTransformer([
-            ("cat", cat_pipeline, cat),
-            ("num", num_pipeline, num),
-            ("text", text_pipeline, text),
-        ])
+    tra = Pipeline([
+        ('pipe', pipe),
+        ('scaler', StandardScaler()),
     
-        pipe=Pipeline([("preprocessor", preprocessor)])
-    
-    return pipe.fit_transform(X)
+    ])
+        
+         
+    return tra.fit_transform(X)
+
+
+
 
 
 """
