@@ -4,7 +4,8 @@ def separate(X):
     X.set_index('Tour_ID', inplace=True)
     
     y=[]
-    num=[col for col in X.select_dtypes('int','float').columns]
+    num=[col for col in X.select_dtypes('int64','float64').columns]
+    
     cat=[]
     text=[]
     for col in X.select_dtypes(['object', 'category']).columns:
@@ -24,7 +25,7 @@ def separate(X):
 
 def drop(X):
     col_drop= ['Tour_ID',]
-    X= X.drop(columns=col_drop, axis=1)
+    X.drop(columns=col_drop, axis=1, inplace=True)
     
     return X
 

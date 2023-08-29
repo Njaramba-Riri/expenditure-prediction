@@ -1,5 +1,9 @@
+from sklearn.model_selection import StratifiedKFold
+from sklearn.metrics import f1_score
+from models import classifiers
+import numpy as np
+
 def skfold(classification_model:str, sample:str, y, kfold):
-    
     results={"model_name": f"{classification_model}_{sample}",
             "f1_score": []}
     
@@ -23,5 +27,9 @@ def skfold(classification_model:str, sample:str, y, kfold):
         results["mean_f1"] = sum(results["f1_scores"]) / len(results["f1_scores"])
     return results
     
-    
-    
+
+X = np.random.randint(1,100, 1000)
+y = np.random.randint(0,2, 1000)
+kfold = StratifiedKFold(n_splits=10, shuffle=True)
+
+skfold(classifiers.values, X, y, kfold)

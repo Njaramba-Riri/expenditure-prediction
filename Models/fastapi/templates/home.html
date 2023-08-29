@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Application</title>
+    <link rel="stylesheet" href="templates/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="templates/fontawesome/css/all.css">
+</head>
+<body>
+    <header>
+        <nav class="navar">
+            <div class="container-fluid">
+                <center>
+                    <h1>Todo Application</h1>
+                </center>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid">
+        {% block todo_container %}{% endblock %}
+    </div>
+</body>
+</html>
