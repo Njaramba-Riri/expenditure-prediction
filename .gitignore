@@ -6,3 +6,6 @@ _pycache_/
 venv/
 env/
 workspace/
+.idea
+.idea/*
+*.pyc
