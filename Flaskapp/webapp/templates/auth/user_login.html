@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% import 'macros/auth.html' as macro %}
+
+{% block title %} LetsGo | Signin {% endblock %}
+
+{% block content %}
+
+<section class="login">
+    <div class="row">
+        <div class="col-md-5">
+            <h1>User | Login</h1>  
+        </div>
+        <div class="col-md-6">
+            <div class="forms">
+                <form action="{{ url_for('auth.signin') }}" method="POST">
+                    <div class="wrapper">    
+                        <div class="login-btn">
+                            <a href="{{ url_for('google.login') }}">Login with Google</a>
+                            <i class="fab fa-google fa-stack "></i> 
+                        </div>
+                        <div class="login-btn">
+                            <a href="{{ url_for('facebook.login') }}">Login with Facebook </a>
+                            <i class="fab fa-facebook fa-stack"></i>
+                        </div>
+                        <p class="mid">OR</p>
+                        {{ macro.authenticate(form) }}
+                    </div>     
+                       
+                </form>                
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+const togglePassword = document.querySelector('#togglePassword');
+const password = document.querySelector('#id_password');
+
+togglePassword.addEventListener('click', function () {
+    if (password.type === 'password') {
+        password.type = 'text';
+        togglePassword.className = 'far fa-eye';
+    } else {
+        password.type = 'password';
+        togglePassword.className = 'far fa-eye-slash';
+    }
+});
+</script>
+{% endblock %}

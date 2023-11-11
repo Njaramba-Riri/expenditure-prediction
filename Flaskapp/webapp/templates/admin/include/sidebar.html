@@ -1,0 +1,59 @@
+<div class="sidebar">
+	<div class="admin">
+		<img src="../static/images/admin.png" alt="">
+		<h2>Hey, {{ current_user.username }}</h2>
+	</div>
+	<ul>
+		<div>
+			<i class="fa fa-tachometer"></i><h3><a href="{{ url_for('admin.admindashboard') }}">Dashboard</a></h3>
+		</div>
+		<div>
+			<i class="fa fa-home"></i><h3><a href="{{ url_for('app.index') }}">Home</a></h3>
+		</div>
+		<div>
+			<li><span><i class="fa fa-file"></i><p>Reports</p></span>
+				<ul>
+					<li>
+						<a href="{{ url_for('admin.performance') }}"><i class="fa fa-line-chart"></i> Performance Reports</a>
+					</li>
+					<li>
+						<a href="{{ url_for('admin.report') }}"><i class="fa fa-chart-bar"></i> Data Drift Reports</a>
+					</li>
+					<li>
+						<a href="{{ url_for('admin.featured_visuals') }}"><i class="fa fa-chart-area"></i>Derived Insights</a>
+					</li>
+				</ul>
+			</li>
+		</div>
+		<div>
+			<li><span><i class="fa fa-users"></i><p>System Users</p></span>
+				<ul>
+					<li>
+						<a href="{{ url_for('admin.users') }}"><i class="fa fa-user"></i>Manage Users</a>
+					</li>
+					<li>
+						<a href="{{ url_for('admin.users') }}"><i class="fa fa-search"></i>Search Users</a>
+					</li>
+				</ul>
+			</li>			
+		</div>
+		<div>
+			<li><span><i class="fa fa-comment"></i><p>User Feedback</p></span>
+				<ul>
+					<li>
+						<a href="{{ url_for('admin.feed') }}"><i class="fa fa-check"></i>Read Feedback</a>
+					</li>
+					<li>
+						<a href="{{ url_for('admin.feed') }}"><i class="fa fa-bars"></i>Unread Feedback</a>
+					</li>
+				</ul>
+			</li>
+		</div>
+	</ul>
+	<hr>
+	<ul>
+		<div class="logout">
+			<i class="fa fa-user-circle"></i><a href="{{ url_for('auth.logout') }}">Logout</a>
+		</div>	
+	</ul>
+</div>

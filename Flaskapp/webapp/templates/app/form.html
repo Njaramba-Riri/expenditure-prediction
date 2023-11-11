@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% import 'macros/_form_helper.html' as macro %}
+
+{% block title %}LetsGo | Travel Itinerary{% endblock %}
+
+{% block content %}
+{% include 'include/nav.html' %}
+<section class="form">
+    <div class="row">
+        <div class="col-md-4 descri">
+            <h3>Kindly pick your travel characteristics.</h3>
+            <p>Not sure how you're supposed to go about it?, don't stress out. 😎</p>
+            <button type="submit" class="descri-btn" data-bs-toggle="modal" 
+            data-bs-target="#itineraryHelpModal">Help.</button>
+            <div class="modal fade" id="itineraryHelpModal" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="popup-header">
+                                <img src="../static/images/check.png" alt="">
+                                <H2 class="modal-title" id="itineraryHelp">Key Take Away:</H2>
+                            </div>
+                            <div class="popup-content">
+                                <p>1. Country: The country you're coming from.</p>
+                                <p>2. Age Group: Your respective age group.</p>
+                                <p>3. Travel Companion: Who will you be travelling with?.</p>
+                                <p>4. Total Male: Number of total adult men in your travel group.</p>
+                                <p>5. Total Female: Number of total ault women in your tavel group.</p>
+                                <p>6. Nights Mainland Tz: Total nights/days you're going to spend in Mainland Tanzania.</p>
+                                <p>7. Nights in Zanzibar: Total nights/days you're going to spend in Zanzibar.</p>
+                                <p>8. Purpose: Main reason you're visiting Tanzania?. </p>
+                                <p>9. Main activity: Tourism activity which will take most of your time during your visit.</p>
+                                <p>10. Source of Information: Where did you hear about Tanzanian tourism?.</p>
+                                <p>11. Tour Arrangement: Which kind of tour arrangement do you have?.</p>
+                                <p>12. Transport International: Will your tour package facilitate international travel?.</p>
+                                <p>13. Transport Within Tz: Will the package facilitate transport while you're in Tanzania?. </p>
+                                <p>14. Package Accomodation: Will the tour package facilitate your accomodation while in Tanzania?.</p>
+                                <p>15. Package Food: Will the tour package provide food?.</p>
+                                <p>16: Package Sightseeing: Will the tour package provide sightseeing services?.</p>
+                                <p>17. Package Guided Tour: Will the package tour offer guided tour services?.</p>
+                                <p>18. Package Insurance: Will the tour package be insured?. </p>
+                                <p>19. First Time Visiting Tz: Will this be your first time visiting Tanzania?.</p>
+                                <div class="back-btn">
+                                    <button type="button" class="btn-form" data-bs-dismiss="modal">Back To Form</button>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="content">
+                <form class="row" action="{{ url_for('app.form') }}" method="post">
+                    {{ macro.render_form(form) }}
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    let popup = document.getElementById("pass");
+
+        function openPass() {
+            popup.classList.add("pop-show")
+            popup.classList.add("dark-back")
+        }
+
+        function closePop() {
+            popup.classList.remove("pop-show")
+        }
+</script>
+{% include 'include/footer.html' %}
+{% endblock %}
+

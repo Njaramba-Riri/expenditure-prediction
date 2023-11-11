@@ -1,0 +1,76 @@
+{% macro authenticate(form) %}
+    {{ form.hidden_tag() }}
+    {% for field in form %}
+        {% if field.widget.input_type != 'hidden' %}
+        {% if field.type == 'StringField' %}
+        <div class="input-box">
+            {{ field(class_='input', placeholder=field.label.text, autocomplete='username') }}
+            {% if field.name in ('email', 'c_email') %}
+                <i class="fa fa-envelope"></i>
+            {% elif field.name == 'username' %}
+                <i class="fa fa-user"></i> 
+            {% elif field.name in('location') %}
+                <i class="fa fa-map-marker"></i>
+            {% elif field.name == 'c_address' %}
+                <i class="fa fa-home"></i>
+            {% elif field.name == 'about' %}
+                <i class="fa fa-address-book"></i>
+            {% elif field.name == 'company' %}
+                <i class="fa fa-plane"></i>
+            {% endif %}
+            {% if field.errors %}
+                {% for e in field.erros %}
+                <p class="help-block">{{ e }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        {% elif field.type == 'PasswordField' %}
+            <div class="input-box">
+                {{ field(class_='input', id='id_password', placeholder=field.label.text) }}
+                <i class="fa fa-eye-slash" id="togglePassword"></i>
+                {% if field.errors %}
+                {% for e in field.erros %}
+                <p class="help-block">{{ e }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+        {% elif field.type == 'SelectField' %}
+            <div class="input-box">
+                {{ field(class_='input', placeholder=field.label.text) }}
+                <i class="fa fa-user-circle"></i>
+                {% if field.errors %}
+                {% for e in field.erros %}
+                <p class="help-block">{{ e }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+        {% elif field.type == 'BooleanField' %}
+            {% if field.name == 'remember_me' %}
+                <div class="remember-forgot">
+                    <span>{{ field(class_='check') }}<label>{{ field.label }}</label></span>
+                    <a href="{{ url_for('auth.forgotpass') }}">Forgot Password?.</a>
+                </div>
+                <div class="login-register">
+                    <button type="submit" class="login-btn">Login</button>
+                    <p>Don't have an account yet?, <a href='signup'>Register.</a></p>
+                </div>
+            {% else %}
+                <div class="remember-forgott">
+                    <span>{{ field(class_='check')}} <label>{{ field.label }}</label></span>
+                </div>
+            {% endif %}
+        {% elif field.type == 'TelField' %}
+            <div class="input-box">
+                {{ field(class_='input', placeholder=field.label.text) }}
+                <i class="fa fa-phone-flip"></i>
+                {% if field.errors %}
+                {% for e in field.erros %}
+                <p class="help-block">{{ e }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>            
+        {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+                

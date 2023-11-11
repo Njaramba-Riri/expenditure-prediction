@@ -1,0 +1,18 @@
+<p>Hello {{ user.username }},</p>
+
+<p>Welcome to <b><strong>LetsGO</strong></b>!</p>
+
+<p>To confirm your account kindly <a href="{{ url_for('auth.confirm', token=token, _external=True) }}">click here</a>.
+</p>
+
+<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+
+<p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>
+
+<p>Sincerely,</p>
+
+<p>LetsGO</p>
+
+<p>Where AI meets Tour and Travel.</p>
+
+<p><small>Note: replies to this email address are not monitored.</small></p>

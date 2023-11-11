@@ -1,0 +1,21 @@
+# German translations for Tourist Expenditure Prediction System.
+# Copyright (C) 2023 Riri Njaramba
+# This file is distributed under the same license as the Tourist Expenditure
+# Prediction System project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Tourist Expenditure Prediction System 1.0.0\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-10-10 13:35+0300\n"
+"PO-Revision-Date: 2023-09-29 04:51+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: de\n"
+"Language-Team: de <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+

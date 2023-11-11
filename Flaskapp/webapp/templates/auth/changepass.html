@@ -1,0 +1,44 @@
+{% extends 'Base.html' %}
+{% import 'macros/auth.html' as macro %}
+
+{% block title %}LetsGO | Change Password {% endblock %}
+
+{% block content %}
+{% include 'include/nav.html' %}
+<section class='login'>
+    <div class="row">
+        <div class="col-md-4 sect1">
+            <h3>Change Password</h3>
+            <p class="card-box">Just a reminder; a password should contain at least 1 unique character, 1 capital letter, and 1 number.</p>
+        </div>
+        <div class="col-md-6 change-form">
+            <div class="wrapper">
+                <form action="{{ url_for('auth.password_reset', username=current_user.username, token='sjkdjkashdkhasidfhashfuiashdaw') }}" method="POST">
+                    {{ macro.authenticate(form) }}
+                    <div class="login-register">
+                        <button type="submit" class="login-btn">Change Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'include/footer.html' %}
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
+    const togglePassword = document.querySelector('#togglePassword');
+    const passwordField = document.querySelector('#id_password');
+
+    togglePassword.addEventListener('click', function () {
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            togglePassword.className = 'far fa-eye';
+        } else {
+            passwordField.type = 'password';
+            togglePassword.className = 'far fa-eye-slash';
+        }
+    });
+</script>
+<script src="https://kit.fontawesome.com/40d4d3ba0c.js" crossorigin="anonymous"></script>
+{% endblock %}

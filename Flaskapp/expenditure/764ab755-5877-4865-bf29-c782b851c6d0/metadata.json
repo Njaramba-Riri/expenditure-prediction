@@ -1,0 +1,134 @@
+{
+  "id": "764ab755-5877-4865-bf29-c782b851c6d0",
+  "name": "Tourist Expenditure Prediction",
+  "description": "Leveraging the power of ML to uncover the underlying patterns that influence tourist spending.",
+  "dashboard": {
+    "name": "Tourist Expenditure Prediction",
+    "panels": [
+      {
+        "type": "evidently.ui.dashboards.DashboardPanelCounter",
+        "id": "9e6a2286-d212-4c41-8164-91182d230769",
+        "title": "Tourist Spending Category",
+        "filter": {
+          "metadata_values": {},
+          "tag_values": []
+        },
+        "size": 2,
+        "agg": "none",
+        "value": null,
+        "text": null
+      },
+      {
+        "type": "evidently.ui.dashboards.DashboardPanelCounter",
+        "id": "9e6a2286-d212-4c41-8164-91182d230769",
+        "title": "Model Calls",
+        "filter": {
+          "metadata_values": {},
+          "tag_values": []
+        },
+        "size": 1,
+        "agg": "sum",
+        "value": {
+          "field_path": "current.number_of_rows",
+          "metric_id": "DatasetMissingValuesMetric",
+          "metric_hash": null,
+          "metric_args": {},
+          "legend": "count"
+        },
+        "text": "count"
+      },
+      {
+        "type": "evidently.ui.dashboards.DashboardPanelCounter",
+        "id": "9e6a2286-d212-4c41-8164-91182d230769",
+        "title": "Share of Drifted Features",
+        "filter": {
+          "metadata_values": {},
+          "tag_values": []
+        },
+        "size": 1,
+        "agg": "last",
+        "value": {
+          "field_path": "share_of_drifted_columns",
+          "metric_id": "DatasetDriftMetric",
+          "metric_hash": null,
+          "metric_args": {},
+          "legend": "share"
+        },
+        "text": "share"
+      },
+      {
+        "type": "evidently.ui.dashboards.DashboardPanelPlot",
+        "id": "9e6a2286-d212-4c41-8164-91182d230769",
+        "title": "Dataset Quality",
+        "filter": {
+          "metadata_values": {},
+          "tag_values": []
+        },
+        "size": 2,
+        "values": [
+          {
+            "field_path": "share_of_drifted_columns",
+            "metric_id": "DatasetDriftMetric",
+            "metric_hash": null,
+            "metric_args": {},
+            "legend": "Drift Share"
+          },
+          {
+            "field_path": "current.share_of_missing_values",
+            "metric_id": "DatasetMissingValuesMetric",
+            "metric_hash": null,
+            "metric_args": {},
+            "legend": "Missing Values Share"
+          }
+        ],
+        "plot_type": "line"
+      },
+      {
+        "type": "evidently.ui.dashboards.DashboardPanelPlot",
+        "id": "9e6a2286-d212-4c41-8164-91182d230769",
+        "title": "total_male: Wasserstein drift distance",
+        "filter": {
+          "metadata_values": {},
+          "tag_values": []
+        },
+        "size": 1,
+        "values": [
+          {
+            "field_path": "drift_score",
+            "metric_id": "ColumnDriftMetric",
+            "metric_hash": null,
+            "metric_args": {
+              "column_name.name": "total_male"
+            },
+            "legend": "Drift Score"
+          }
+        ],
+        "plot_type": "bar"
+      },
+      {
+        "type": "evidently.ui.dashboards.DashboardPanelPlot",
+        "id": "9e6a2286-d212-4c41-8164-91182d230769",
+        "title": "purpose: Wasserstein drift distance",
+        "filter": {
+          "metadata_values": {},
+          "tag_values": []
+        },
+        "size": 1,
+        "values": [
+          {
+            "field_path": "drift_score",
+            "metric_id": "ColumnDriftMetric",
+            "metric_hash": null,
+            "metric_args": {
+              "column_name.name": "purpose"
+            },
+            "legend": "Drift Score"
+          }
+        ],
+        "plot_type": "bar"
+      }
+    ]
+  },
+  "date_from": null,
+  "date_to": null
+}

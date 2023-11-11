@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% import 'macros/auth.html' as macro %}
+
+{% block title %}LetsGo | System Users{% endblock %}
+
+{% block content %}
+<section class="users">
+    <h1>System Users</h1>
+    <div class="row">
+        <div class="container-fluid">
+            <form action="{{ url_for('admin.users') }}" method="POST">
+                {% for field in form %}
+                {% if field.widget.input_type != 'hidden' %}
+                <div class="input-box">
+                    <div class="input-group-append">
+                        {% if field.type != 'SubmitField' %}
+                            {{ field(class_='input', placeholder=field.label.text) }} 
+                        {% else %}
+                            {{ field(class_='input-group-text') }}   
+                        {% endif %}    
+                    </div>
+                </div>                    
+                {% endif %}
+                {% endfor %}
+            </form>
+        </div>        
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="admin-tab">
+                <div class="tab">
+                    <div class="user-tab">
+                        <div class="table_body">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Email</th>
+                                        <th>Username</th>
+                                        <th>Joined</th>
+                                        <th>Confirmed</th>
+                                        <th>Interactions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in users %}
+                                    <tr>
+                                        <td>{{ user.id }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.date_created }}</td>
+                                        {% if user.confirmed == 1 %}
+                                        <td><span class="very">{{ user.confirmed }} </span></td>
+                                        {% else %}
+                                        <td><span class="not">{{ user.confirmed }}</span></td>
+                                        {% endif %}
+                                        <td>{{ user.role_id }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+            
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="dashboard-panel">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="dashboard-card">
+                            <span class="fa-stack fa-3x"><i class="fa fa-square fa-stack"></i><i
+                                    class="fa fa-chart-line fa-inverse fa-stack-1x"></i></span>
+                            <h2>Most Active Users.</h2><i class="fa"></i>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="dashboard-card">
+                            <span class="fa-stack fa-3x"><i class="fa fa-square fa-stack"></i><i class="fa fa-trash fa-inverse fa-stack-1x"></i></span>
+                            <h2>Remove User.</h2>
+                            <p>Limit access from users you might think are tampering with the system.</p>
+                            <p class="links cl-effect-1">
+                                <a href="">Remove User</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+
+</section>
+{% endblock %}

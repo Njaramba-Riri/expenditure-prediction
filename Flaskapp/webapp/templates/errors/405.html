@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}LetsGO | Not Allowed {% endblock %}
+
+{% block content %}
+<section class="not-allowed">
+    <h1>METHOD NOT ALLOWED.</h1>
+    <h2>Oooops, something happened.</h2>
+    <p>The page that you're trying to access does not accept the HTTP method of the request.</p>
+    <button type="button" onclick="goBack()" class="btn-back">Go Back</button>
+</section>
+
+{% include 'include/footer.html' %}
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Feedback{% endblock %}
+
+{% block content %}
+{% include 'include/nav.html' %}
+<section class="feed">
+    <div class="container">
+        <h1>User Feedback.</h1>
+        <div class="feed-form">
+            <form action="{{ url_for('app.sema') }}" method="POST">
+                {{ form.hidden_tag() }}
+                {% for field in form  %}
+                    {% if field.widget.input_type != 'hidden' %}
+                    <div class="input-box">
+                        {{ field.label(class_='label') }}
+                        {{ field(class_='text-area') | escape }}
+                    </div>
+                    <button type="submit" class="send-btn btn-success">Send</button>
+                    {% endif %}
+                {% endfor %}
+            </form>
+        </div>            
+    </div>
+    </div>
+</section>
+<script type="text/javascript">
+    const feedback = document.querySelector("feedback")
+
+    function sendFeedback(){
+        alert("Thank for your feedback, admin will be in touch.")
+        window.location.href = "{{ url_for('suser.activity', username=current_user.username) }}"
+    }
+</script>
+{% include 'include/footer.html' %}
+{% endblock %}
