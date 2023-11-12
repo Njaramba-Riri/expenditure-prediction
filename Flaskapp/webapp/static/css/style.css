@@ -11,7 +11,7 @@ body{
     letter-spacing: -0.2px; 
 }
 
-.container{
+/*.container{
     width: 100%;
     max-width: 1200px;
     overflow: hidden;
@@ -20,7 +20,7 @@ body{
     justify-content: center;
     align-items: center;
     text-wrap: wrap;
- }
+ }*/
 
 
 *::-webkit-scrollbar{
@@ -40,7 +40,7 @@ body{
     background-color: seagreen;
     border: none !important;
     border-radius: none !important;
-    position: fixed;
+    position: sticky;
     top: 0;
     justify-content: center;
     width: 100%;
