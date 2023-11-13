@@ -6,7 +6,7 @@ from webapp.auth.models import User
 from .forms import FeaturesForm, feedbackform, search
 from webapp import db
 from .. import cache
-
+import random
 
 import requests
 
@@ -22,7 +22,8 @@ app_blueprint = Blueprint('app', __name__,
 @cache.cached(timeout=60)
 def index():
     users = User.query.filter_by(username=User.username).all()
-    feedback = Feedback.query.order_by(Feedback.id.desc()).limit(3).all()
+    feedback = Feedback.query.filter_by(user_id = User.id).all()
+    feedback = random.sample(feedback, min(3, len(feedback)))
     
     form = search()
     if request.method == 'POST' and form.validate_on_submit():

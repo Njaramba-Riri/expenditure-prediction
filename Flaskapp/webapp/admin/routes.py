@@ -77,11 +77,11 @@ def home():
 def admindashboard():
     user = User.query.order_by(User.id).all()
     users = User.query.all()
-    users = random.sample(users)
+    users = random.sample(users, min(3, len(users)))
     feedback = Feedback.query.all()
-    feedback = random.sample(feedback) 
+    feedback = random.sample(feedback, min(3, len(feedback))) 
     features = Features.query.order_by(Features.date.desc()).limit(10)
-    features = random.sample(features)
+    #features = random.sample(features, min(3, len(features)))
     return render_template('dashboard.html', users=users, feedback=feedback, features=features, user=user)
 
 
