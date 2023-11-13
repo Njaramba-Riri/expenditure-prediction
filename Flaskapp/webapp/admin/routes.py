@@ -14,6 +14,7 @@ from ..reports.data_drift import drift_report
 from ..reports.featured import plot_categorical, create_plots
 #from webapp.app.routes import model 
 import json
+import random
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -76,8 +77,11 @@ def home():
 def admindashboard():
     user = User.query.order_by(User.id).all()
     users = User.query.all()
+    users = random.sample(users)
     feedback = Feedback.query.all()
+    feedback = random.sample(feedback) 
     features = Features.query.order_by(Features.date.desc()).limit(10)
+    features = random.sample(features)
     return render_template('dashboard.html', users=users, feedback=feedback, features=features, user=user)
 
 
