@@ -21,8 +21,8 @@ app_blueprint = Blueprint('app', __name__,
 @app_blueprint.route("/", methods=['GET', 'POST'])
 @cache.cached(timeout=60)
 def index():
-    users = User.query.filter_by(username=User.username).all()
-    feedback = Feedback.query.filter_by(user_id = User.id).all()
+    users = User.query..all()
+    feedback = Feedback.query.all()
     feedback = random.sample(feedback, min(3, len(feedback)))
     
     form = search()
@@ -30,18 +30,16 @@ def index():
         query = form.search.data
         if query:
             session['destination'] = query
-            return redirect(url_for('app.searchdestination', destination=session['destination']))
+            searchq = searcHDestination(dest=form.search.data)
+            db.session.add(searchq)
+            return redirect(url_for('app.searchdestination', destination=session.get("destination")))
     return render_template('index.html', users=users,
                             feedback=feedback, form=form, zip=zip)
 
 @app_blueprint.route("/destinations/<destination>")
 def searchdestination(destination):
-    form = search()
-    if request.method == 'POST' and form.validate_on_submit():
-        session['destination'] = form.search.data
-        query = SearchDestination(dest=form.search.data)
-        db.session.add(query)
-        return render_template("app/destinations.html", dest=session.get('destination'))
+    dest = session.get("destination")
+    return render_template("app/destinations.html", dest=session.get('destination'))
 
 @app_blueprint.route('/form', methods=['GET', 'POST'])
 @cache.cached(timeout=60)
