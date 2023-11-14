@@ -1,7 +1,7 @@
 from flask import render_template, url_for, redirect, Blueprint, flash, request, session, jsonify
 from flask_login import login_required, current_user
 
-from .models import Features, Feedback
+from .models import Features, Feedback, SearcHDestination
 from webapp.auth.models import User
 from .forms import FeaturesForm, feedbackform, search
 from webapp import db
@@ -36,9 +36,12 @@ def index():
 
 @app_blueprint.route("/destinations/<destination>")
 def searchdestination(destination):
-    if session['destination'] is not None:
-        destination = session['destination']
-        return render_template("app/destinations.html", dest=destination)
+    form = search()
+    if request.method == 'POST' and form.validate_on_submit():
+        session['destination'] = form.search.data
+        query = SearchDestination(dest=form.search.data)
+        db.session.add(query)
+        return render_template("app/destinations.html", dest=session.get('destination'))
 
 @app_blueprint.route('/form', methods=['GET', 'POST'])
 @cache.cached(timeout=60)
