@@ -21,7 +21,7 @@ app_blueprint = Blueprint('app', __name__,
 @app_blueprint.route("/", methods=['GET', 'POST'])
 @cache.cached(timeout=60)
 def index():
-    users = User.query..all()
+    users = User.query.all()
     feedback = Feedback.query.all()
     feedback = random.sample(feedback, min(3, len(feedback)))
     
@@ -30,16 +30,18 @@ def index():
         query = form.search.data
         if query:
             session['destination'] = query
-            searchq = searcHDestination(dest=form.search.data)
-            db.session.add(searchq)
+            search_query = SearcHDestination(dest=form.search.data)
+            db.session.add(search_query)
             return redirect(url_for('app.searchdestination', destination=session.get("destination")))
+        flash("Kindly tell us your search destination.")
     return render_template('index.html', users=users,
-                            feedback=feedback, form=form, zip=zip)
+                            feedback=feedback, form=form, 
+                            dest=session.get("destination"), zip=zip)
 
 @app_blueprint.route("/destinations/<destination>")
 def searchdestination(destination):
     dest = session.get("destination")
-    return render_template("app/destinations.html", dest=session.get('destination'))
+    return render_template("destinations.html", dest=session.get('destination'))
 
 @app_blueprint.route('/form', methods=['GET', 'POST'])
 @cache.cached(timeout=60)
