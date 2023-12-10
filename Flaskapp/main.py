@@ -1,5 +1,5 @@
 import os 
-from webapp import create_app
+from webapp import create_app, db
 
 env = os.environ.get("LETSGO_ENV", 'dev')
 app = create_app('config.%sConfig' % env.capitalize())

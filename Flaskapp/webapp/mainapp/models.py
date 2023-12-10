@@ -1,4 +1,4 @@
-from webapp import db 
+from webapp import db
 import csv
 import datetime
 
@@ -12,7 +12,7 @@ class Countries(db.Model):
     Sub_Region = db.Column(db.String(100))
 
 """
-with open("/Users/User/Desktop/expenditure/Datasets/all.csv", 'r') as csvfile:
+with open("/Users/james/Desktop/expenditure/Datasets/all.csv", 'r') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         country = Countries(Country=row["name"], Alpha_Code=row["alpha-3"], Region=row["region"],Sub_Region=row["sub-region"]) 

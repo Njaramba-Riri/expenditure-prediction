@@ -7,7 +7,6 @@ from webapp.mainapp.models import Features, Feedback
 env = os.environ.get("LETSGO_ENV", 'prod')
 app = create_app('config.%sConfig' % env.capitalize())
 
-
 @app.shell_context_processor
 def make_shell_context():
     return dict(app=app, db=db, User=User, Search=Search,
