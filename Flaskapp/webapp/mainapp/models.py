@@ -10,6 +10,7 @@ class Countries(db.Model):
     Country = db.Column(db.String(100))
     Region = db.Column(db.String(20))
     Sub_Region = db.Column(db.String(100))
+
 """
 with open("/Users/User/Desktop/expenditure/Datasets/all.csv", 'r') as csvfile:
     reader = csv.DictReader(csvfile)
