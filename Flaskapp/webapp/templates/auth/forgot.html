@@ -7,6 +7,10 @@
 {% include 'include/nav.html' %}
 <section class="login forgot">
     <div class="row">
+        <div class="col-md-4 sec">
+            <h2>Forgot Your Password?</h2>
+            <p>Worry not!.</p>
+        </div>
         <div class="col-md-6">
             <div class="wrapper">
                 <h2>Forgot Password?.</h2>
@@ -21,7 +25,15 @@
         </div>
     </div>
 </section>
-{% include 'include/footer.html' %}
+<hr>
+<div class="footer-note">
+    <div style="float: left;">
+        &copy; All rights reserved. 2023
+    </div>
+    <div style="float: right;">
+        Made with love by Riri. <i class="fa fa-heart"></i>
+    </div>
+</div>
 {% endblock %}
 {% block js %}
 {{ super() }}

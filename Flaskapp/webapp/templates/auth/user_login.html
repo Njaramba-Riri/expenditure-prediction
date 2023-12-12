@@ -4,10 +4,10 @@
 {% block title %} LetsGo | Signin {% endblock %}
 
 {% block content %}
-
+{% include 'include/nav.html' %}
 <section class="login">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-5 log">
             <h1>User | Login</h1>  
         </div>
         <div class="col-md-6">
@@ -31,7 +31,12 @@
     </div>
     <hr>
     <div class="footer-note">
-        
+        <div style="float: left;">
+            &copy; All rights reserved. 2023
+        </div>
+        <div style="float: right;">
+            Made with love by Riri. <i class="fa fa-heart"></i>
+        </div>
     </div>
 </section>
 <script>

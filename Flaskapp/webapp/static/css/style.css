@@ -11,7 +11,7 @@ body{
     letter-spacing: -0.2px; 
 }
 
-/*.container{
+.container{
     width: 100%;
     max-width: 1200px;
     overflow: hidden;
@@ -20,7 +20,7 @@ body{
     justify-content: center;
     align-items: center;
     text-wrap: wrap;
- }*/
+ }
 
 
 *::-webkit-scrollbar{
@@ -204,7 +204,6 @@ nav ul .dropdown-toggle::after{
     background-size: cover;
     background-attachment: fixed;*/
 }
-
 .login h1{
     color: #000;
     font-size: 80px;
@@ -215,7 +214,7 @@ nav ul .dropdown-toggle::after{
     color: #fff;
     background: #00b09b;
     border-radius: 20px;
-    box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 3px 7px rgba(0, 0, 0, 0.3);
     padding: 30px 40px;
     transform: scale(.8);
     width: 420px;
@@ -349,8 +348,17 @@ nav ul .dropdown-toggle::after{
     padding: 40px 0;
     height: 80vh;
 }
-.forgot .wrapper{
-    translate: 100%;
+.sec h2{
+    font-size: 30px;
+    font-weight: 600;
+    padding-left: 30px;
+    padding-top: 80px;
+}
+.sec p{
+    font-size: 23px;
+    font-weight: 400;
+    text-align: center;
+    font-style: italic;
 }
 
 
@@ -619,6 +627,12 @@ nav ul .dropdown-toggle::after{
     background: transparent;
     color: #fff;
     margin: 20px;
+}
+.how-to .form-btn:hover{
+    transform: scale(.89);
+    color: turquoise;
+    border: 2px solid turquoise;
+    transition: all 500ms ease-in-out;
 }
 .how-to a{
     color: #fff;
@@ -965,19 +979,16 @@ nav ul .dropdown-toggle::after{
 .footer hr{
     margin-top: 10px;
 }
-.footer .copyright{
+.footer .proud{
     float: right;
+}
+.footer .copyright{
+    float: left;
 }
 
 .fa-heart{
     margin: 0 5px;
     color: #f44336;
-}
-.footer .endnote{
-    padding-top: 30px;
-    height: 100%;
-    display: flex;
-    align-content: space-between;
 }
 .footer .endnote .copyright{
     font-style: italic;
@@ -2709,9 +2720,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     font-size: 60px;
     font-weight: 600;
 }
-.users .input-box{
 
-}
 .users .input{
     background-color: #ffff4f;
 }
