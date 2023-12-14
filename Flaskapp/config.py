@@ -46,15 +46,15 @@ class DevConfig(object):
     FOURSQUARE_API = "fsq3Sll2608N709M9WHvfWWQSFgKSCgSJVLr1FW3wMHhWJg="
     OAUTHLIB_INSECURE_TRANSPORT = '1'
     OAUTHLIB_RELAX_TOKEN_SCOPE = '1'
-    MAIL_DEFAULT_SENDER = "elizabethriri24@gmail.com"
+    MAIL_DEFAULT_SENDER = 'jamesnjaramba132@gmail.com'
     MAIL_SUBJECT_PREFIX = "Confirm account."
-    MAIL_SERVER  ="smtp.gmail.com"
+    MAIL_SERVER  ='smtp.gmail.com'
     MAIL_PORT = 465
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
     MAIL_DEBUG = False
-    MAIL_USERNAME = "elizabethriri@gmail.com"
-    MAIL_PASSWORD = "Nyaguthii"
+    MAIL_USERNAME = 'jamesnjaramba132@gmail.com'
+    MAIL_PASSWORD = 'nyaguthii'
     LETSGO_ADMIN = 'james.letsgo@gmail.com'
     WORKSPACE = "expenditure"
     YOUR_PROJECT_NAME = "Tourist Expenditure Prediction"

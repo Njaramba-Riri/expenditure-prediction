@@ -117,7 +117,9 @@ nav ul .dropdown-toggle::after{
     box-shadow: 0 0 10px 8px rgba(0, 0, 0, 0.4);
     transform: scale(.9);
 }
-
+.alert{
+    z-index: 9999;
+}
 .modal {
     border-radius: none !important;
     backdrop-filter: blur(12px);
