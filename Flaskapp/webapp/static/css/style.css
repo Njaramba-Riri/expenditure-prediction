@@ -117,7 +117,7 @@ nav ul .dropdown-toggle::after{
     box-shadow: 0 0 10px 8px rgba(0, 0, 0, 0.4);
     transform: scale(.9);
 }
-.alert{
+.messages{
     z-index: 9999;
 }
 .modal {

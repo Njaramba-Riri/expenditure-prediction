@@ -76,7 +76,7 @@ class Role(db.Model):
         return '<Role {}>'.format(self.name)
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer(), primary_key=True)
@@ -95,7 +95,6 @@ class User(db.Model):
     company_email = db.Column(db.String(64), unique=True)
     company_mobile = db.Column(db.Integer())    
     company_address = db.Column(db.String(100))
-
 
 
     def __init__(self, **kwargs):
@@ -126,7 +125,6 @@ class User(db.Model):
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password, password)
     
-
     def generate_confirmation_token(self, expiration=1200):
         reset_token = jwt.encode(
             {

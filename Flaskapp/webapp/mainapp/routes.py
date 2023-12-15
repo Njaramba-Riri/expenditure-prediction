@@ -68,36 +68,34 @@ def form():
         zanzi_nights   =  form.zanzi_nights.data
         freq           =  form.freq.data
 
-        features = Features(country=country, age_group=age, travel_with=companion, total_male=male, total_female=female, purpose=purpose, main_activity=activity, info_source=info, tour_arrangement=arrangement, package_transport_int=pack_tra_int, package_transport_tz=pack_tra_tz , package_accomodation=pack_acc, package_food=pack_food,package_sightseeing=pack_sigh, package_guided_tour=pack_guide, package_insurance=pack_insurance, night_mainland=main_nights, night_zanzibar=zanzi_nights, first_trip_tz=freq)
-
+        features = Features(country=country, age_group=age, travel_with=companion, 
+                            total_male=male, total_female=female, purpose=purpose, main_activity=activity,
+                            info_source=info, tour_arrangement=arrangement, package_transport_int=pack_tra_int, 
+                            package_transport_tz=pack_tra_tz , package_accomodation=pack_acc, 
+                            package_food=pack_food,package_sightseeing=pack_sigh, package_guided_tour=pack_guide, 
+                            package_insurance=pack_insurance, night_mainland=main_nights, 
+                            night_zanzibar=zanzi_nights, first_trip_tz=freq)
         db.session.add(features)
-
         return redirect(url_for('app.predict'))
-    
     return render_template('app/form.html', form=form)
 
 @app_blueprint.route('/prediction', methods=['GET', 'POST'])
 def predict():
-
     details = Features.query.order_by(Features.id.desc()).first()
-
     # Extract the input features (X) from the last transaction
     X = np.array((details.country, details.age_group, details.travel_with, details.total_male, details.total_female,
-         details.purpose, details.main_activity, details.info_source, details.tour_arrangement,
-         details.package_transport_int, details.package_transport_tz, details.package_accomodation,
-         details.package_food, details.package_sightseeing, details.package_guided_tour,
-         details.package_insurance, details.night_mainland, details.night_zanzibar,
-         details.first_trip_tz))
-    
+                  details.purpose, details.main_activity, details.info_source, details.tour_arrangement,
+                  details.package_transport_int, details.package_transport_tz, details.package_accomodation,
+                  details.package_food, details.package_sightseeing, details.package_guided_tour,
+                  details.package_insurance, details.night_mainland, details.night_zanzibar, details.first_trip_tz))
     pred, probability = predict_details(X)
     details.predicted_category = pred
     details.probability = probability
     if current_user.is_authenticated:
         details.user_id = current_user.id
     db.session.commit()
-
-    return render_template('app/result.html', features=details, predicted_result=pred, probability=f"{probability}")
-
+    return render_template('app/result.html', features=details, 
+                           predicted_result=pred, probability=f"{probability}")
 
 @app_blueprint.route('/thanks', methods=['GET', 'POST'])
 @login_required

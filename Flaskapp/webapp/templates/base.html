@@ -23,9 +23,8 @@
 </head>
 <body>
     {% block messages %}
-    {% endblock %}
-    {% block content %}
-            {% with messages = get_flashed_messages(with_categories=true) %}
+    <div class="messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
                 <div class="alert alert-{{ category }} alert-dismissible" role="alert">
@@ -34,7 +33,11 @@
                 </div>
                 {% endfor %}
             {% endif %}
-        {% endwith %}         
+        {% endwith %}        
+    </div>
+    {% endblock %}
+    {% block content %}   
+        {{ content }}
     {% endblock %}
 </body>
 {% block scripts %}

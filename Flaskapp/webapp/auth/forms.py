@@ -24,7 +24,6 @@ class user_signin(FlaskForm):
     username = StringField("Enter username. ", validators=[DataRequired(), Length(max=255)])
     password = PasswordField("Your password. ", validators=[DataRequired()])
     remember_me = BooleanField("Keep me logged in.")
-
     
     def validate(self, extra_validators=None):
         check_validate =  super(user_signin, self).validate(extra_validators)
@@ -40,12 +39,14 @@ class user_signin(FlaskForm):
             self.username.errors.append("Invalid Credentials.")
             return False
         return True
+
     
 class changePass(FlaskForm):
     old_password = PasswordField('Old password', validators=[DataRequired()])
-    new_password = PasswordField('New password', validators=[DataRequired(), EqualTo('confirm', 
-                                                                                     message='Passwords must match.')])
+    new_password = PasswordField('New password', validators=[DataRequired(), 
+                                                             EqualTo('confirm', message='Passwords must match.')])
     confirm= PasswordField('Confirm new password', validators=[DataRequired()])
+
 
 class forgot(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64), Email(message="Enter a valid email.")])

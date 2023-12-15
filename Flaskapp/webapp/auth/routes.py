@@ -112,7 +112,7 @@ def forgotpass():
             flash("An email with reset instructions has just been sent to you.")
             return redirect(url_for('user.signin'))
         else:
-            flash("User with the provided email address does not exist.")
+            flash("User with the provided email address does not exist.", category="info")
     return render_template('/auth/forgot.html', form=form, email=session.get('email'))
 
 @auth_blueprint.route('/reset/<token>', methods=['GET', 'POST'])
