@@ -19,7 +19,7 @@
                 <i class="fa fa-plane"></i>
             {% endif %}
             {% if field.errors %}
-                {% for e in field.erros %}
+                {% for e in field.errors %}
                 <p class="help-block">{{ e }}</p>
                 {% endfor %}
             {% endif %}
@@ -29,7 +29,7 @@
                 {{ field(class_='input', id='id_password', placeholder=field.label.text) }}
                 <i class="fa fa-eye-slash" id="togglePassword"></i>
                 {% if field.errors %}
-                {% for e in field.erros %}
+                {% for e in field.errors %}
                 <p class="help-block">{{ e }}</p>
                 {% endfor %}
                 {% endif %}
@@ -39,7 +39,7 @@
                 {{ field(class_='input', placeholder=field.label.text) }}
                 <i class="fa fa-user-circle"></i>
                 {% if field.errors %}
-                {% for e in field.erros %}
+                {% for e in field.errors %}
                 <p class="help-block">{{ e }}</p>
                 {% endfor %}
                 {% endif %}
@@ -64,7 +64,7 @@
                 {{ field(class_='input', placeholder=field.label.text) }}
                 <i class="fa fa-phone-flip"></i>
                 {% if field.errors %}
-                {% for e in field.erros %}
+                {% for e in field.errors %}
                 <p class="help-block">{{ e }}</p>
                 {% endfor %}
                 {% endif %}

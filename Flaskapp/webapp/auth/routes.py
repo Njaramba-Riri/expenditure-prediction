@@ -14,7 +14,7 @@ from . import authenticate
 
 auth_blueprint = Blueprint("auth", __name__,
                            static_folder="../static/auth/",
-                           template_folder="../templaates/auth", 
+                           template_folder="../templates/auth", 
                            url_prefix= "/letsgo/auth")
 
 @auth_blueprint.before_request

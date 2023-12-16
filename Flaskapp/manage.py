@@ -8,6 +8,7 @@ import csv
 env = os.environ.get("LETSGO_ENV", 'prod')
 app = create_app('config.%sConfig' % env.capitalize())
 
+"""
 with app.app_context():
     with open("/Users/james/Desktop/expenditure/Datasets/all.csv", 'r') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -16,7 +17,8 @@ with app.app_context():
             
             db.session.add(country)
             db.session.commit() 
-            
+"""         
+
 @app.shell_context_processor
 def make_shell_context():
     return dict(app=app, db=db, User=User, Search=Search,

@@ -40,7 +40,7 @@ body{
     background-color: seagreen;
     border: none !important;
     border-radius: none !important;
-    position: sticky;
+    position: fixed;
     top: 0;
     justify-content: center;
     width: 100%;
@@ -198,68 +198,82 @@ nav ul .dropdown-toggle::after{
 }
 /* Login Signup */
 .login {
-    padding: 0;
+    padding: 50px 0;
     height: 100%;
     background: whitesmoke;
-    /*background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("/static/images/logi.jpg");
+    background-image: linear-gradient(rgba(39,39,39,0.4), rgba(0,0,0,0.7)), url("/static/images/fore.jpg");
     background-position: center;
     background-size: cover;
-    background-attachment: fixed;*/
+    background-attachment: fixed;
 }
 .login h1{
-    color: #000;
+    color: #fff;
     font-size: 80px;
     font-weight: 500;
     padding: 30% 50px;
 }
+.login hr{
+    color: turquoise;
+}
+.login .footer-note{
+    color: #fff;
+    background: seagreen;
+}
 .wrapper{
     color: #fff;
-    background: #00b09b;
+    background: transparent;
+    position: relative;
     border-radius: 20px;
-    box-shadow: 0 0 3px 7px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 2px 3px rgba(255, 255, 255, 0.3);
     padding: 30px 40px;
-    transform: scale(.8);
-    width: 420px;
+    width: 400px;
+    backdrop-filter: blur(2px) saturate(100%);
+    -webkit-backdrop-filter: blur(2px);
+    margin-top: 50px;
 }
-
 .wrapper .mid{
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 600;
-    color: darkblue;
+    color: bisque;
     text-align: center;
+    background: linear-gradient(#00ff7e 0 0) left, linear-gradient(#00ff7e 0 0) right;
+    background-size: 40% 1px;
+    background-repeat: no-repeat;
 }
 .wrapper .login-btn{
     width: 100%;
-    height: 40px;
+    height: 35px;
     border: solid 2px #fff;
     outline: none !important;
     border-radius: 30px;
     color: #1f3d90;
     text-align: center;
-    margin: 20px 0;
+    margin: 15px 0;
     background: rgb(255,255,255);
-    padding: 3px;
 }
 .wrapper .login-btn:hover{
    cursor: pointer;
+   transform: scale(.95);
+   background: turquoise;
+   border: none !important;
 }
 
 .wrapper .login-btn a{
     color: #007AFF;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 400;
     text-decoration: none;
 }
 
 .wrapper .login-btn i{
-    font-size: 20px;
+    font-size: 15px;
 }
 
 .wrapper .input-box{
     position: relative;
     width: 100%;
     height: 40px;
-    margin: 20px 0;
+    margin: 30px 0;
 }
 .input-box .input{
     width: 100%;
@@ -267,7 +281,7 @@ nav ul .dropdown-toggle::after{
     outline: none !important;
     border: 2px solid turquoise;
     border-radius: 10px;
-    background: transparent;
+    background: transparent !important;
     color: #fff;
     font-size: 16px;
     padding: 17px;
@@ -279,17 +293,17 @@ nav ul .dropdown-toggle::after{
 }
 .input-box .input::placeholder{
     color: #eef5ee;
-    font-size: 18px;
-    opacity: .4;
-    transition: all 2s;
+    font-size: 15px;
+    opacity: .6;
+    transition: all 2s ease;
 }
 .input-box i{
     position: absolute !important;
     right: 5px !important;
     top: 20% !important;
     transform: translate(-50%) !important;
-    font-size: 22px;
-    color: #ff5722;
+    font-size: 20px;
+    color: #eef5ee;
 }
 .input-box #togglePassword{
     cursor: pointer;
@@ -304,27 +318,29 @@ nav ul .dropdown-toggle::after{
 }
 .wrapper .remember-forgot a{
     text-decoration: none;
-    color: #fff;
+    color: #007AFF;
 }
-
 .wrapper .remember-forgot a:hover{
+    color: #fff;
     text-decoration: underline;
 }
 
 .wrapper .login-register .login-btn{
     align-items: center;
     width: 100%;
-    height: 40px;
+    height: 30px;
     font-size: 17px;
     font-weight: 600;
-    background: transparent;
     border: none !important;
-    background: #fff;
+    background: #fefeff;
     border-radius: 30px;
     color: #063e7a;
 }
 .wrapper .login-register .login-btn:hover{
-    transform: scale(1.01);
+    transform: scale(.99);
+    background: #00ff7e;
+    border: none !important;
+    color: #007AFF;
 }
 
 .wrapper .login-register p{
@@ -335,35 +351,42 @@ nav ul .dropdown-toggle::after{
 }
 
 .wrapper .login-register a{
-    color: #fff;
+    color: #007AFF;
     text-decoration: none;
     cursor: pointer;
 }
 
 .wrapper .login-register a:hover{
+    color: #fff;
     text-decoration: underline;
 }
 .login .captcha{
     padding-left: 20px;
 }
 .forgot{
-    padding: 40px 0;
     height: 80vh;
 }
-.sec h2{
+.forgot .sec h2{
     font-size: 30px;
     font-weight: 600;
-    padding-left: 30px;
-    padding-top: 80px;
+    padding-top: 50%;
+    padding-left: 50px;
+    color: #fff;
 }
-.sec p{
-    font-size: 23px;
-    font-weight: 400;
+.forgot .sec p{
+    font-size: 17px;
     text-align: center;
     font-style: italic;
+    color: #fff;
 }
-
-
+.forgot .wrapper{
+    top: 20%;
+}
+.help-block{
+    color: rgb(245, 104, 23);
+    padding: 0 3px;
+    font-weight: 400;
+}
  /*Index*/
 .home-index{
     height: 100vh;
@@ -2958,16 +2981,29 @@ input[type="date"]::-webkit-calendar-picker-indicator{
         font-size: 40px;
         text-align: center;
     }
+    .login .captcha{
+        padding-left: 0;
+        transform: scale(.8);
+    }
     .wrapper{ 
-        width: inherit;
         padding: 15px 20px;
-
+        top: 0;
+        width: 310px;
+        left: 30px;
+        backdrop-filter: none !important;
+        margin-top: 20px;
     } 
     .forgot{
-        transform: translateY(100px);
+        height: 83vh;
+        padding: 50px 0;
+    }
+    .forgot .sec h2{
+        padding-top: 0;
     }
     .forgot .wrapper{
-        translate: inherit;
+        top: 0;
+        width: 310px;
+        left: 30px;
     }
     .feed{
         padding: 80px 0;
