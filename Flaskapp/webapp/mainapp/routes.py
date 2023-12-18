@@ -7,6 +7,7 @@ from .forms import FeaturesForm, feedbackform, search
 from webapp import db
 from .. import cache
 import random
+from sqlalchemy import exc
 
 import requests
 
@@ -75,7 +76,11 @@ def form():
                             package_food=pack_food,package_sightseeing=pack_sigh, package_guided_tour=pack_guide, 
                             package_insurance=pack_insurance, night_mainland=main_nights, 
                             night_zanzibar=zanzi_nights, first_trip_tz=freq)
-        db.session.add(features)
+        try:
+            db.session.add(features)
+            db.session.commit()
+        except exc.InternalError:
+            db.session.rollback()
         return redirect(url_for('app.predict'))
     return render_template('app/form.html', form=form)
 

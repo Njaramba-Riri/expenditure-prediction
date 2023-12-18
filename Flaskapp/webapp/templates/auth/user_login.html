@@ -8,7 +8,7 @@
 <section class="login">
     <div class="row">
         <div class="col-md-5 log">
-            <h1>User | Login</h1>  
+            <h1>{{ _('User | Login') }}</h1>  
         </div>
         <div class="col-md-6">
             <div class="forms">
@@ -23,7 +23,7 @@
                             <i class="fab fa-facebook fa-stack"></i>
                         </div>
                         <p class="mid">OR</p>
-                        {{ macro.authenticate(form) }}
+                        {{ _(macro.authenticate(form)) }}
                     </div>        
                 </form>                
             </div>

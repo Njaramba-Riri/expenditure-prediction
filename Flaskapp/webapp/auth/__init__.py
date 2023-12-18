@@ -9,6 +9,7 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_jwt_extended import JWTManager
 import functools
+from sqlalchemy import exc 
 
 import os 
 
@@ -82,7 +83,8 @@ def create_module(app, **kwargs):
 
     facebook_blueprint = make_facebook_blueprint(
         client_id=app.config.get("FACEBOOK_CLIENT_ID"),
-        client_secret=app.config.get("FACEBOOK_CLIENT_SECRET")
+        client_secret=app.config.get("FACEBOOK_CLIENT_SECRET"),
+        redirect_to =  'app.index'
     )
     app.register_blueprint(facebook_blueprint, url_prefix="/auth/login")
 
@@ -90,7 +92,7 @@ def create_module(app, **kwargs):
         client_id=app.config.get("GOOGLE_CLIENT_ID"),
         client_secret=app.config.get("GOOGLE_CLIENT_SECRET"),
         scope = 'openid https://www.googleapis.com/auth/userinfo.email',
-        redirect_url = 'http://127.0.0.1:5000/auth/login/google/authorized'
+        redirect_to = 'app.index'
     )
     app.register_blueprint(google_blueprint, url_prefix="/auth/login")
 
@@ -109,8 +111,11 @@ def logged_in(blueprint, token):
     if not user:
         user = User()
         user.username = username
-        db.session.add(user)
-        db.session.commit()
+        try:
+            db.session.add(user)
+            db.session.commit()
+        except exc.IntegrityError:
+            db.session.rollback()
 
     login_user(user)
     flash("You have been logged in.", "info")

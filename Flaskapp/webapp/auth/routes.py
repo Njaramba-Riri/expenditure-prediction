@@ -17,12 +17,14 @@ auth_blueprint = Blueprint("auth", __name__,
                            template_folder="../templates/auth", 
                            url_prefix= "/letsgo/auth")
 
-@auth_blueprint.before_request
+@auth_blueprint.before_app_request
 def before_request():
     if current_user.is_authenticated:
         current_user.ping()
         if not current_user.confirmed \
-            and request.endpoint[:5] != 'auth.':
+                and request.endpoint \
+                and request.blueprint != 'auth' \
+                and request.endpoint != 'static':
             return redirect(url_for('auth.unconfirmed'))
 
 @auth_blueprint.route('/unconfirmed')
@@ -39,7 +41,7 @@ def signin():
         if user is not None and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             next_url = request.args.get('next')
-            if next_url is None:
+            if next_url is None or not next_url.startswith('/'):
                 next_url = url_for('app.index')
             return redirect(next_url)
         flash("Invalid username or password")
@@ -50,7 +52,7 @@ def signup():
     form = user_register()
     if request.method == 'POST' and form.validate():
         new_user = User()
-        new_user.email = form.email.data
+        new_user.email = form.email.data.lower()
         new_user.username = form.username.data
         new_user.set_password(form.password.data)
         db.session.add(new_user)
@@ -89,47 +91,46 @@ def resend_confirmation():
 def changePassword(username):
     form = changePass()
     user = User.query.filter_by(username=username).first()
-    if request.method == "POST" and form.validate_on_submit():
-        current_user.password = user.set_password(form.new_password.data)
-        db.session.add(user)
-        flash("Password changed successfully, you'll be redirected to login page.")
-        logout_user()
-        return redirect(url_for('auth.signin'))
+    if form.validate_on_submit():
+        if user.check_password(form.old_password.data):
+            user.password = user.set_password(form.new_password.data)
+            db.session.add(user)
+            db.session.commit()
+            flash("Password changed successfully, you'll be redirected to login page.")
+            logout_user()
+            return redirect(url_for('auth.signin'))
+        else:
+            flash("Invalid password.")
     return render_template('/auth/changepass.html', form=form)
 
-@auth_blueprint.route('/forgot_password', methods=['GET', 'POST'])
+@auth_blueprint.route('/reset', methods=['GET', 'POST'])
 def forgotpass():
     if not current_user.is_anonymous:
         redirect(url_for('app.index'))
     form = forgot()
     if request.method == 'POST' and form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data.lower()).first()
-        session['email'] = form.email.data
         if user:
             token = user.generate_reset_token()
             send_email(user.email, 'Reset Your Password',
-                       'users/email/forgotpass', user=user, token=token)
-            flash("An email with reset instructions has just been sent to you.")
-            return redirect(url_for('user.signin'))
-        else:
-            flash("User with the provided email address does not exist.", category="info")
-    return render_template('/auth/forgot.html', form=form, email=session.get('email'))
+                       'auth/email/resetpass', user=user, token=token)
+        flash("An email with reset instructions has just been sent to you.")
+        return redirect(url_for('.signin'))
+    return render_template('/auth/forgot.html', form=form)
 
 @auth_blueprint.route('/reset/<token>', methods=['GET', 'POST'])
-@login_required
 def password_reset(token):
     if not current_user.is_anonymous:
         return redirect(url_for('app.index'))
     form = ResetPassword()
-    if form.validate_on_submit():
-        if User.reset_password(token, form.password.data):
+    if request.method == 'POST' and form.validate_on_submit():
+        if User.confirm_reset_token(token, form.password.data):
             db.session.commit()
-            flash('Your password has been updated.')
-            return redirect(url_for('auth.signin'))
+            flash('Your password has been updated.')    
+            return redirect(url_for('.signin'))
         else:
             return redirect(url_for('app.index'))
-    return render_template('users/reset_password.html', form=form)
-
+    return render_template('auth/changepass.html', form=form)
 
 @auth_blueprint.route('/api', methods=['POST'])
 def api():

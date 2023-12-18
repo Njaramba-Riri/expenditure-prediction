@@ -4,8 +4,9 @@ import datetime
 import hashlib 
 from flask_login import AnonymousUserMixin, UserMixin, login_manager
 from flask import current_app
-from itsdangerous import URLSafeTimedSerializer as serializer
+from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
+from time import time
 
 roles = db.Table(
     'role_users',
@@ -119,13 +120,18 @@ class User(UserMixin, db.Model):
             self.username = username
     """
 
-    def set_password(self, password):
-        self.password = bcrypt.generate_password_hash(password)
-
-    def check_password(self, password):
-        return bcrypt.check_password_hash(self.password, password)
+    @property
+    def Siri(self):
+        raise AttributeError("Password is not a readable character.")
     
-    def generate_confirmation_token(self, expiration=1200):
+    @Siri.setter
+    def Siri(self, siri):
+        self.password = bcrypt.generate_password_hash(siri)
+
+    def check_password(self, siri):
+        return bcrypt.check_password_hash(self.password, siri)
+    
+    def generate_confirmation_token(self, expiration=3600):
         reset_token = jwt.encode(
             {
                 "confirm": self.id,
@@ -153,24 +159,25 @@ class User(UserMixin, db.Model):
         return True
     
     def generate_reset_token(self, expiration=3600):
-        s = serializer(current_app.config['SECRET_KEY'], expiration)
-        return s.dumps({'reset': self.id}).decode('utf-8')
+        return jwt.encode(
+            {'reset':self.id, 'exp': time() + expiration},
+            current_app.config['SECRET_KEY'], algorithm='HS256'
+            )
 
     @staticmethod
-    def reset_password(token, new_password):
-        s = jwt.decode(current_app.config['SECRET_KEY'])
+    def confirm_reset_token(token, new_password):
         try:
-            data = s.loads(token.encode('utf-8'))
+            id = jwt.decode(token, current_app.config['SECRET_KEY'],
+                            algorithms=['SH256'])['reset']
         except:
             return False
-        user = User.query.get(data.get('reset'))
+        user = db.session.get(User, id)
         if user is None:
             return False
         user.password = new_password
         db.session.add(user)
-        return True
-
-    
+        return True 
+      
     def ping(self):
         self.last_seen = datetime.datetime.now()
         db.session.add(self)

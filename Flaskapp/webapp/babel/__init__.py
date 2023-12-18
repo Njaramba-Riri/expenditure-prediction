@@ -1,14 +1,9 @@
-from flask import has_request_context, session
+from flask import has_request_context, session, request, current_app
 from flask_babel import Babel
 
 
 def get_locale():
-    if has_request_context():
-        locale = session.get('locale')
-        if locale:
-            return locale
-        session['locale']  = 'en'
-        return session['locale']
+    return request.accept_languages.best_match(current_app.config['LANGUAGES'])
 
 babel = Babel(locale_selector=get_locale)
 

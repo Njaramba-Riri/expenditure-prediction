@@ -16,10 +16,10 @@
             </div>
             <div class="col-md-6 change-form">
                 <div class="wrapper">
-                    <form action="{{ url_for('auth.password_reset', username=current_user.username, token='sjkdjkashdkhasidfhashfuiashdaw') }}" method="POST">
+                    <form action="{{ url_for('.password_reset', token=token) }}" method="POST">
                         {{ macro.authenticate(form) }}
                         <div class="login-register">
-                            <button type="submit" class="login-btn">Change Password</button>
+                            <button type="submit" class="login-btn">Reset Password</button>
                         </div>
                     </form>
                 </div>
@@ -40,17 +40,16 @@
 {% block js %}
 <script type="text/javascript">
     const togglePassword = document.querySelector('#togglePassword');
-    const passwordField = document.querySelector('#id_password');
+    const password = document.querySelector('#id_password');
 
     togglePassword.addEventListener('click', function () {
-        if (passwordField.type === 'password') {
-            passwordField.type = 'text';
+        if (password.type === 'password') {
+            password.type = 'text';
             togglePassword.className = 'far fa-eye';
         } else {
-            passwordField.type = 'password';
+            password.type = 'password';
             togglePassword.className = 'far fa-eye-slash';
         }
     });
 </script>
-<script src="https://kit.fontawesome.com/40d4d3ba0c.js" crossorigin="anonymous"></script>
 {% endblock %}
