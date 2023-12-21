@@ -40,10 +40,10 @@ def signin():
         user = User.query.filter_by(username=form.username.data).first()
         if user is not None and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            next_url = request.args.get('next')
-            if next_url is None or not next_url.startswith('/'):
-                next_url = url_for('app.index')
-            return redirect(next_url)
+            next = request.args.get('next')
+            if next is None:
+                next = url_for('app.index')
+            return redirect(next)
         flash("Invalid username or password")
     return render_template('auth/user_login.html', form=form) 
 
@@ -123,7 +123,7 @@ def password_reset(token):
     if not current_user.is_anonymous:
         return redirect(url_for('app.index'))
     form = ResetPassword()
-    if form.validate_on_submit():
+    if request.method == 'POST' and form.validate_on_submit():
         if User.confirm_reset_token(token, form.password.data):
             db.session.commit()
             flash('Your password has been updated.')    

@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from .models import Countries
 from webapp import db
 from wtforms import StringField, IntegerField, SelectField, TextAreaField, SubmitField
-from wtforms.validators import DataRequired, Length, NumberRange, InputRequired
+from wtforms.validators import DataRequired, Length, NumberRange, InputRequired, ValidationError
 
 """
 with open("/Users/User/Desktop/expenditure/models/flaskapp/webapp/app/all.csv", 'r') as csvfile:
@@ -64,9 +64,15 @@ class FeaturesForm(FlaskForm):
     freq = SelectField("First Time Visiting TZ?: ", choices=[(None, ''), ("Yes", "Yes"),
                                                             ("No", "No")], validators=[DataRequired()])
     submit = SubmitField("Generate Predictions")   
+    
+    
+    def validate_fields(self, field):
+        if field.data is None:
+            raise ValidationError(f"Kindly ensure {field.label.text} is selected.")
 
 class search(FlaskForm):
     search = StringField("Search Destination", validators=[DataRequired(), Length(max=64)])
 
 class feedbackform(FlaskForm):
-    feed = TextAreaField("We really apologise if that's how you feel, kindly, tell us more.", validators=[DataRequired(), Length(max=200)])
+    feed = TextAreaField("We really apologise if that's how you feel, kindly, tell us more.", 
+                         validators=[DataRequired(), Length(max=200)])

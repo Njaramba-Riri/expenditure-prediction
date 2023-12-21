@@ -45,7 +45,7 @@ def searchdestination(destination):
     return render_template("destinations.html", dest=session.get('destination'))
 
 @app_blueprint.route('/form', methods=['GET', 'POST'])
-@cache.cached(timeout=60)
+@cache.cached(timeout=1)
 def form():    
     form = FeaturesForm(request.form)
     if request.method == 'POST' and form.validate_on_submit():

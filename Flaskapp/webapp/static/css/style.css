@@ -1102,22 +1102,16 @@ nav ul .dropdown-toggle::after{
 
 /*Form Page*/
 .form{
-    background-image: linear-gradient(rgba(0, 0, 0 , 0.7), rgba(0, 0, 0, 0.67)), url("/static/images/mal2.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0 , 0.7), rgba(0, 0, 0, 0.7)), url("/static/images/letsgo.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     padding: 100px 50px;
 }
-.form h1{
-    color: #fff;
-    font-size: 80px;
-    font-weight: 500;
-    padding-top: 0px;
-    margin-top: -20px;
-}
 .form .descri{
     padding: 100px 0;
     text-align: center;
+    opacity: .8;
 }
 .form .descri h3{
     text-align: center;
@@ -1130,25 +1124,27 @@ nav ul .dropdown-toggle::after{
     font-size: 20px;
     font-weight: 200;
     color: #fff;
-    text-align: center;
 }
 .form .descri-btn{
     outline: none !important;
     width: 120px;
-    height: 40px;
+    height: 35px;
     color: #fff;
     background: transparent;
     border: 2px solid #fff;
     border-radius: 30px;
-    margin-top: 20px;
+    margin-top: 15px;
     font-size: 1.2rem; 
+}
+.form .descri-btn:hover{
+    scale: 1.1;
 }
 .content{
     color: #fff;
     border: none !important;
     background: #020525;
     border-radius: 10px;
-    padding: 40px 30px;
+    padding: 0 20px;
 }
 .content .input-box{
     width: 100%;
@@ -1167,6 +1163,9 @@ nav ul .dropdown-toggle::after{
     border: none !important;
     border-radius: 15px;
     padding: 0 10px ;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 
 }
 .input-box .number{
@@ -1179,11 +1178,8 @@ nav ul .dropdown-toggle::after{
     outline: none !important;
     font-size: 20px;
     padding: 0 10px;
+    appearance: none;
 }
-.input-box .select-multiple::after{
-    content: none;
-}
-
 .input-box .label{
     font-size: 20px;
     padding: 5px 0;
@@ -1270,20 +1266,19 @@ nav ul .dropdown-toggle::after{
 
 .form .pred-btn{
     width: 170px;
-    height: 40px;
+    height: 35px;
     outline: none !important;
-    border: 3px solid #fff;
+    border: 1px solid #fff;
     color: #fff;
     background: transparent;
-    border-radius: 50px;
+    border-radius: 30px;
     font-size: 18px;
     float: right;
 }
 .form .pred-btn:hover{
-    transform: scale(1.12);
-    border: none !important;
-    background: #879188;
-    transition: 2s ease;
+    transform: scale(.95);
+    background: #006b;
+    transition: 2s ease-in-out;
 }
 
 
