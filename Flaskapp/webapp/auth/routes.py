@@ -108,7 +108,7 @@ def forgotpass():
     if not current_user.is_anonymous:
         redirect(url_for('app.index'))
     form = forgot()
-    if request.method == 'POST' and form.validate_on_submit():
+    if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data.lower()).first()
         if user:
             token = user.generate_reset_token()
@@ -123,14 +123,14 @@ def password_reset(token):
     if not current_user.is_anonymous:
         return redirect(url_for('app.index'))
     form = ResetPassword()
-    if request.method == 'POST' and form.validate_on_submit():
+    if form.validate_on_submit():
         if User.confirm_reset_token(token, form.password.data):
             db.session.commit()
             flash('Your password has been updated.')    
-            return redirect(url_for('.signin'))
+            return redirect(url_for('signin'))
         else:
             return redirect(url_for('app.index'))
-    return render_template('auth/changepass.html', form=form)
+    return render_template('/auth/changepass.html', form=form)
 
 @auth_blueprint.route('/api', methods=['POST'])
 def api():

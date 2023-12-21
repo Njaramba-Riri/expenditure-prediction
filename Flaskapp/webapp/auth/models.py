@@ -152,7 +152,7 @@ class User(UserMixin, db.Model):
             )
         except:
             return False
-        if data.get('confirmed') != self.id:
+        if data.get('confirm') != self.id:
             return False
         self.confirmed = True
         db.session.add(self)
@@ -160,18 +160,23 @@ class User(UserMixin, db.Model):
     
     def generate_reset_token(self, expiration=3600):
         return jwt.encode(
-            {'reset':self.id, 'exp': time() + expiration},
-            current_app.config['SECRET_KEY'], algorithm='HS256'
+            {
+                'reset_password':self.id, 
+                'exp': time() + expiration},
+                current_app.config['SECRET_KEY'], 
+                algorithm='HS256'
             )
 
     @staticmethod
     def confirm_reset_token(token, new_password):
         try:
-            id = jwt.decode(token, current_app.config['SECRET_KEY'],
-                            algorithms=['SH256'])['reset']
+            unique = jwt.decode(
+                token, 
+                current_app.config['SECRET_KEY'],
+                algorithms=['HS256'])['reset_password']
         except:
             return False
-        user = db.session.get(User, id)
+        user = db.session.get(User, unique)
         if user is None:
             return False
         user.password = new_password

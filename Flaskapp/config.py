@@ -29,7 +29,7 @@ class DevConfig(object):
     DEBUG = True
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     CACHE_TYPE = 'simple'
-    BABEL_TRANSLATION_DIRECTORIES='./webapp/translations'
+    BABEL_TRANSLATION_DIRECTORIES='webapp/translations'
     SQLALCHEMY_DATABASE_URI = "mysql+pymysql://Riri:$Shadowalker1@localhost:3306/dev"
     SQLALCHEMY_COMMIT_ON_TEARDOWN = False
     SQLALCHEMY_ECHO = True
