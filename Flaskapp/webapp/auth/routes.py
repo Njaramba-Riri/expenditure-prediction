@@ -35,6 +35,8 @@ def unconfirmed():
 
 @auth_blueprint.route('/signin', methods=['GET', 'POST'])
 def signin():
+    if not current_user.is_anonymous:
+        return redirect(url_for('app.index'))
     form = user_signin()
     if request.method == 'POST' and form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -49,6 +51,8 @@ def signin():
 
 @auth_blueprint.route('/signup', methods=['GET', 'POST'])
 def signup():
+    if not current_user.is_anonymous:
+        return redirect(url_for('app.index'))
     form = user_register()
     if request.method == 'POST' and form.validate():
         new_user = User()
@@ -106,7 +110,7 @@ def changePassword(username):
 @auth_blueprint.route('/reset', methods=['GET', 'POST'])
 def forgotpass():
     if not current_user.is_anonymous:
-        redirect(url_for('app.index'))
+        return redirect(url_for('app.index'))
     form = forgot()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data.lower()).first()

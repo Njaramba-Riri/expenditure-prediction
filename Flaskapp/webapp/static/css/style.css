@@ -14,12 +14,12 @@ body{
 .container{
     width: 100%;
     max-width: 1200px;
-    overflow: hidden;
+    overflow: visible;
     padding-bottom: inherit;
     position: relative;
     justify-content: center;
     align-items: center;
-    text-wrap: wrap;
+    word-wrap: break-word;
  }
 
 
@@ -124,7 +124,7 @@ nav ul .dropdown-toggle::after{
     border-radius: none !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    transition: opacity 1s ease;
+    transition: opacity 2s ease-in-out;
 }
 .modal-dialog {
     top: 10%;
@@ -1537,32 +1537,33 @@ nav ul .dropdown-toggle::after{
 
 /*Profile Page*/
 .profile{
-    padding: 80px 0;
+    padding: 8% 0;
     height: 100%;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    background-image: url("/static/images/log.jpg");
+    background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,.8)), url("/static/images/smart.jpg");
 }
 
 .profile .panel{
     border-radius: 30px;
-    box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 5px 3px rgba(255, 255, 255, 0.4);
     height: 80vh;
-    padding-bottom: 80px;
+    padding-bottom: 10%;
 }
-.panel-header p{
+.panel-header h3{
     color: #fff;
     letter-spacing: 5px;
-    font-size: 15px;
-    padding: 20px 1px;
+    font-size: 20px;
+    padding: 20px 0;
     float: right;
 }
 .panel-note{
     height: 300px;
     border-radius: 20px;
-    background: #000;
+    background: transparent;
     border: none !important;
+    box-shadow: 0 0 5px 3px rgba(0, 0, 0, .6);
     text-align: center;
     margin: 5px;
 }
@@ -1577,17 +1578,14 @@ nav ul .dropdown-toggle::after{
 }
 .panel-note .fa-square{
     transform: scale(2);
-}
-.panel-note .fa-user{
-    transform: scale(1.2);
+    color: rgb(22, 87, 51);
 }
 .panel-note:hover{
-    background: turquoise;
+    background: rgb(11, 19, 17);
     border: none !important;
-    /*background-image: linear-gradient( rgba(92, 154, 255, .8), rgba(89, 252, 198, 0.7));*/
-    transition:  ease 2s, top 4s ;
+    box-shadow: none !important;
+    transition:  2s ease-in-out;
 }
-
 .links {
     margin-top: 30px;
 }
@@ -1632,27 +1630,30 @@ nav ul .dropdown-toggle::after{
 
 /* Edit Profile */
 .edit-profile{
-    padding: 40px 20px;
     height: 100%;
     color: #fff;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("/static/images/log.jpg");
+    background: gainsboro;
+}
+.edit-profile .update{
+    background-image: linear-gradient(rgba(0, 0, 0, .8), rgba(0, 0, 0, 0.7)), url("/static/images/prof.jpg");
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    background-attachment: fixed; 
+    padding: 8% 12%;
 }
-
 .edit-profile h2{
-    padding: 100px 40px;
-    font-size: 50px;
-    font-weight: 600;
+    padding: 50% 5%;
+    font-size: 60px;
+    font-weight: 400;
+    color: #000;
 }
 .edit-profile .profile-wrapper{
     border: none !important;
     border-radius: 10px;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(4px);
     background: transparent;
-    box-shadow: 0 0 20px 5px  rgba(255, 255, 255, 0.45);
-    padding: 30px 40px;
+    box-shadow: 0 0 5px 3px  rgba(255, 255, 255, 0.45);
+    padding: 10px 20px;
     width: 400px;
 }
 .profile-wrapper legend p{
@@ -1670,7 +1671,7 @@ nav ul .dropdown-toggle::after{
     border: 2px solid #00ff7e;
     outline: none !important;
     box-shadow: none !important;
-    border-radius: 30px;
+    border-radius: 15px;
     background: transparent;
     padding-left: 15px;
     color: #fff;
@@ -1692,7 +1693,8 @@ nav ul .dropdown-toggle::after{
     float: right;
 }
 .buttons .btn-secondary{
-    width: 100px;
+    height: 35px;
+    width: 80px;
     border: 2px solid turquoise;
     border-radius: 30px;
     background: transparent;
@@ -1705,6 +1707,7 @@ nav ul .dropdown-toggle::after{
     transform: scale(1.042);
 }
 .buttons .btn-success{
+    height: 35px;
     border: 2px solid turquoise ;
     box-shadow: none !important;
     border-radius: 30px;

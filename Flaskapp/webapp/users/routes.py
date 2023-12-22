@@ -23,11 +23,11 @@ user_blueprint = Blueprint("user", __name__,
 @login_required
 def profile(username):
     user = User.query.filter_by(username=username).first()
-    if user is None:
+    if user is None or current_user.username != username:
         abort(404)
     session['username'] = username
     return render_template("users/myprofile.html", current_time=datetime.datetime.utcnow(),
-                           username=session['username'], user=user) 
+                           username=session.get('username'), user=user) 
 
 @user_blueprint.route("<username>/edit_profile", methods=['GET', 'POST'])
 @login_required

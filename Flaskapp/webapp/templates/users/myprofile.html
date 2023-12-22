@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 
-{% block title %} User | Profile {% endblock %}
+{% block title %}LetsGo | User Profile {% endblock %}
 {% block content %}
 {% include 'include/nav.html' %}
 <section class="profile">
     <div class="container">
         <div class="row panel">
             <div class="panel-header">
-                <P>Hello {{ current_user.username}}, glad to see you here.</P>
+                <h3>Jambo {{ current_user.username}}, glad to see you here.</h3>
             </div>
             <div class="col-md-6">
                 <div class="panel-note text-center">
                     <div class="panel-body">
                         <span class="fa-stack fa-3x">
-                            <i class="fa fa-square fa-stack text-primary"></i><i class="fa fa-user-circle fa-stack-1x fa-inverse"></i>
+                            <i class="fa fa-square fa-stack"></i><i class="fa fa-user-circle fa-stack-1x fa-inverse"></i>
                         </span>
                         <h2 >Profile</h2>
                         <p class="links cl-effect-1">
@@ -70,7 +70,7 @@
                 <div class="panel-note">
                     <div class="panel-body">
                         <span class="fa-stack fa-3x">
-                            <i class="fa fa-square fa-stack text-primary"></i><i class="fa fa-face-grin-stars fa-stack-1x fa-inverse"></i>
+                            <i class="fa fa-square fa-stack "></i><i class="fa fa-face-grin-stars fa-stack-1x fa-inverse"></i>
                         </span>
                         <h2>My Activity</h2>
                         <p class="links cl-effect-1">
