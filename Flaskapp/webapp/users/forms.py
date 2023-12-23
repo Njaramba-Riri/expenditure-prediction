@@ -64,9 +64,10 @@ class editProfile(FlaskForm):
     about_me = TextAreaField("Say something about yourself.", validators=[Length(0, 80)])
 
     def validate_username(self, field):
-        if field.data == self.username and current_user.username ==  User.query.filter_by(username=field.username).first():
+        user = User.query.filter_by(username=field.data).first()
+        if field.data != self.username and current_user.username ==  user.username:
             raise ValidationError("Your new username can't be your current username.")
-        elif field.data != self.username and User.query.filter_by(username=field.data).first():
+        elif field.data != self.username and user:
             raise ValidationError('Username already in use.')
 
 

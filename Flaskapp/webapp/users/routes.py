@@ -47,10 +47,7 @@ def update(username):
     form.username.data = current_user.username or session.get('username')
     form.location.data = current_user.location or session.get('location')
     form.about_me.data  =current_user.about or session.get('about')
-    return render_template('editProfile.html', form=form,
-                           username=session.get('username'), location=session.get('location'),
-                           about=session.get('about'))
-
+    return render_template('editProfile.html', form=form)
 
 @user_blueprint.route("/<username>/activity", methods=['GET', 'POST'])
 @login_required

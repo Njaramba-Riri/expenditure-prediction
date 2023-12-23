@@ -5,55 +5,50 @@
 {% block content %}
 {% include 'include/nav.html' %}
 <section class="results">
+    <h1>What we've got?.</h1>
+    <p>Started from below now we here.</p>
     <div class="row">
-        <div class="row container">
-            <div class="col-md-4">
-                    <h1>Predictions.</h1>
+        <div class="another-box">
+            <p>From the <button onclick="showDetails()"> details</button> that you have provided, your spending category alongside your predicted total cost will be as follows: </p>
+            <div class="predicted">
+                <h4>Cost Category: <span>{{ predicted_result }}.</span> </h4>
+                <h4>Total Cost: <span>KES 132, 765.</span></h4>
+                <h4>Probability: <span>{{ probability }} %.</span></h4>
             </div>
-            <div class="col-md-8">
-                <div class="another-box">
-                        <p>From the <button onclick="showDetails()"> details</button> that you have provided, your spending category alongside your predicted total cost will be as follows: </p>
-                        <div class="predicted">
-                            <h4>Cost Category: <span>{{ predicted_result }}.</span> </h4>
-                            <h4>Total Cost: <span>KES 132, 765.</span></h4>
-                            <h4>Probability: <span>{{ probability }} %.</span></h4>
-                        </div>
-                    <div class="features" id="features">
-                        <table class="something table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Country</th>
-                                    <th>Travel Companion</th> 
-                                    <th>Total People</th>                                       
-                                    <th>Age Group</th>
-                                    <th>Purpose</th>
-                                    <th>Main Activity</th>
-                                    <th>Tour Arrangement</th>
-                                    <th>Source of Information</th>                                    
-                                </tr>
-                            </thead>                           
-                            <tbody title="Click to show all">
-                                <tr>
-                                    <td data-details="Country">{{ features.country }}</td>
-                                    <td data-details="Travel With">{{ features.travel_with  }}</td>
-                                    <td data-details="Total People">{{ features.total_male + features.total_male }}</td>
-                                    <td data-details="Age Group">{{ features.age_group }}</td>
-                                    <td data-details="Purpose">{{ features.purpose }}</td>
-                                    <td data-details="Main Activity">{{ features.main_activity }}</td>
-                                    <td data-details="Tour Arrangement">{{ features.tour_arrangement }}</td>
-                                    <td data-details="Information Source">{{ features.info_source }}</td>
-                                </tr>
-                            </tbody>                        
-                        </table>                            
-                    </div>
-                </div>
+            <div class="features" id="features">
+                <table class="something table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Country</th>
+                            <th>Travel Companion</th> 
+                            <th>Total People</th>                                       
+                            <th>Age Group</th>
+                            <th>Purpose</th>
+                            <th>Main Activity</th>
+                            <th>Tour Arrangement</th>
+                            <th>Source of Information</th>                                    
+                        </tr>
+                    </thead>                           
+                    <tbody title="Click to show all">
+                        <tr>
+                            <td data-details="Country">{{ features.country }}</td>
+                            <td data-details="Travel With">{{ features.travel_with  }}</td>
+                            <td data-details="Total People">{{ features.total_male + features.total_male }}</td>
+                            <td data-details="Age Group">{{ features.age_group }}</td>
+                            <td data-details="Purpose">{{ features.purpose }}</td>
+                            <td data-details="Main Activity">{{ features.main_activity }}</td>
+                            <td data-details="Tour Arrangement">{{ features.tour_arrangement }}</td>
+                            <td data-details="Information Source">{{ features.info_source }}</td>
+                        </tr>
+                    </tbody>                        
+                </table>                            
             </div>
         </div>
-        <div class="row btn">
-            <div class="btn-activity">
-                <button type="button" class="result-btn" onclick="toActivity()">Recommended Places.</button>                
-            </div>            
-        </div>
+    </div>
+    <div class="row">
+        <div class="btn-activity">
+            <button type="button" class="activity-btn" onclick="toActivity()">Recommended Places.</button>                
+        </div>            
     </div>
 </section>
 <section class="teaser">

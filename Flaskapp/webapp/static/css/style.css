@@ -1168,6 +1168,9 @@ nav ul .dropdown-toggle::after{
     -moz-appearance: none;
 
 }
+.input-box .select-multiple:hover{
+    appearance: button;
+}
 .input-box .number{
     width: 100%;
     height: 40px;
@@ -1190,13 +1193,6 @@ nav ul .dropdown-toggle::after{
     font-weight: 200;
     margin: 20px;
 }
- span.help-block{
-    color: rgb(252, 46, 46);
-    font-size: 18px;
-    font-weight: 400;
-    padding: 0 15px;
-    margin-bottom: 0;
-}
 .custom-modal{
     position: absolute;
     top: 0;
@@ -1209,7 +1205,7 @@ nav ul .dropdown-toggle::after{
     transform: translate(-50%, -50%) scale(.08);
     padding: 0 30px 30px;
     backdrop-filter: blur(10px);
-    visibility: hidcden;
+    visibility: hidden;
     -webkit-backdrop-filter: blur(10px);
     transition: transform 0.4s, top 0.4s;
 }
@@ -1276,42 +1272,44 @@ nav ul .dropdown-toggle::after{
     float: right;
 }
 .form .pred-btn:hover{
+    border: none !important;
     transform: scale(.95);
-    background: #006b;
-    transition: 2s ease-in-out;
+    background: linear-gradient(to left,rgb(59, 130, 158), rgb(192, 88, 192));
+    transition: transform 2s ease-in-out;
 }
 
 
 /* Result Page */
 .results{
-    padding: 50px 10px;
+    padding: 8% 0;
     height: 100%;
-    background-image: linear-gradient(109.6deg, rgb(145, 203, 250) 11.2%, rgba(110, 123, 251, 1) 91.1%);
+    background-image: linear-gradient(to left, gainsboro, rgba(192, 88, 192, .7));
+    text-align: center;
 }
 .results h1{
-    color: #000000;
+    color: #fff;
     font-size: 50px;
     font-weight: 600;
     text-align: center;
-    padding: 80px 40px;
+}
+.results p{
+    color: #fff;
+    font-size: 17px;
+}
+.results .row{
+    padding: 0 15%;
 }
 .results .another-box{
     height: 100%;
     background: transparent;
     border-radius: 10px;
     border: none !important;
-    box-shadow: 0 0 10px 3px rgba(248, 247, 248, 0.24);
-    margin-bottom: 30px;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);    
+    box-shadow: inset 1px 1px 20px #000f00;
+    padding-bottom: 5%;    
 }
 .another-box .features{
-    margin: 0 10px;
-    padding-left: 30px;
+    margin: 0 30px;
     padding-top: 20px;
-    border-radius: 5px;
-    align-items: center;
-    justify-content: center;
 }
 .features-show{
     display: block;
@@ -1319,10 +1317,10 @@ nav ul .dropdown-toggle::after{
 }
 
 .features thead tr th{
-    width: 200px;
+    width: 5%;
     border-radius: 5px;
     font-size: 14px;
-    background: linear-gradient( rgb(226, 253, 69, .7), rgba(33, 201, 192, 0.4));
+    background: linear-gradient( rgb(226, 253, 69, .7), rgba(33, 201, 131, 0.8));
 }
 .features thead{
     height: 50px;
@@ -1332,7 +1330,7 @@ nav ul .dropdown-toggle::after{
 .features tbody td{
     height: 40px;
     color: inherit;
-    background: whitesmoke;
+    background: gainsboro;
     font-size: 1em;
     padding: 0px 10px;
 }
@@ -1340,21 +1338,18 @@ nav ul .dropdown-toggle::after{
     border: 2px solid ghostwhite;
 }
 .another-box h4{
-    padding: 0 100px;
-    padding-bottom: 0;
     font-size: 20px;
-    font-weight: 300;
-    color: #fff;
-    margin-left: 30px;
+    font-weight: 600;
+    color: #000;
 }
 .another-box span{
-    color: turquoise;
+    color: #ff5722;
     font-weight: 600;
     margin-left: 20px;
 }
 .another-box p{
     text-align: start;
-    color: #fff;
+    color: #000;
     font-size: 17px;
     margin: 5px 18px;
     padding-left: 30px;
@@ -1365,35 +1360,26 @@ nav ul .dropdown-toggle::after{
     border: none !important;
     color: #007AFF;
 }
-.another-box .result-btn{
-    width: 200px;
-    float: right;
-    outline: none !important;
-    background-image: linear-gradient(to right, #00b09b, #96c93d);
-    border: 1px solid #fff;
-    border-radius: 30px;
-    color: #fff;
-    font-size: 20px;
-    margin: 20px;
-}
 .results .btn{
     padding-top: 40px;
     height: 100px;
 }
 .results .btn-activity{
+    padding-top: 2%;
     text-align: center;
 }
-.btn-activity .result-btn{
-    background: seagreen;
+.btn-activity .activity-btn{
+    background: linear-gradient(45deg, #8b9dfa, #8c87f5, #a945ec, #e64fa4, #e6447a, #eb1919);
+    border: none !important;
+    border-radius: 20px;
+    box-shadow: 2px 2px 5px rgba(39, 39, 39, 0.8);
     width: 200px;
-    margin-top: 20px;
+    height: 40px;
+    color: #fff;
+    margin-top: 10px;
 }
-.results .result-btn:hover{
+.results .activity-btn:hover{    
     transform: scale(1.05);
-}
-.results hr{
-    color: turquoise;
-    margin: 30px 0;
 }
 .teaser{
     height: 80vh;
@@ -1437,14 +1423,14 @@ nav ul .dropdown-toggle::after{
     transform: scale(1.043);
     background: turquoise;
     border: none !important;
-    transition: 1s all;
+    transition: transform 2s ease-in-out;
 }
 
 /* Thanks Page */
 .thanks {
     padding: 100px 0;
-    height: 100%;
-    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.4)), url("/static/images/mal2.jpg");
+    height: 100vh;
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url("/static/images/mal2.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -1475,34 +1461,47 @@ nav ul .dropdown-toggle::after{
     width: 150px;
     height: 40px;
     font-size: 17px;
-    border: 2px solid #fff;
+    border: none !important;
     border-radius:130px;
     margin: 20px 0;
+    color: #fff;
 }
-
+.btn-thanks.btn-info{
+    background: linear-gradient(45deg, #8b9dfa, #443cca);
+}
+.btn-thanks.btn-info:hover{
+    background: linear-gradient(45deg, #e6447a, #eb1919);
+    border: none !important;
+    transform: scale(.97);
+    color: #fff;
+}
+.btn-thanks.btn-success:hover{
+    background: linear-gradient(45deg, rgb(33, 105, 105), rgb(9, 158, 158));
+    border: none !important;
+    transform: scale(.97);
+}
 /* Feedback form */
 .feed{
-    padding-top: 10p;
-    padding-bottom: 100px;
-    height: 100%;
+    padding: 8% 0;
+    height: 100vh;
     min-height: 60vh;
+    background: linear-gradient(45deg, #8b9dfa, #8c87f5, #a945ec, #e64fa4, #e6447a, #eb1919);
 }
-
+.feed .moana{
+    padding: 8% 0;
+}
 .feed h1{
     font-size: 50px;
     font-weight: 600;
     text-align: center;
     color: #000000;
-    padding: 15px 0;
 }
-
 .feed .feed-form{
-    width: 800px;
+    width: 100%;
     height: 100%;
-    translate: 25%;
     box-shadow: 0 0 10px 1px rgba(56, 54, 54, 0.7);
     border-radius: 20px;
-    padding: 10px 40px;
+    padding: 10px 20px;
 }
 
 .feed .label{
@@ -1631,7 +1630,7 @@ nav ul .dropdown-toggle::after{
 /* Edit Profile */
 .edit-profile{
     height: 100%;
-    color: #fff;
+    color: #9b9595;
     background: gainsboro;
 }
 .edit-profile .update{
@@ -1703,7 +1702,7 @@ nav ul .dropdown-toggle::after{
 }
 .buttons .btn-secondary:hover{
     border: none !important;
-    background: tomato;
+    background: rgb(184, 57, 53);
     transform: scale(1.042);
 }
 .buttons .btn-success{
@@ -1715,7 +1714,7 @@ nav ul .dropdown-toggle::after{
     color: #fff;
 }
 .buttons .btn-success:hover{
-    background: steelblue;
+    background: #018036;
     border: none !important;
     transform: scale(1.042);
 }
@@ -1833,7 +1832,7 @@ table td{
 
 .recommedation{
     height: 100%;
-    padding: 40px 0;
+    padding: 6% 0;
     text-align: center;
     background-image:  linear-gradient(to left, #98b84f, #60def1);
 }
@@ -1842,21 +1841,19 @@ table td{
     font-size: 70px;
     font-weight: 600;
 }
-
 .recommedation p{
     color: #fff;
     font-size: 18px;
 }
 .recommedation .card-box {
-    box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.24);
+    box-shadow: 0 0 10px 1px rgba(39, 39, 39, 0.8);
+    border-radius: 10px;
     margin-bottom: 30px;
     height: 500px;
     position: relative;
 }
-
-.recommedation .card-box:hover {
-    transform: scale(1.05);
-    /*transform: rotate(-2deg);*/
+.recommedation .card-box:hover{
+    box-shadow: 0 0 10px 1px rgba(40, 40, 40, .8);
 }
 
 .recommedation .card-img {

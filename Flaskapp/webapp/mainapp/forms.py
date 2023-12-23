@@ -74,5 +74,5 @@ class search(FlaskForm):
     search = StringField("Search Destination", validators=[DataRequired(), Length(max=64)])
 
 class feedbackform(FlaskForm):
-    feed = TextAreaField("We really apologise if that's how you feel, kindly, tell us more.", 
+    feed = TextAreaField("Kindly give us your feedback below.", 
                          validators=[DataRequired(), Length(max=200)])

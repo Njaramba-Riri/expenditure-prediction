@@ -1,16 +1,17 @@
 {% extends 'Base.html' %}
 
-{% block title %} Let'sGo | Thanks {% endblock %}
+{% block title %} LetsGo | Thanks {% endblock %}
 
 {% block content %}
+{% include 'include/nav.html' %}
 <section class="thanks">
     <h2>Could'nt be better.</h2>
     <div class="container">
         <h3>Thank you for interacting with our app.</h3>
         <p >How do you feel about the predictions?.</p>
         <div class="name" >
-            <button type="submit" onclick="feedback_button('Satisfied')" class="btn-thanks btn-info">Satisfied</button>
-            <button type="button" onclick="feedback_button('Disatisfied')" class="btn-thanks btn-success">Disatisfied</button>
+            <button type="submit" onclick="feedback_button('Satisfied')" class="btn-thanks btn-success">Satisfied</button>
+            <button type="button" onclick="feedback_button('Disatisfied')" class="btn-thanks btn-info">Disatisfied</button>
         </div>
     </div>
 </section>

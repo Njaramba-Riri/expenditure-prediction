@@ -36,7 +36,7 @@
                                 {{ field.label }}:
                                 {{ field(class_='form-control', placeholder=field.label.text) }}
                                  {% for e in field.errors %}
-                                <p class="help-block" style="color: red;">{{ e }}</p>
+                                <p class="help-block">{{ e }}</p>
                                 {% endfor %}
                             </div>
                             {% endif %}
