@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, TextAreaField ,widgets, TelField, SearchField
-from wtforms import SelectField, ValidationError, BooleanField, SubmitField
+from wtforms import ValidationError, BooleanField, SubmitField, SelectMultipleField
 from wtforms.validators import DataRequired, Length, Optional, Email, Regexp
 from ..auth.models import User, Role
 
@@ -25,12 +25,12 @@ class editProfile(FlaskForm):
     email = StringField("Enter email.", validators=[DataRequired(), Email()])
     username = StringField("Enter username", validators=[DataRequired(), Length(1, 64), 
                                                          Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, 'Usernames must have only letters, numbers, dots or underscores')])
-    role = SelectField("Assign role.", coerce=int)
+    role = SelectMultipleField("Assign role.", coerce=int)
     mobile = TelField("Enter mobile number.", validators=[DataRequired()])
     location = StringField("Where are you from?", validators=[Optional(), Length(1, 100)])
     about = StringField("Oh, you can also add bio if you like.", validators=[Optional(), Length(1, 255)])
     company = StringField("Enter your tour agency name.", validators=[DataRequired(), Length(5, 100)])
-    c_email = StringField("Enter company email", validators=[DataRequired(), Length(64), Email()])
+    c_email = StringField("Enter company email", validators=[DataRequired(), Email()])
     c_mobile = TelField("Enter company telephone number.", validators=[DataRequired()])
     c_address = StringField("Your tour agency location address.", validators=[DataRequired(), Length(10, 64)])
     confirmed = BooleanField("Confirmed")

@@ -36,6 +36,7 @@ class DevConfig(object):
     GOOGLE_OAUTH_CLIENT_ID = "282277803958-91kd492opdubeh1oaqohm1bde2bqvb3o.apps.googleusercontent.com"
     GOOGLE_OAUTH_CLIENT_SECRET = "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" 
     GOOGLE_DISCOVERY_URL = 'https://acccounts.google.com/.well-known/openid-configuration'
+    LOCATION = "Kasarani, Nairobi"
     FACEBOOK_CLIENT_ID = "215492924842506"
     FACEBOOK_CLIENT_SECRET = "06da42a59c27057d7fc08d32aec87f45"
     TWITTER_API_KEY = "xKUXD2Yt4pik6ALkbiLWHVT5c"

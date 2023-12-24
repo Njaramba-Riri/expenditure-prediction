@@ -1483,41 +1483,50 @@ nav ul .dropdown-toggle::after{
 /* Feedback form */
 .feed{
     padding: 8% 0;
-    height: 100vh;
+    height: 100%;
     min-height: 60vh;
-    background: linear-gradient(45deg, #8b9dfa, #8c87f5, #a945ec, #e64fa4, #e6447a, #eb1919);
+    background-image: linear-gradient(to left, gainsboro, rgba(192, 88, 192, .7));
 }
 .feed .moana{
-    padding: 8% 0;
+    padding: 13% 0;
+    color: #fff;
 }
-.feed h1{
+.moana h1{
     font-size: 50px;
     font-weight: 600;
-    text-align: center;
-    color: #000000;
+}
+.moana p{
+    font-size: 18px;
+    font-weight: 300;
+    text-align: start;
+}
+.feed .moana-form{
+    padding-left: 3%;
 }
 .feed .feed-form{
     width: 100%;
     height: 100%;
-    box-shadow: 0 0 10px 1px rgba(56, 54, 54, 0.7);
+    box-shadow: none;
     border-radius: 20px;
     padding: 10px 20px;
 }
 
 .feed .label{
-    color:  #000;
+    color:  #2c2121;
     font-size: 20px;
+    margin-left: 20px;
 }
 .input-box .text-area{
     width: 100%;
     height: 350px;
     font-size: 15px;
-    background: white;
+    background: rgb(252, 251, 251);
     font-weight: 300;
-    color:#141e30;
-    padding-left: 20px;
+    color:#000000;
+    padding: 10px 10px;
     margin-bottom: 5px;
-    border-radius: 10px;
+    border-radius: 20px;
+    border: none !important;
     outline: none !important;
 }
 .feed .send-btn{
@@ -1525,13 +1534,14 @@ nav ul .dropdown-toggle::after{
     height: 30px;
     font-size: 17px;
     border-radius: 15px;
-    box-shadow: none !important;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, .8);
     border: none !important;
-
+    float: right;
+    margin-right: 3%;
 }
 .feed .send-btn:hover{
     transform: scale(1.05);
-    background: #024894;
+    background: #940252;
 }
 
 /*Profile Page*/
@@ -2535,7 +2545,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 .admin-profile{
     min-height: 100vh;
     padding: 50px 0;
-    background: rgb(196, 196, 196);
+    background-image: linear-gradient(to left, gainsboro, rgba(192, 88, 192, .7));
 }
 .admin-profile h1{
     font-size: 80px;
@@ -2696,9 +2706,12 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     color: #fff;
     font-size: 1.15em;
 }
+
 /* UpdateProfile */
 .update{
-    padding: 0;
+    padding-top: 0 !important;
+    padding: 4% 0;
+    background: linear-gradient(to left, gainsboro, rgba(192, 88, 192, .7));
 }
 .update h2{
     font-size: 40px;
@@ -2706,6 +2719,15 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     padding-left: 30%;
     padding-top: 50%;
 }
+.update .wrapper{
+    background: seagreen;
+    box-shadow: 2px 2px 5px rgba(39, 39, 39, .6);
+    transform: translateX(50%);
+}
+.update .wrapper .input-box{
+    margin-top: 0px;
+}
+
 /* Reports Page */
 .reports{
     padding-top: 20px;

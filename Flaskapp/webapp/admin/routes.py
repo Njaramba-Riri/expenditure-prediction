@@ -1,4 +1,4 @@
-from flask import render_template, url_for, Blueprint, flash, redirect, session, request, jsonify
+from flask import render_template, url_for, Blueprint, flash, redirect, session, request, jsonify, current_app
 from .forms import UsersForm, editProfile
 from ..auth.models import User, Role
 from ..mainapp.models import Features, Feedback
@@ -77,12 +77,17 @@ def home():
 def admindashboard():
     user = User.query.order_by(User.id).all()
     users = User.query.all()
+    authenticated = [ user for user in users if user.confirmed ]
+    anonymous = [ user for user in users if user.is_anonymous ]
+    unverified = [ user for user in users if not user.confirmed ]   
     users = random.sample(users, min(3, len(users)))
     feedback = Feedback.query.all()
     feedback = random.sample(feedback, min(3, len(feedback))) 
     features = Features.query.order_by(Features.date.desc()).limit(10)
     #features = random.sample(features, min(3, len(features)))
-    return render_template('dashboard.html', users=users, feedback=feedback, features=features, user=user)
+    return render_template('dashboard.html', users=users, 
+                           feedback=feedback, features=features,
+                           auth=authenticated, anony=anonymous, unveri=unverified)
 
 
 @admin_blueprint.route('/profile_edit/<int:id>/', methods=['GET', 'POST'])

@@ -3,7 +3,7 @@
 {% block title %} Admin | Dashboard {% endblock %}
 
 {% block content %}
-{# % include 'include/sidebar.html'% #}
+{% include 'include/sidebar.html'% }
 <section class="dashboard">
     <nav class="top-nav">
         <div class="kinda-nav">
@@ -51,9 +51,9 @@
                         <div class="sys-users">
                             <i class="fa fa-users"></i>
                             <h3>Total Users: <strong>{{ users | length }}</strong></span></h3>
-                            <h4>Verified: {{ users.is_authenticated | length }}</h4>
-                            <h4>Unverified: {{ users.is_confirmed | length }}</h4>
-                            <h4>Anonymous: {{ users.is_anonymous | length }}</h4>
+                            <h4>Verified: {{ auth | length }}</h4>
+                            <h4>Unverified: {{ unveri | length }}</h4>
+                            <h4>Anonymous: {{ anony | length }}</h4>
                         </div>                            
                     </div>
                     <div class="col-sm-6">
