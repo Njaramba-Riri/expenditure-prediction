@@ -3,201 +3,216 @@
 {% block title %} Admin | Dashboard {% endblock %}
 
 {% block content %}
-{% include 'include/sidebar.html'% }
-<section class="dashboard">
-    <nav class="top-nav">
-        <div class="kinda-nav">
-            <div id="reports">
-                <div class="reportss">
-                    <i class="fa fa-chart-bar"></i>
-                    <a href="{{ url_for('/letsgo/admin/dashboard/') }}">
-                        Reports
-                    </a>
-                </div>                    
-            </div>
-            <div>
-                <div class="model" id="model">
-                    <i class="fa fa-line-chart"></i>
-                    <a href="{{ url_for('.reports') }}">Model Performance</a>
-                </div>                    
-            </div>     
-            <div>
-                <div class="sema" id="sema">
-                    <i class="fa fa-comments"></i>                    
-                    <a href="{{ url_for('.feedback') }}">Feedback</a>
-                </div>                    
-            </div>                   
-            <div id="users">
-                <div class="users" >
-                    <i class="fa fa-users"></i>
-                    <a href="{{ url_for('.users') }}">Users</a>
-                </div>                    
-            </div>
-        </div>
-    </nav>
-    <div class="dashboard-panel">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="prof">
-                        <div class="user" id="user">
-                            <a href="{{ url_for('.profile') }}">{{ current_user.username }}</a>
-                            <i class="fa fa-user-circle"></i>
-                        </div>
-                    </div>
+<div class="dashboatd-container">
+    {% include 'include/sidebar.html' %}
+    <section class="dashboard">
+        <div class="navigation">
+            <div class="bino">
+                <div class="bino-search">
+                    <i class="fa fa-search"></i>
+                    <input type="text" name="" id="search" placeholder="Search">
                 </div>
-                <div class="row cards">
-                    <div class="col-sm-6">
-                        <div class="sys-users">
-                            <i class="fa fa-users"></i>
-                            <h3>Total Users: <strong>{{ users | length }}</strong></span></h3>
-                            <h4>Verified: {{ auth | length }}</h4>
-                            <h4>Unverified: {{ unveri | length }}</h4>
-                            <h4>Anonymous: {{ anony | length }}</h4>
-                        </div>                            
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="model-calls">
-                            <h3>Model Calls: 627</h3>
-                            <h4>Model Accuracy: 87%</h4>
-                            <h4>Drifting Rate: 2%</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="admin-tab">
-                    <div class="tab">
-                        <div class="user-tab">
-                            <div class="header">
-                                <caption>System users over the time.</caption>
-                            </div>
-                            <div class="table_body">
-                                <table >
-                                    <thead>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Email</th>
-                                            <th>Username</th>
-                                            <th>Joined</th>
-                                            <th>Confirmed</th>
-                                            <th>Interactions</th>                                   
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for user in users %}
-                                        <tr>
-                                            <td>{{ user.id }}</td>
-                                            <td>{{ user.email }}</td>
-                                            <td>{{ user.username }}</td>
-                                            <td>{{ user.date_created }}</td>
-                                            {% if user.confirmed == 1 %}
-                                            <td><span class="very">{{ user.confirmed }} </span></td>
-                                            {% else %}
-                                            <td ><span class="not">{{ user.confirmed }}</span></td>
-                                            {% endif %}
-                                            <td>{{ user.role_id }}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>                                      
-                            </div>
-                            
-                        </div>                            
-                    </div>
-                    <div class="tab">
-                        <div class="feat-tab">
-                            <div class="header">
-                                <caption>Submited Features.</caption>                    
-                            </div>
-                            <div class="table_body">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Country</th>
-                                            <th>Age Group</th>
-                                            <th>Total People</th>
-                                            <th>Travel Companion</th>
-                                            <th>Purpose</th>
-                                            <th>Main Activity</th>
-                                            <th>Information Source</th>
-                                            <th>Tour Arrangement</th>
-                                            <th>First Trip</th>
-                                            <th>Predicted Category</th>
-                                            <th>Probability</th>
-                                            <th>User Id</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for feature in features %}
-                                        <tr>
-                                            <td>{{ feature.id }}</td>
-                                            <td>{{ feature.country }}</td>
-                                            <td>{{ feature.age_group }}</td>
-                                            <td>{{ feature.total_male + feature.total_female }}</td>
-                                            <td>{{ feature.travel_with }}</td>
-                                            <td>{{ feature.purpose }}</td>
-                                            <td>{{ feature.main_activity }}</td>
-                                            <td>{{ feature.info_source }}</td>
-                                            <td>{{ feature.tour_arrangement }}</td>
-                                            <td>{{ feature.first_trip_tz }}</td>
-                                            <td>{{ feature.predicted_category }}</td>
-                                            <td>{{ feature.probability }} %</td>
-                                            <td>{{ feature.user_id }}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>                                    
-                            </div>
-                        </div>                              
-                    </div>
-                    <div class="tab">
-                        <div class="feed-tab">
-                            <div class="header">
-                                <caption>User Feedback.</caption>
-                            </div>
-                            <div class="table_body">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Feedback</th>
-                                            <th>Sentiment</th>
-                                            <th>Probability</th>
-                                            <th>User_id</th>
-                                            <th>Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for feed in feedback %}    
-                                        <tr>
-                                            <td>{{ feed.id }}</td>
-                                            <td>{{ feed.feed | truncate(100, true, '......') }}</td>
-                                            {% if feed.sentiment == 'Positive' %}
-                                            <td class="data">
-                                                <span class="Positive">{{ feed.sentiment }}</span>
-                                            </td>
-                                            {% elif feed.sentiment == 'Negative' %}
-                                            <td class="data">
-                                                <span class="Negative">{{ feed.sentiment }}</span>
-                                            </td>
-                                            {% endif %}
-                                            <td>{{ feed.probability }} %</td>
-                                            <td>{{ feed.user_id }}</td>
-                                            <td>{{ feed.date }}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>                                    
-                            </div>
-                        </div>                            
-                    </div>
+                <div class="prof">
+                    <i class="fa fa-bell"></i>
+                    <img src="../static/images/admin.png" alt="">
+                    <a href="{{ url_for('.profile') }}">{{ current_user.username }}</a>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+        <nav class="top-nav">
+            <div class="kinda-nav">
+                <div id="reports">
+                    <div class="reportss">
+                        <i class="fa fa-chart-bar"></i>
+                        <a href="{{ url_for('/letsgo/admin/dashboard/') }}">
+                            Reports
+                        </a>
+                    </div>                    
+                </div>
+                <div>
+                    <div class="model" id="model">
+                        <i class="fa fa-line-chart"></i>
+                        <a href="{{ url_for('.reports') }}">Model Performance</a>
+                    </div>                    
+                </div>     
+                <div>
+                    <div class="sema" id="sema">
+                        <i class="fa fa-comments"></i>                    
+                        <a href="{{ url_for('.feedback') }}">Feedback</a>
+                    </div>                    
+                </div>                   
+                <div id="users">
+                    <div class="users" >
+                        <i class="fa fa-users"></i>
+                        <a href="{{ url_for('.users') }}">Users</a>
+                    </div>                    
+                </div>
+            </div>
+        </nav>
+        <div class="dashboard-panel">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="prof">
+                            <div class="user" id="user">
+                                <a href="{{ url_for('.profile') }}">{{ current_user.username }}</a>
+                                <i class="fa fa-user-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row cards">
+                        <div class="col-sm-6">
+                            <div class="sys-users">
+                                <i class="fa fa-users"></i>
+                                <h3>Total Users: <strong>{{ users | length }}</strong></span></h3>
+                                <h4>Verified: {{ auth | length }}</h4>
+                                <h4>Unverified: {{ unveri | length }}</h4>
+                                <h4>Anonymous: {{ anony | length }}</h4>
+                            </div>                            
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="model-calls">
+                                <h3>Model Calls: 627</h3>
+                                <h4>Model Accuracy: 87%</h4>
+                                <h4>Drifting Rate: 2%</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="admin-tab">
+                        <div class="tab">
+                            <div class="user-tab">
+                                <div class="header">
+                                    <caption>System users over the time.</caption>
+                                </div>
+                                <div class="table_body">
+                                    <table >
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Email</th>
+                                                <th>Username</th>
+                                                <th>Joined</th>
+                                                <th>Confirmed</th>
+                                                <th>Interactions</th>                                   
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for user in users %}
+                                            <tr>
+                                                <td>{{ user.id }}</td>
+                                                <td>{{ user.email }}</td>
+                                                <td>{{ user.username }}</td>
+                                                <td>{{ user.date_created }}</td>
+                                                {% if user.confirmed == 1 %}
+                                                <td><span class="very">{{ user.confirmed }} </span></td>
+                                                {% else %}
+                                                <td ><span class="not">{{ user.confirmed }}</span></td>
+                                                {% endif %}
+                                                <td>{{ user.role_id }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>                                      
+                                </div>
+                                
+                            </div>                            
+                        </div>
+                        <div class="tab">
+                            <div class="feat-tab">
+                                <div class="header">
+                                    <caption>Submited Features.</caption>                    
+                                </div>
+                                <div class="table_body">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Country</th>
+                                                <th>Age Group</th>
+                                                <th>Total People</th>
+                                                <th>Travel Companion</th>
+                                                <th>Purpose</th>
+                                                <th>Main Activity</th>
+                                                <th>Information Source</th>
+                                                <th>Tour Arrangement</th>
+                                                <th>First Trip</th>
+                                                <th>Predicted Category</th>
+                                                <th>Probability</th>
+                                                <th>User Id</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for feature in features %}
+                                            <tr>
+                                                <td>{{ feature.id }}</td>
+                                                <td>{{ feature.country }}</td>
+                                                <td>{{ feature.age_group }}</td>
+                                                <td>{{ feature.total_male + feature.total_female }}</td>
+                                                <td>{{ feature.travel_with }}</td>
+                                                <td>{{ feature.purpose }}</td>
+                                                <td>{{ feature.main_activity }}</td>
+                                                <td>{{ feature.info_source }}</td>
+                                                <td>{{ feature.tour_arrangement }}</td>
+                                                <td>{{ feature.first_trip_tz }}</td>
+                                                <td>{{ feature.predicted_category }}</td>
+                                                <td>{{ feature.probability }} %</td>
+                                                <td>{{ feature.user_id }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>                                    
+                                </div>
+                            </div>                              
+                        </div>
+                        <div class="tab">
+                            <div class="feed-tab">
+                                <div class="header">
+                                    <caption>User Feedback.</caption>
+                                </div>
+                                <div class="table_body">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Feedback</th>
+                                                <th>Sentiment</th>
+                                                <th>Probability</th>
+                                                <th>User_id</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for feed in feedback %}    
+                                            <tr>
+                                                <td>{{ feed.id }}</td>
+                                                <td>{{ feed.feed | truncate(100, true, '......') }}</td>
+                                                {% if feed.sentiment == 'Positive' %}
+                                                <td class="data">
+                                                    <span class="Positive">{{ feed.sentiment }}</span>
+                                                </td>
+                                                {% elif feed.sentiment == 'Negative' %}
+                                                <td class="data">
+                                                    <span class="Negative">{{ feed.sentiment }}</span>
+                                                </td>
+                                                {% endif %}
+                                                <td>{{ feed.probability }} %</td>
+                                                <td>{{ feed.user_id }}</td>
+                                                <td>{{ feed.date }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>                                    
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 {% block js %}
 <script type="text/javascript">
     const users = document.querySelector("#users")

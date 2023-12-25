@@ -4,47 +4,49 @@
 		<h2>LetsGo</h2>
 	</div>
 	<ul>
-		<div>
-			<i class="fa fa-tachometer"></i><h3><a href="{{ url_for('admin.admindashboard') }}">Dashboard</a></h3>
+		<div class="main">
+			<i class="fa fa-tachometer"></i>
+			<a href="{{ url_for('admin.admindashboard') }}">Dashboard</a>
 		</div>
-		<div>
-			<i class="fa fa-home"></i><h3><a href="{{ url_for('app.index') }}">Home</a></h3>
+		<div class="main">
+			<i class="fa fa-home"></i>
+			<a href="{{ url_for('app.index') }}">Home</a>
 		</div>
-		<div>
+		<div class="repo">
 			<li><span><i class="fa fa-file"></i><p>Reports</p></span>
 				<ul>
 					<li>
-						<a href="{{ url_for('admin.performance') }}"><i class="fa fa-line-chart"></i> Performance Reports</a>
+						<i class="fa fa-line-chart"></i><a href="{{ url_for('admin.performance') }}">Performance Reports</a>
 					</li>
 					<li>
-						<a href="{{ url_for('admin.report') }}"><i class="fa fa-chart-bar"></i> Data Drift Reports</a>
+						<i class="fa fa-chart-bar"></i><a href="{{ url_for('admin.report') }}">Data Drift Reports</a>
 					</li>
 					<li>
-						<a href="{{ url_for('admin.featured_visuals') }}"><i class="fa fa-chart-area"></i>Derived Insights</a>
+						<i class="fa fa-chart-area"></i><a href="{{ url_for('admin.featured_visuals') }}">Derived Insights</a>
 					</li>
 				</ul>
 			</li>
 		</div>
-		<div>
+		<div class="p-users">
 			<li><span><i class="fa fa-users"></i><p>System Users</p></span>
 				<ul>
 					<li>
-						<a href="{{ url_for('admin.users') }}"><i class="fa fa-user"></i>Manage Users</a>
+						<i class="fa fa-user"></i><a href="{{ url_for('admin.users') }}">Manage Users</a>
 					</li>
 					<li>
-						<a href="{{ url_for('admin.users') }}"><i class="fa fa-search"></i>Search Users</a>
+						<i class="fa fa-search"></i><a href="{{ url_for('admin.users') }}">Search Users</a>
 					</li>
 				</ul>
 			</li>			
 		</div>
-		<div>
+		<div class="p-feed">
 			<li><span><i class="fa fa-comment"></i><p>User Feedback</p></span>
 				<ul>
 					<li>
-						<a href="{{ url_for('admin.feed') }}"><i class="fa fa-check"></i>Read Feedback</a>
+						<i class="fa fa-check"></i><a href="{{ url_for('admin.feed') }}">Read Feedback</a>
 					</li>
 					<li>
-						<a href="{{ url_for('admin.feed') }}"><i class="fa fa-bars"></i>Unread Feedback</a>
+						<i class="fa fa-bars"></i><a href="{{ url_for('admin.feed') }}">Unread Feedback</a>
 					</li>
 				</ul>
 			</li>
@@ -52,8 +54,8 @@
 	</ul>
 	<hr>
 	<ul>
-		<div class="logout">
-			<i class="fa fa-user-circle"></i><a href="{{ url_for('auth.logout') }}">Logout</a>
+		<div class="logout main">
+			<i class="fa fa-sign-out"></i><a href="{{ url_for('auth.logout') }}">Logout</a>
 		</div>	
 	</ul>
 </div>

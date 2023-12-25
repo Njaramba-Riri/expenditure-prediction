@@ -2084,12 +2084,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 /* Side Bar */
 .sidebar{
     width: 70px;
+    visibility: visible !important;
     height: 100%;
     position: fixed;
     left: 0;
     top: 0;
-    padding: 30px 0;
-    background: rgba(28, 17, 32, 0.3);
+    padding: 5px 0;
+    background: #05051d;
     backdrop-filter: blur(5px);
     display: flex;
     justify-content: space-between;
@@ -2101,18 +2102,19 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 .sidebar .admin{
     display: flex;
     align-items: center;
-    width: 40px;
-    padding: 10px;
-    border-radius: 8px;
-    margin-left: auto;
-    margin-right: auto;
-    overflow: hidden;
+    padding: 20px 0 0 30px;
+    color: #fff;
+}
+.admin i{
+    font-size: 20px;
+    color: #47e9db;
 }
 .admin h2{
-    font-size: 20px;
-    font-weight: 700;
-    white-space: nowrap;
-    
+    font-size: 30px;
+    font-weight: 400;
+    font-style: italic;
+    margin-left: 10px; 
+    visibility: hidden; 
 }
 .admin p{
     font-size: 18px;
@@ -2124,22 +2126,32 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     width: 30px;
     margin: auto;
 }
+.sidebar ul{
+    margin-top: 40px;
+}
 .sidebar ul li{
     left: 0;
 }
-.sidebar ul div i{
+.sidebar ul i{
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
     font-size: 25px;
 }
-.sidebar ul div h3{
-    display: none;
+.sidebar ul li a,
+.sidebar ul a{
+    color: rgb(18, 29, 44);
+}
+.sidebar ul .main a{
+    visibility: hidden;
 }
 .sidebar li{
     list-style: none;
-    padding: 5px 0;
+    padding: 0;
     align-items: center;
     justify-content: center;
 }
-
 .sidebar li ul{
     display: block;
     margin: 2px 0;
@@ -2148,7 +2160,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     cursor: pointer;
     position: relative;
 }
-.sidebar ul li i{
+.sidebar li i{
     font-size: 25px;
     margin-top: 40px;
     margin-right: 2px;
@@ -2156,8 +2168,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 .sidebar ul p{
     display: none;
 }
-.sidebar div ul li i{
-    color: #024894;
+.sidebar li ul i{
+    color: #101c29;
 }
 .sidebar div ul li{
     white-space: nowrap;
@@ -2167,12 +2179,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 .sidebar hr{
     display: none;
 }
-.sidebar .logout{
-    margin-top: 15px;
-    position: absolute;
-}
+
 .sidebar .logout i{
-    font-size: 30px;
+    font-size: 25px;
     margin-right: 2px;
 }
 .sidebar .logout a{
@@ -2183,56 +2192,67 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 
 .sidebar:hover{
     width: 300px;
-    background: pink;
-    backdrop-filter: blur(10px);
+    background: linear-gradient(45deg, #8b9dfa, #8c87f5, #a945ec, #a02c6e, #e6447a, #a11b1b);
     overflow-y: scroll;
 }
-.sidebar:hover .admin div{
-    display: flex;
-    height: 20vh;
-}
 .sidebar:hover .admin{
-    width: 100%;
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(5px);
+    background: rgba(44, 42, 42, 0.5);
+    border-radius: 15px;
+}
+.sidebar:hover i{
+    font-size: 40px;
+}
+.sidebar:hover h2{
+    visibility: visible !important;
 }
 .sidebar:hover img{
     width: 80px;
     margin: 0;
 }
-.sidebar:hover ul div{
+.sidebar:hover ul .main{
     display: flex;
+    margin: 20px 0;
 }
-.sidebar:hover ul div i{
-    font-size: 30px;
-}
-.sidebar:hover ul div h3{
+.sidebar:hover ul .main a{
     font-size: 20px;
-    color: #062f5a;
-    margin-left: 2px;
-    display: block;
-    padding-left: 5px;
+    color: #030507;
+    visibility: visible;
+    padding-left: 10px;
+    text-decoration: none !important;
 }
-.sidebar:hover ul div{
-    justify-content: flex-start;
-    margin: 4px;
-}
-.sidebar:hover ul span{
-    padding-left: 20px;
-    display: block;
+.sidebar:hover ul li i{
+    font-size: 30px;
 }
 .sidebar:hover div ul li{
     display: block;
 }
-.sidebar:hover a{
-    padding-left: 15px;
+.sidebar div ul li:hover,
+ul .main:hover{
+    padding: 0px 30px;
+    border-radius: 5px;
+    background: #e6e8fc;
+    color: #007AFF;
+    transition: 2s ease;
+}
+.sidebar div ul li:hover a{
+    color: #007AFF;
+}
+.sidebar div ul li:hover i{
+    color: rgb(245, 104, 23);
+}
+.sidebar:hover ul i{
+    font-size: 25px;
+}
+.sidebar:hover ul li a{
+    padding-left: 5px;
     text-decoration: none !important;
     font-size: 1.5em;
 }
 .sidebar:hover ul li p{
     display: inline;
-    font-weight: 700;
-    font-size: 22px;
+    font-weight: 400;
+    font-size: 20px;
+
     margin: 0;
     padding: 0;
 }
@@ -2245,15 +2265,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     margin-top: 0;
     margin-right: 15px;
 }
-.sidebar:hover ul div:nth-child(even){
-    background-color: #eef5ee;
-    border-radius: 10px;
-}
 .sidebar:hover ul div{
     background: transparent;
 }
 .sidebar:hover hr{
-    display: block;
+    visibility: visible;
 }
 .sidebar:hover .logout a{
     display: block;
@@ -2261,12 +2277,23 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 }
 
 /* Admin */
+.dashboard-container{
+    display: flex;
+}
 .dashboard{
     min-height: 100vh;
     height: 100%;
     background: #000;
+    flex-grow: 1;
 }
-
+.dashboard .navigation{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 15px 30px;
+    border-bottom: 3px solid #594ef7;
+}
 .dashboard .top-nav .kinda-nav{
     position: fixed;
     background: aliceblue;
