@@ -934,4 +934,156 @@ textarea.autosize.area-animated:focus {
     word-wrap: break-word;
     resize: horizontal;
 }
+.dashboard .top-nav .kinda-nav{
+    position: fixed;
+    background: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 100%;
+    padding: 5px 0;
+    text-wrap: wrap;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.9);
+    z-index: 2;
+}
+.dashboard .top-nav .kinda-nav div{
+    width: 80%;
+    height: 100%;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.kinda-nav div a{
+    text-decoration: none !important;
+    color: #fff;
+    font-weight: 600;
+    margin-left: 30px;
+}
+.kinda-nav div p{
+    font-size: 18px;
+    color: #fff;
+}
+.kinda-nav div i{
+    padding: 15px 10px;
+    font-size: 50px;
+}
+.kinda-nav div .users {
+    width: 50px;
+    background: #024894;
+}
+.kinda-nav .fa-users{
+    color: #024894;
+    height: 80px;
+    width: 80px;
+    background: #fff;
+    border-radius: 50%;
+}
+.kinda-nav div .users:hover{
+    background: #09cfb5;
+    transition: 2s all linear;
+    cursor: pointer;
+}
+.kinda-nav div .model {
+    width: 20px;
+    background: #09cfb5;
+}
 
+.kinda-nav .fa-line-chart {
+    color: #11b3aa;
+    height: 80px;
+    width: 80px;
+    background: #fff;
+    border-radius: 50%;
+}
+.kinda-nav div .model:hover {
+    background: #024894;
+    transition: 2s all linear;
+    cursor: pointer;
+}
+.kinda-nav div .reportss{
+    width: 50px;
+    background: #8a0758;
+}
+
+.kinda-nav .fa-chart-bar{
+    color: #8a0758;
+    height: 80px;
+    width: 80px;
+    background: #fff;
+    border-radius: 50%;
+}
+.kinda-nav div .reportss:hover {
+    background: #98c007;
+    transition: 2s all linear;
+    cursor: pointer;
+}
+.kinda-nav div .sema {
+    width: 50px;
+    background: #98c007;
+}
+
+.kinda-nav .fa-comments {
+    color: #98c007;
+    height: 80px;
+    width: 80px;
+    background: #fff;
+    border-radius: 50%;
+}
+.kinda-nav div .sema:hover {
+    background: #8a0758;
+    transition: opacity 2s ease-in-out;
+    cursor: pointer;
+}
+.dashboard-panel {
+    padding: 110px 0;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    border: none !important;
+}
+.dashboard-panel .prof{
+    background-color: #fff5;
+    border-radius: .6rem;
+}
+.prof .user{
+    float: right;
+    cursor: pointer;
+}
+.prof a{
+    text-decoration: none !important;  
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #fff;
+}
+.prof i{
+    font-size: 50px;
+    padding-left: .2rem;
+    color: #60def1;
+}
+.prof a:hover{
+    color: #007AFF;
+    color: cyan;
+    transition: 1s ease-in-out;
+}
+.dashboard-panel .cards{
+    margin-top: 2rem;
+}
+.sys-users {
+    padding: 4rem 0;
+    background: steelblue;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #60def5;
+    max-height: 300px;
+}
+.sys-users .fa-users{
+    font-size: 3rem;
+}
+.model-calls{
+    padding: 4rem 0;
+    min-height: 300px;
+    color: #60def1;
+    background: steelblue;
+}

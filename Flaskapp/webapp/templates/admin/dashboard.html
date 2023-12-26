@@ -8,7 +8,7 @@
 </section>
 <section>
     <div class="main-dash">
-        <section class="topbar">
+        <section class="topbar" id="topbar">
             <div class="toggle">
                 <ion-icon name="menu-outline"></ion-icon>
             </div>
@@ -44,15 +44,6 @@
             </div>
             <div class="card" data-tilt>
                 <div>
-                    <div class="figures">{{ auth | length }}</div>
-                    <div class="title">Confirmed Users</div>
-                </div>
-                <div class="icontitle">
-                    <ion-icon name="checkmark-circle-outline"></ion-icon>
-                </div>
-            </div>
-            <div class="card" data-tilt>
-                <div>
                     <div class="figures">{{ feed | length }}</div>
                     <div class="title">Feedback</div>
                 </div>
@@ -71,6 +62,15 @@
             </div>
             <div class="card" data-tilt>
                 <div>
+                    <div class="figures">5%</div>
+                    <div class="title">Data Drift</div>
+                </div>
+                <div class="icontitle">
+                    <ion-icon name="hourglass-outline"></ion-icon>
+                </div>
+            </div>
+            <div class="card" data-tilt>
+                <div>
                     <div class="figures">87%</div>
                     <div class="title">Model Accuracy</div>
                 </div>
@@ -85,7 +85,7 @@
                     <h2>System Users</h2>
                     <a href="" class="btn">View all</a>
                 </div>    
-                <div>
+                <div class="table_body">
                     <table >
                         <thead>
                             <tr>
@@ -117,9 +117,9 @@
                 </div>  
             </div>
             <div class="feat-tab">
-                <div class="header">
+                <div class="tab-header">
                     <h2>Submited Features.</h2>
-                    <a href="">View All</a>                    
+                    <a href="" class="btn">View All</a>                    
                 </div>
                 <div class="table_body">
                     <table>
@@ -162,12 +162,10 @@
                     </table>                                    
                 </div>
             </div>                              
-        </section>
-        <section class="stand-alone">
             <div class="feed-tab">
-                <div class="header">
+                <div class="tab-header">
                     <h2>User Feedback.</h2>
-                    <a href="">View All.</a>
+                    <a href="" class="btn">View All</a>
                 </div>
                 <div class="table_body">
                     <table>

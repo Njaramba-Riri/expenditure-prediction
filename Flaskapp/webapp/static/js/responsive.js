@@ -190,3 +190,14 @@ toggle.onclick = function () {
     sidebar.classList.toggle("active");
     main.classList.toggle("active");
 };
+
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  var topbar = document.querySelector("#topbar");
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    topbar.classList.add("scrolled"); 
+  } else {
+    topbar.classList.remove("scrolled");
+  }
+}
