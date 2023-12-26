@@ -26,8 +26,8 @@
         </div>
         {% elif field.type == 'PasswordField' %}
             <div class="input-box">
-                {{ field(class_='input', id='id_password', placeholder=field.label.text) }}
-                <i class="fa fa-eye-slash" id="togglePassword"></i>
+                {{ field(class_='input password-field', placeholder=field.label.text) }}
+                <i class="toggle-password fa fa-eye-slash" ></i>
                 {% if field.errors %}
                 {% for e in field.errors %}
                 <p class="help-block">{{ e }}</p>

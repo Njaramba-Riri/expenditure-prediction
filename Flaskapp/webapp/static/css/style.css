@@ -1,28 +1,30 @@
-body{
+*{
     font-family: 'Times New Roman', Times, serif;
     padding: 0;
     margin: 0;
-    width: 100%;
+    box-sizing: border-box;
+}
+:root {
+    --blue: #2a2185;
+    --white: #fff;
+    --gray: #f5f5f5;
+    --black: #222;
+    --dark: #999;
 }
 body{
+    min-height: 100vh;
     background: whitesmoke;
     overflow-x: hidden;    
     box-sizing: border-box;
     letter-spacing: -0.2px; 
 }
-
-.container{
+.container-custom{
     width: 100%;
     max-width: 1200px;
-    overflow: visible;
     padding-bottom: inherit;
     position: relative;
-    justify-content: center;
-    align-items: center;
     word-wrap: break-word;
  }
-
-
 *::-webkit-scrollbar{
     width: 0.5rem;
     height: 0.5rem;
@@ -2082,6 +2084,126 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 }
 
 /* Side Bar */
+.savigation{
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    background: var(--blue);
+    border-left: 10px solid var(--blue);
+    transition: 2s;
+    overflow: hidden;
+}
+.savigation.active{
+    width: 80px;
+    transition: 2s ease;
+}
+.savigation.active ul{
+    left: -20px;
+    transition: 2s ease;
+}
+.savigation.active ul li .item{
+    opacity: .2;
+    transition: 2s ease;
+}
+.savigation ul{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.savigation  ul li{
+    position: relative;
+    width: 100%;
+    list-style: none;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    padding: 0 ;
+    transition:  2s ease;
+}
+.savigation ul li:hover,
+.savigation ul li .hovered{
+    padding-left: 20px;
+    transition: 1s ease-in-out;
+    background-color: var(--white);
+}
+.savigation.active ul li:hover,
+.savigation.active ul li .hovered{
+    padding-left: 0 !important;
+}
+.savigation ul li:nth-child(1){
+    margin-bottom: 40px;
+    border-radius: 10px !important;
+    pointer-events: none;
+}
+.savigation ul li:nth-child(1) .item{
+    font-size: 1.4em;
+    font-weight: 400;
+    font-style: italic;
+    padding: 0 5px;
+}
+
+.savigation ul li a{
+    position: relative;
+    display: block;
+    width: 100%;
+    display: flex;
+    text-decoration: none !important;
+    color: var(--white);
+}
+.savigation ul li:hover a,
+.savigation ul li .hovered a{
+    color: var(--blue);
+}
+.savigation ul li a .icon{
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px;
+    line-height: 75px;
+    text-align: center;
+}
+.savigation ul li a .icon ion-icon,
+.savigation ul li a .icon i{
+    font-size: 1.75rem;
+}
+.savigation ul li a .item{
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 60px;
+    text-align: start;
+    white-space: nowrap;
+}
+.savigation ul li:hover a::before,
+.savigation ul li .hovered a::before{
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -50px;
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border-radius: 50%;
+    box-shadow: 35px 35px 0 10px var(--white);
+    pointer-events: none !important;
+}
+.savigation ul li:hover a::after,
+.savigation ul li .hovered a::after{
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -50px;
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border-radius: 50%;
+    box-shadow: 35px -35px 0 10px var(--white);
+    pointer-events: none !important;
+}
+.savigation ul li:hover a::before:hover{
+    transition: 1s ease-in-out;
+}
 .sidebar{
     width: 70px;
     visibility: visible !important;
@@ -2277,23 +2399,180 @@ ul .main:hover{
 }
 
 /* Admin */
-.dashboard-container{
-    display: flex;
-}
-.dashboard{
+.main-dash{
+    background: var(--white);
+    position: absolute;
+    width: calc(100% - 300px);
+    left: 300px;
     min-height: 100vh;
-    height: 100%;
-    background: #000;
-    flex-grow: 1;
+    transition: 2s;
 }
-.dashboard .navigation{
+.main-dash.active{
+    width: calc(100% - 80px);
+    left: 80px;
+}
+.topbar{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #fff;
-    padding: 15px 30px;
-    border-bottom: 3px solid #594ef7;
+    height: 60px;
+    width: 100%;
+    padding: 0 10px;
+    border-bottom: 2px solid gainsboro;
 }
+.topbar .toggle{
+    position: relative;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5em;
+    cursor: pointer;
+}
+.topbar .find{
+    display: flex;
+    position: relative;
+    width: 400px;
+    margin: 0 10px;
+}
+.topbar .find label{
+    width: 100%;
+    position: relative;
+}
+.find label input{
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    padding: 5px 20px;
+    padding-left: 35px;
+    font-size: 18px;
+    outline: none !important;
+    border: 1px solid var(--black);
+}
+.find label ion-icon{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 1.2rem;
+}
+.topbar .user{
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+.user span{
+    font-size: 1.2em;
+    font-weight: 400;
+    margin-right: 10px;
+}
+.user img{
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border: 2px solid var(--gray);
+    border-radius: 50%;
+}
+.main-dash .card-box{
+    position: relative;
+    display: grid;
+    padding: 20px;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 30px;
+    width: 100%;
+}
+.card-box .card{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    cursor: pointer;
+    background: var(--white);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 7px 25px rgba(10, 9, 9, .2);
+}
+.card-box .card .figures{
+    font-weight: 500;
+    color: var(--blue);
+    font-size: 2.5rem;
+    position: relative;
+}
+.card-box .card .title{
+    color: var(--dark);
+    font-size: 1.1rem;
+    margin-top: 5px;
+}
+.card-box .card .icontitle{
+    font-size: 3rem;
+    color: #528061;
+}
+.card-box .card:hover{
+    background: var(--blue);
+}
+.card-box .card:hover .figures{
+    color: var(--white);
+    transition: .5s ease-in-out;
+}
+.mezas{
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 2fr, 1fr;
+    grid-gap: 30px;
+}
+.mezas .user-tab{
+    position: relative;
+    display: grid;
+    min-height: 500px;
+    background: var(--white);
+    padding: 20px;
+    box-shadow: 0 2px 7px rgba(39, 39, 39, .6);
+    border-radius: 20px;
+}
+.mezas .tab-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.tab-header h2{
+    font-weight: 600;
+    color: var(--blue);
+}
+.tab-header .btn{
+    position: relative;
+    padding: 5px 10px;
+    background: var(--blue);
+    text-decoration: none;
+    color: var(--white);
+    border-radius: 15px;
+}
+.tab-header .btn:hover{
+    box-shadow: inset 0 2px 7px 20px rgba(39,39,39,0.4);
+}
+.mezas table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.mezas table thead td{
+    font-weight: 600;
+}
+.mezas .user-tab table tr{
+    color: var(--dark);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+}
+.mezas .user-tab table tr:last-child{
+    border-bottom: none;
+}
+.mezas .user-tab table tbody tr:hover{
+    background: var(--blue);
+    color: var(--white);
+}
+
 .dashboard .top-nav .kinda-nav{
     position: fixed;
     background: aliceblue;
@@ -2305,7 +2584,7 @@ ul .main:hover{
     padding: 5px 0;
     text-wrap: wrap;
     box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.9);
-    z-index: 10;
+    z-index: 2;
 }
 .dashboard .top-nav .kinda-nav div{
     width: 80%;

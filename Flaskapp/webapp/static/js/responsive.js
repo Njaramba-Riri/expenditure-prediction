@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('input[name="tarr"]').on('', function() {
+    $('input[name="tarr"]').on('change', function() {
         var selectedValue = $(this).val();
         if (selectedValue === 'Package Tour') {
             $('#pkg').show();
@@ -10,6 +10,7 @@ $(document).ready(function() {
         }
     });
 });
+
 
 function Package(){
     var selectedValue = document.getElementById('PKG');
@@ -22,12 +23,6 @@ function Package(){
         }
 }
 
-$(function () {
-  $("#slider").responsiveSlides({
-    maxwidth: 600,
-    speed: 50
-  });
-});
 
 function myFunction() {
   var x = document.getElementById("Nav");
@@ -44,18 +39,26 @@ $(document).ready(function(){
 	});
 });
 
-const togglePassword = document.querySelector('#togglePassword');
-const password = document.querySelector('#id_password');
-
-togglePassword.addEventListener('click', function () {
-    if (password.type === 'password') {
-        password.type = 'text';
-        togglePassword.className = 'far fa-eye';
-    } else {
-        password.type = 'password';
-        togglePassword.className = 'far fa-eye-slash';
-    }
-});
+document.addEventListener('DOMContentLoaded', (event) => {
+    const passwordFields = document.querySelectorAll(".password-field");
+    const togglePasswords = document.querySelectorAll(".toggle-password");
+  
+    passwordFields.forEach((passwordField, index) => {
+      const togglePassword = togglePasswords[index];
+  
+      if (togglePassword) {
+        togglePassword.addEventListener('click', function() {
+          if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            togglePassword.className = 'far fa-eye';
+          } else {
+            passwordField.type = 'password';
+            togglePassword.className = 'far fa-eye-slash';
+          }
+        });
+      }
+    });
+  });
 
 function goToReset(){
     window.location.href = "{{ url_for('auth.forgotpass') }}"
@@ -91,12 +94,18 @@ function hideFlashed() {
     flashMessages.style.display = 'none';
 }
 
-const dropdownlink = document.querySelector("#dropdownMenulink")
-const dropdownmenu = document.querySelector("#dropdownMenu")
-
-dropdownlink.addEventListener('click', function(){
-    dropdownmmenu.className === "show-dropdown"
-});
+document.addEventListener('DOMContentLoaded', (event) => {
+    const dropdownlink = document.querySelector("#dropdownMenulink");
+    const dropdownmenu = document.querySelector("#dropdownMenu");
+  
+    // Check if the elements exist
+    if (dropdownlink && dropdownmenu) {
+      dropdownlink.addEventListener('click', function(){
+        dropdownmenu.className === "show-dropdown";
+      });
+    }
+  });
+  
 
 
 function goBack(){
@@ -119,3 +128,65 @@ function closePop() {
 function goToReset(){
     window.location.href = "{{ url_for('auth.forgotpass') }}"
 }
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    const users = document.querySelector("#users");
+    const reports = document.getElementById("reports");
+    const model = document.querySelector("#model");
+    const sema = document.querySelector("#sema");
+    const user = document.querySelector("#user");
+  
+    // Check if the elements exist
+    if (users) {
+      users.addEventListener('click', function(){
+        window.location.href = "{{ url_for('admin.users') }}";
+      });
+    }
+  
+    if (reports) {
+      reports.addEventListener('click', function(){
+        window.location.href = "{{ url_for('/letsgo/admin/dashboard/') }}";
+      });
+    }
+  
+    if (model) {
+      model.addEventListener('click', function(){
+        window.location.href = "{{ url_for('.reports') }}";
+      });
+    }
+  
+    if (sema) {
+      sema.addEventListener('click', function(){
+        window.location.href = "{{ url_for('.feedback') }}";
+      });
+    }
+  
+    if (user) {
+      user.addEventListener('click', function(){
+        window.location.href = "{{ url_for('.profile') }}";
+      });
+    }
+  });
+  
+
+
+//adding hovered class to selected list item
+let sidebar_list = document.querySelectorAll(".savigation li");
+
+function activeLink() {
+    sidebar_list.forEach((item) => {
+        item.classList.remove("hovered");
+    });
+    this.classList.add("hovered");
+}
+
+sidebar_list.forEach((item) =>  item.addEventListener("mouseover", activeLink));
+
+let main =  document.querySelector(".main-dash");
+let sidebar = document.querySelector(".savigation");
+let toggle = document.querySelector(".toggle");
+
+toggle.onclick = function () {
+    sidebar.classList.toggle("active");
+    main.classList.toggle("active");
+};
