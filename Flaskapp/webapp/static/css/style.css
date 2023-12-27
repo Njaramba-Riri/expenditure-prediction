@@ -2542,7 +2542,7 @@ ul .main:hover{
     min-height: 300px;
     background: var(--white);
     padding: 20px;
-    box-shadow: 0 2px 7px rgba(39, 39, 39, .06);
+    box-shadow: 0 2px 7px rgba(39, 39, 39, .4);
     border-radius: 20px;
 }
 .mezas .tab-header{
@@ -2600,6 +2600,28 @@ ul .main:hover{
     padding: 0 1rem;
     font-size: 1rem;
     font-weight: 400;
+}
+.user-tab .table_body thead th:nth-child(2),
+.table_body thead th:last-child{
+    text-align: end;
+}
+.table_body thead th:nth-child(3){
+    text-align: start;
+}
+.table_body thead th:nth-child(4){
+    text-align: center;
+}
+.table_body thead th:nth-child(1),
+.table_body thead th:nth-child(5){
+    text-align: center;
+}
+.feed-tab .table_body thead th:nth-child(2){
+    text-align: start;
+}
+.feed-tab .table_body thead th:last-child{
+    text-align: end;
+}
+.feed-tab .table_body thead th{
     text-align: center;
 }
 .table_body thead th:nth-child(1){
@@ -2614,7 +2636,17 @@ ul .main:hover{
 }
 .table_body tbody tr td{
     font-size: .8rem;
-    padding: 10px;
+}
+.mezas .user-tab table tr td:last-child,
+.mezas .user-tab table tr td:nth-child(2){
+    text-align: end;
+}
+.mezas .user-tab table tr td:nth-child(4){
+    text-align: center;
+}
+.mezas .user-tab table tr td:nth-child(3),
+.feed-tab table tr td:nth-child(2){
+    text-align: start;
 }
 .table_body tbody tr:nth-child(even){
    background-color: #0000000b;
