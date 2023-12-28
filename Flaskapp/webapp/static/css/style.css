@@ -2099,7 +2099,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 }
 .savigation.active ul{
     left: -20px;
-    transition: 2s ease;
+    transition: 5s ease-in-out;
 }
 .savigation.active ul li .item{
     opacity: .2;
@@ -2121,13 +2121,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     transition:  2s ease;
 }
 .savigation ul li:hover,
-.savigation ul li .hovered{
+.savigation ul li.hovered{
     padding-left: 20px;
     transition: 1s ease-in-out;
     background-color: var(--white);
 }
 .savigation.active ul li:hover,
-.savigation.active ul li .hovered{
+.savigation.active ul li.hovered{
     padding-left: 0 !important;
 }
 .savigation ul li:nth-child(1){
@@ -2151,7 +2151,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     color: var(--white);
 }
 .savigation ul li:hover a,
-.savigation ul li .hovered a{
+.savigation ul li.hovered a{
     color: var(--blue);
 }
 .savigation ul li a .icon{
@@ -2176,21 +2176,21 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     white-space: nowrap;
 }
 .savigation ul li:hover a::before,
-.savigation ul li .hovered a::before{
-    content: '';
+.savigation ul li.hovered a::before{
+    content: "";
     position: absolute;
     right: 0;
     top: -50px;
     width: 50px;
-    height: 50px;
+    height: 50px; 
     background: transparent;
     border-radius: 50%;
     box-shadow: 35px 35px 0 10px var(--white);
     pointer-events: none !important;
 }
 .savigation ul li:hover a::after,
-.savigation ul li .hovered a::after{
-    content: '';
+.savigation ul li.hovered a::after{
+    content: " ";
     position: absolute;
     right: 0;
     bottom: -50px;
@@ -2201,7 +2201,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     box-shadow: 35px -35px 0 10px var(--white);
     pointer-events: none !important;
 }
-.savigation ul li:hover a::before:hover{
+.savigation ul li:hover a::before:hover,
+.savigation ul li:hover a::after:hover{
     transition: 1s ease-in-out;
 }
 .sidebar{
@@ -2483,7 +2484,7 @@ ul .main:hover{
     border: 2px solid var(--gray);
     border-radius: 50%;
 }
-.main-dash .card-box{
+.main-dash .cardBox{
     position: relative;
     display: grid;
     padding: 20px;
@@ -2491,7 +2492,7 @@ ul .main:hover{
     grid-gap: 30px;
     width: 100%;
 }
-.card-box .card{
+.main-dash .card{
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -2502,25 +2503,25 @@ ul .main:hover{
     border-radius: 20px;
     box-shadow: 0 7px 25px rgba(10, 9, 9, .2);
 }
-.card-box .card .figures{
+.cardBox .card .figures{
     font-weight: 500;
     color: var(--blue);
     font-size: 2.5rem;
     position: relative;
 }
-.card-box .card .title{
+.cardBox .card .title{
     color: var(--dark);
     font-size: 1.1rem;
     margin-top: 5px;
 }
-.card-box .card .icontitle{
+.cardBox .card .icontitle{
     font-size: 3rem;
     color: #528061;
 }
-.card-box .card:hover{
+.cardBox .card:hover{
     background: var(--blue);
 }
-.card-box .card:hover .figures{
+.cardBox .card:hover .figures{
     color: var(--white);
     transition: .5s ease-in-out;
 }
@@ -2531,15 +2532,15 @@ ul .main:hover{
     width: 100%;
     padding: 20px;
     display: grid;
-    grid-template-columns: 2fr, 1fr;
-    grid-gap: 30px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
 }
 .mezas .user-tab,
 .mezas .feat-tab,
 .mezas .feed-tab{
     position: relative;
     display: grid;
-    min-height: 300px;
+    min-height: 400px;
     background: var(--white);
     padding: 20px;
     box-shadow: 0 2px 7px rgba(39, 39, 39, .4);
@@ -3409,4 +3410,60 @@ ul .main:hover{
         height: 41px;
     }
 
+}
+
+@media (max-width:991px){
+    .savigation{
+        left: -300px;
+    }
+    .savigation.active{
+        width: 300px;
+        left: 0;
+    }
+    .main-dash{
+        width: 100%;
+        left: 0;
+    }
+    .main-dash.active{
+        left: 300px;
+    }
+    .main-dash .cardBox{
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width:768px){
+    .mezas{
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width:540px){
+    .main-dash .cardBox{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width:480px){
+    .main-dash .cardBox{
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .cardBox .tab-header h2{
+        font-size: 20px;
+    }
+    .savigation{
+        width: 100%;
+        left: -100%;
+        z-index: 999;
+    }
+    .savigation.active{
+        width: 100%;
+        left: 0;
+    }
+    .topbar .toggle{
+        z-index: 10000;
+    }
+    .main-dash.active .topbar .toggle{
+        color: #fff;
+        position: fixed;
+        right: 0;
+        left: initial;
+    }
 }

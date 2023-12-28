@@ -7,7 +7,7 @@
     {% include 'include/sidebar.html' %}  
 </section>
 <section>
-    <div class="main-dash">
+    <div class="main-dash" id="main-dash">
         <section class="topbar" id="topbar">
             <div class="toggle">
                 <ion-icon name="menu-outline"></ion-icon>
@@ -23,186 +23,190 @@
                 <img src="../static/images/admin.png" alt="">
             </div>
         </section>
-        <section class="card-box">
-            <div class="card" data-tilt>
-                <div>
-                    <div class="figures">{{ users | length }}</div>
-                    <div class="title">Total Users</div>
+        <div class="dash-cont" id="dash-content">
+            <section class="cardBox">
+                <div class="card" data-tilt>
+                    <div>
+                        <div class="figures">{{ users | length }}</div>
+                        <div class="title">Total Users</div>
+                    </div>
+                    <div class="icontitle">
+                        <ion-icon name="people-outline"></ion-icon>
+                    </div>
                 </div>
-                <div class="icontitle">
-                    <ion-icon name="people-outline"></ion-icon>
+                <div class="card" data-tilt>
+                    <div>
+                        <div class="figures">{{ users | length }}</div>
+                        <div class="title">New Users</div>
+                    </div>
+                    <div class="icontitle">
+                        <ion-icon name="person-add-outline"></ion-icon>
+                    </div>
                 </div>
-            </div>
-            <div class="card" data-tilt>
-                <div>
-                    <div class="figures">{{ users | length }}</div>
-                    <div class="title">New Users</div>
+                <div class="card" data-tilt>
+                    <div>
+                        <div class="figures">{{ feed | length }}</div>
+                        <div class="title">Feedback</div>
+                    </div>
+                    <div class="icontitle">
+                        <ion-icon name="chatbubble-outline"></ion-icon>
+                    </div>
                 </div>
-                <div class="icontitle">
-                    <ion-icon name="person-add-outline"></ion-icon>
+                <div class="card" data-tilt>
+                    <div>
+                        <div class="figures">{{ auth | length }}</div>
+                        <div class="title">Model Calls</div>
+                    </div>
+                    <div class="icontitle">
+                        <ion-icon name="cog-outline"></ion-icon>
+                    </div>
                 </div>
-            </div>
-            <div class="card" data-tilt>
-                <div>
-                    <div class="figures">{{ feed | length }}</div>
-                    <div class="title">Feedback</div>
+                <div class="card" data-tilt>
+                    <div>
+                        <div class="figures">5%</div>
+                        <div class="title">Data Drift</div>
+                    </div>
+                    <div class="icontitle">
+                        <ion-icon name="hourglass-outline"></ion-icon>
+                    </div>
                 </div>
-                <div class="icontitle">
-                    <ion-icon name="chatbubble-outline"></ion-icon>
+                <div class="card" data-tilt>
+                    <div>
+                        <div class="figures">87%</div>
+                        <div class="title">Model Accuracy</div>
+                    </div>
+                    <div class="icontitle">
+                        <ion-icon name="fitness-outline"></ion-icon>
+                    </div>
                 </div>
-            </div>
-            <div class="card" data-tilt>
-                <div>
-                    <div class="figures">{{ auth | length }}</div>
-                    <div class="title">Model Calls</div>
-                </div>
-                <div class="icontitle">
-                    <ion-icon name="cog-outline"></ion-icon>
-                </div>
-            </div>
-            <div class="card" data-tilt>
-                <div>
-                    <div class="figures">5%</div>
-                    <div class="title">Data Drift</div>
-                </div>
-                <div class="icontitle">
-                    <ion-icon name="hourglass-outline"></ion-icon>
-                </div>
-            </div>
-            <div class="card" data-tilt>
-                <div>
-                    <div class="figures">87%</div>
-                    <div class="title">Model Accuracy</div>
-                </div>
-                <div class="icontitle">
-                    <ion-icon name="fitness-outline"></ion-icon>
-                </div>
-            </div>
-        </section>
-        <section class="mezas">
-            <div class="user-tab">
-                <div class="tab-header">
-                    <h2>System Users</h2>
-                    <a href="" class="btn">View all</a>
-                </div>    
-                <div class="table_body">
-                    <table >
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Email</th>
-                                <th>Username</th>
-                                <th>Joined</th>
-                                <th>Confirmed</th>
-                                <th>Interactions</th>                                   
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for user in users %}
-                            <tr>
-                                <td>{{ user.id }}</td>
-                                <td>{{ user.email }}</td>
-                                <td>{{ user.username }}</td>
-                                <td>{{ user.date_created }}</td>
-                                {% if user.confirmed == 1 %}
-                                <td><span class="very">{{ user.confirmed }} </span></td>
-                                {% else %}
-                                <td ><span class="not">{{ user.confirmed }}</span></td>
-                                {% endif %}
-                                <td>{{ user.role_id }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>  
-            </div>
-            <div class="feat-tab">
-                <div class="tab-header">
-                    <h2>Submited Features.</h2>
-                    <a href="" class="btn">View All</a>                    
-                </div>
-                <div class="table_body">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Country</th>
-                                <th>Age Group</th>
-                                <th>Total People</th>
-                                <th>Travel Companion</th>
-                                <th>Purpose</th>
-                                <th>Main Activity</th>
-                                <th>Information Source</th>
-                                <th>Tour Arrangement</th>
-                                <th>First Trip</th>
-                                <th>Predicted Category</th>
-                                <th>Probability</th>
-                                <th>User Id</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for feature in features %}
-                            <tr>
-                                <td>{{ feature.id }}</td>
-                                <td>{{ feature.country }}</td>
-                                <td>{{ feature.age_group }}</td>
-                                <td>{{ feature.total_male + feature.total_female }}</td>
-                                <td>{{ feature.travel_with }}</td>
-                                <td>{{ feature.purpose }}</td>
-                                <td>{{ feature.main_activity }}</td>
-                                <td>{{ feature.info_source }}</td>
-                                <td>{{ feature.tour_arrangement }}</td>
-                                <td>{{ feature.first_trip_tz }}</td>
-                                <td>{{ feature.predicted_category }}</td>
-                                <td>{{ feature.probability }} %</td>
-                                <td>{{ feature.user_id }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>                                    
-                </div>
-            </div>                              
-            <div class="feed-tab">
-                <div class="tab-header">
-                    <h2>User Feedback.</h2>
-                    <a href="" class="btn">View All</a>
-                </div>
-                <div class="table_body">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Feedback</th>
-                                <th>Sentiment</th>
-                                <th>Probability</th>
-                                <th>User_id</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for feed in feedback %}    
-                            <tr>
-                                <td>{{ feed.id }}</td>
-                                <td>{{ feed.feed | truncate(100, true, '......') }}</td>
-                                {% if feed.sentiment == 'Positive' %}
-                                <td class="data">
-                                    <span class="Positive">{{ feed.sentiment }}</span>
-                                </td>
-                                {% elif feed.sentiment == 'Negative' %}
-                                <td class="data">
-                                    <span class="Negative">{{ feed.sentiment }}</span>
-                                </td>
-                                {% endif %}
-                                <td>{{ feed.probability }} %</td>
-                                <td>{{ feed.user_id }}</td>
-                                <td>{{ feed.date }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>                                    
-                </div>
-            </div>                   
-        </section>
+            </section> 
+            <section class="mezas">
+                <div class="feat-tab">
+                    <div class="tab-header">
+                        <h2>Submited Features.</h2>
+                        <a href="" class="btn">View All</a>                    
+                    </div>
+                    <div class="table_body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Country</th>
+                                    <th>Age Group</th>
+                                    <th>Total People</th>
+                                    <th>Travel Companion</th>
+                                    <th>Purpose</th>
+                                    <th>Main Activity</th>
+                                    <th>Information Source</th>
+                                    <th>Tour Arrangement</th>
+                                    <th>First Trip</th>
+                                    <th>Predicted Category</th>
+                                    <th>Probability</th>
+                                    <th>User Id</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for feature in features %}
+                                <tr>
+                                    <td>{{ feature.id }}</td>
+                                    <td>{{ feature.country }}</td>
+                                    <td>{{ feature.age_group }}</td>
+                                    <td>{{ feature.total_male + feature.total_female }}</td>
+                                    <td>{{ feature.travel_with }}</td>
+                                    <td>{{ feature.purpose }}</td>
+                                    <td>{{ feature.main_activity }}</td>
+                                    <td>{{ feature.info_source }}</td>
+                                    <td>{{ feature.tour_arrangement }}</td>
+                                    <td>{{ feature.first_trip_tz }}</td>
+                                    <td>{{ feature.predicted_category }}</td>
+                                    <td>{{ feature.probability }} %</td>
+                                    <td>{{ feature.user_id }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>                                    
+                    </div>
+                </div>             
+                <div class="user-tab">
+                    <div class="tab-header">
+                        <h2>System Users</h2>
+                        <a href="" class="btn">View all</a>
+                    </div>    
+                    <div class="table_body">
+                        <table >
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Email</th>
+                                    <th>Username</th>
+                                    <th>Joined</th>
+                                    <th>Confirmed</th>
+                                    <th>Interactions</th>                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                <tr>
+                                    <td>{{ user.id }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.date_created }}</td>
+                                    {% if user.confirmed == 1 %}
+                                    <td><span class="very">{{ user.confirmed }} </span></td>
+                                    {% else %}
+                                    <td ><span class="not">{{ user.confirmed }}</span></td>
+                                    {% endif %}
+                                    <td>{{ user.role_id }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>  
+                </div>                                            
+            </section>
+            <section class="mezas">
+                <div class="feed-tab">
+                    <div class="tab-header">
+                        <h2>User Feedback.</h2>
+                        <a href="" class="btn">View All</a>
+                    </div>
+                    <div class="table_body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Feedback</th>
+                                    <th>Sentiment</th>
+                                    <th>Probability</th>
+                                    <th>User_id</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for feed in feedback %}    
+                                <tr>
+                                    <td>{{ feed.id }}</td>
+                                    <td>{{ feed.feed | truncate(100, true, '......') }}</td>
+                                    {% if feed.sentiment == 'Positive' %}
+                                    <td class="data">
+                                        <span class="Positive">{{ feed.sentiment }}</span>
+                                    </td>
+                                    {% elif feed.sentiment == 'Negative' %}
+                                    <td class="data">
+                                        <span class="Negative">{{ feed.sentiment }}</span>
+                                    </td>
+                                    {% endif %}
+                                    <td>{{ feed.probability }} %</td>
+                                    <td>{{ feed.user_id }}</td>
+                                    <td>{{ feed.date }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>                                    
+                    </div>
+                </div> 
+            </section>                       
+        </div>
     </div>
 </section>
 <!-- <div class="dashboard-container">

@@ -201,3 +201,16 @@ function scrollFunction() {
     topbar.classList.remove("scrolled");
   }
 }
+
+$(document).ready(function() {
+  $("ul li a").not(".dash, .home, .dash-app").click(function(e) {
+      e.preventDefault(); // Prevent the default action of the anchor tag
+      var page = $(this).attr('href'); // Get the href attribute of the clicked anchor tag
+
+      $("#dash-content").load(page); // Load the content of the page into the div with id 'content'
+  }).hover(function() {
+    $(this).addClass('hovered');
+  }, function() {
+    $(this).removeClass('hovered');
+  });
+});
