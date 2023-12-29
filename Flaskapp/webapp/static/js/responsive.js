@@ -203,14 +203,36 @@ function scrollFunction() {
 }
 
 $(document).ready(function() {
-  $("ul li a").not(".dash, .home, .dash-app").click(function(e) {
+  // Get the active item from localStorage
+  var activeItem = localStorage.getItem('activeItem');
+
+  // If there's an active item saved, add the 'active' and 'hovered' classes to it
+  if (activeItem) {
+      $(activeItem).addClass('active hovered');
+  }
+
+  $("ul li a").not('.dash, .home, .dashapp, .users').click(function(e) {
       e.preventDefault(); // Prevent the default action of the anchor tag
       var page = $(this).attr('href'); // Get the href attribute of the clicked anchor tag
 
+      // Remove 'active' and 'hovered' classes from all items
+      $("ul li").removeClass('active hovered');
+
+      // Add 'active' and 'hovered' classes to the clicked item
+      $(this).addClass('active hovered');
+
+      // Save the active item to localStorage
+      localStorage.setItem('activeItem', '.' + $(this).attr('class').replace(/ /g, '.'));
+
       $("#dash-content").load(page); // Load the content of the page into the div with id 'content'
   }).hover(function() {
-    $(this).addClass('hovered');
+      $(this).addClass('hovered'); // Add 'hovered' class when mouse enters
   }, function() {
-    $(this).removeClass('hovered');
+      // Only remove 'hovered' class if the item is not active
+      if (!$(this).hasClass('active')) {
+          $(this).removeClass('hovered'); // Remove 'hovered' class when mouse leaves
+      }
   });
 });
+
+

@@ -2408,6 +2408,9 @@ ul .main:hover{
     min-height: 100vh;
     transition: 2s;
 }
+.active{
+    background: seagreen;
+}
 .main-dash.active{
     width: calc(100% - 80px);
     left: 80px;
@@ -2489,7 +2492,7 @@ ul .main:hover{
     display: grid;
     padding: 20px;
     grid-template-columns: repeat(6, 1fr);
-    grid-gap: 30px;
+    grid-gap: 15px;
     width: 100%;
 }
 .main-dash .card{
@@ -2525,14 +2528,31 @@ ul .main:hover{
     color: var(--white);
     transition: .5s ease-in-out;
 }
-
+/* Dashboard Charts */
+.chartSec{
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 20px;
+    padding: 5px 14px;
+    width: 100%;
+}
+.chartSec .chart{
+    position: relative;
+    background: #fff;
+    padding: 20px;
+    width: 100%;
+    border: 2px solid var(--blue);
+    border-radius: 20px;
+    box-shadow: 0 7px 25px rgba(39, 39, 39, .4);
+}
 /* Dashboard Tables */
 .mezas{
     position: relative;
     width: 100%;
     padding: 20px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 2fr 1fr;
     grid-gap: 20px;
 }
 .mezas .user-tab,
@@ -2908,10 +2928,7 @@ ul .main:hover{
 }
 
 /* Users Page */
-.users{
-    padding: 10px 0;
-    background: gainsboro;
-}
+
 
 .users h1{
     text-align: center;

@@ -12,12 +12,11 @@
                 {% for field in form %}
                 {% if field.widget.input_type != 'hidden' %}
                 <div class="input-box">
-                    <div class="input-group-append">
-                        {% if field.type != 'SubmitField' %}
-                            {{ field(class_='input', placeholder=field.label.text) }} 
-                        {% else %}
-                            {{ field(class_='input-group-text') }}   
-                        {% endif %}    
+                    {% if field.input_type != SubmitField %}
+                        {{ field(placeholder=field.label.text) }}
+                    {% endif %}
+                    <div class="input-group-text-append">
+                        {{ field }}
                     </div>
                 </div>                    
                 {% endif %}
