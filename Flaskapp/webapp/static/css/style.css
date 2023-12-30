@@ -2408,9 +2408,6 @@ ul .main:hover{
     min-height: 100vh;
     transition: 2s;
 }
-.active{
-    background: seagreen;
-}
 .main-dash.active{
     width: calc(100% - 80px);
     left: 80px;
@@ -2528,22 +2525,32 @@ ul .main:hover{
     color: var(--white);
     transition: .5s ease-in-out;
 }
+
 /* Dashboard Charts */
 .chartSec{
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-gap: 20px;
     padding: 5px 14px;
     width: 100%;
 }
-.chartSec .chart{
+.chartSec .sect1{
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+    margin-bottom: 40px;
+}
+.chartSec .sect2{
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+}
+.chartSec  .chart{
     position: relative;
     background: #fff;
     padding: 20px;
     width: 100%;
-    border: 2px solid var(--blue);
-    border-radius: 20px;
+    border: 1px solid var(--blue);
+    border-radius: 10px;
     box-shadow: 0 7px 25px rgba(39, 39, 39, .4);
 }
 /* Dashboard Tables */
