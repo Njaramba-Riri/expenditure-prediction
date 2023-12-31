@@ -4,91 +4,92 @@
 {% block title %}LetsGo | System Users{% endblock %}
 
 {% block content %}
-<section class="users">
-    <h1>System Users</h1>
-    <div class="row">
-        <div class="container-fluid">
-            <form action="{{ url_for('admin.users') }}" method="POST">
-                {% for field in form %}
-                {% if field.widget.input_type != 'hidden' %}
-                <div class="input-box">
-                    {% if field.input_type != SubmitField %}
-                        {{ field(placeholder=field.label.text) }}
-                    {% endif %}
-                    <div class="input-group-text-append">
-                        {{ field }}
-                    </div>
-                </div>                    
-                {% endif %}
-                {% endfor %}
-            </form>
-        </div>        
+<div class="users">
+    <div class="heading">
+        <h2>System Users</h2>
+        <label>
+            <input type="text" name="" id="search" placeholder="Search user">
+            <ion-icon name="search-outline"></ion-icon>
+        </label>
     </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="admin-tab">
-                <div class="tab">
-                    <div class="user-tab">
-                        <div class="table_body">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Email</th>
-                                        <th>Username</th>
-                                        <th>Joined</th>
-                                        <th>Confirmed</th>
-                                        <th>Interactions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for user in users %}
-                                    <tr>
-                                        <td>{{ user.id }}</td>
-                                        <td>{{ user.email }}</td>
-                                        <td>{{ user.username }}</td>
-                                        <td>{{ user.date_created }}</td>
-                                        {% if user.confirmed == 1 %}
-                                        <td><span class="very">{{ user.confirmed }} </span></td>
-                                        {% else %}
-                                        <td><span class="not">{{ user.confirmed }}</span></td>
-                                        {% endif %}
-                                        <td>{{ user.role_id }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+    <div class="meza">
+        <table id="users">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Role</th>
+                    <th>Interactivity</th>
+                    <th>From</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    {% if user.confirmed == True %}
+                        <td class="true">
+                            <!-- <span class="true">Confirmed</span> -->
+                            <ion-icon name="checkmark-circle-outline" title="Confirmed"></ion-icon>
+                        </td>
+                    {% else %}
+                        <td class="false">
+                            <!-- <span class="false">Uncomfirmed</span> -->
+                            <ion-icon name="alert-circle-outline" title="Uncomfirmed"></ion-icon>
+                        </td>
+                    {% endif %}
+                    <td>{{ user.role_name }}</td>
+                    <td>{{ user.feed }}</td>
+                    {% if user.location == None %}
+                        <td>---</td>
+                    {% else %}
+                        <td>{{ user.location }}</td>
+                    {% endif %}
+                    <td>
+                        <div class="icons">
+                            <ion-icon name="pencil-outline" title="Edit"
+                            class="edit" class="edit" data-url="{{ url_for('.update_profile', id=user.id) }}"></ion-icon>
+                            <ion-icon name="trash-outline" title="Remove" 
+                            class="remove" class="remove" data-url="{{ url_for('.update_profile', id=user.id) }}" ></ion-icon>
+                            <ion-icon name="eye-outline" title="View" 
+                            class="view" class="view" data-url="{{ url_for('.update_profile', id=user.id) }}"></ion-icon>
                         </div>
-            
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="dashboard-panel">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="dashboard-card">
-                            <span class="fa-stack fa-3x"><i class="fa fa-square fa-stack"></i><i
-                                    class="fa fa-chart-line fa-inverse fa-stack-1x"></i></span>
-                            <h2>Most Active Users.</h2><i class="fa"></i>
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="dashboard-card">
-                            <span class="fa-stack fa-3x"><i class="fa fa-square fa-stack"></i><i class="fa fa-trash fa-inverse fa-stack-1x"></i></span>
-                            <h2>Remove User.</h2>
-                            <p>Limit access from users you might think are tampering with the system.</p>
-                            <p class="links cl-effect-1">
-                                <a href="">Remove User</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>  
-        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>        
     </div>
 
-</section>
+</div>
+{% endblock %}
+{% block js %}
+    {{ super() }}
+    <script type="text/javascript">
+        const edits = document.querySelectorAll('.edit');
+        const removes = document.querySelectorAll('.remove');
+        const views = document.querySelectorAll('.view');
+
+        edits.forEach(edit => {
+            edit.addEventListener('click', function() {
+                window.location.href = this.getAttribute('data-url');
+            });           
+        });
+
+        removes.forEach(remove => {
+            remove.addEventListener('click', function() {
+                window.location.href = this.getAttribute('data-url');
+            });            
+        });
+
+        views.forEach(view => {
+            view.addEventListener('click', function() {
+                window.location.href = this.getAttribute('data-url');
+            });            
+        });
+
+    </script>
 {% endblock %}

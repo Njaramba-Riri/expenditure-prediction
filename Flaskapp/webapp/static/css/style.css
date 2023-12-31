@@ -2548,7 +2548,7 @@ ul .main:hover{
 .chartSec  .chart{
     position: relative;
     background: var(--white);
-    padding: 20px;
+    padding: 10px;
     width: 100%;
     border: none;
     border-radius: 10px;
@@ -2936,47 +2936,135 @@ ul .main:hover{
 }
 
 /* Users Page */
-
-
-.users h1{
-    text-align: center;
-    color: #020525;
-    font-size: 60px;
-    font-weight: 600;
+.users {
+    background: var(--white);
+    padding: 20px 40px;
+    min-height: 100vh ;
 }
-
-.users .input{
-    background-color: #ffff4f;
-}
-.users .input-group .input{
+.users .heading{
+    position: relative;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.heading h2{
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--blue);
+}
+.heading label{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.heading input{
+    position: relative;
+    width: 100%;
     height: 30px;
-    border: none !important;
+    border: 1px solid var(--dark);
     border-radius: 20px;
-    padding-left: 20px;
-    margin: 0 20px;
+    outline: none !important;
+    padding-left: 30px;
+    color: #020525;
 }
-.users .input-group-append .input-group-text{
-    color: #000;
+.heading input::placeholder{
+    color: #000000;
+    opacity: .4;
+}
+.heading ion-icon{
+    position: absolute;
+    color: var(--blue);
     font-size: 20px;
-    padding-left: 20px;
+    padding-left: 5px;
 }
-.input-group-text .search-btn{
-    width: 250px;
+.users .meza{
+    overflow-x: auto;
+}
+.users table{
+    position: relative;
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+    background: var(--white);
+}
+.users tbody td{
+    border: 1px solid var(--dark);
+}
+.users table thead{
+    height: 40px;
+    background: var(--gray);
+    font-size: 1.2em;
+    font-weight: 500;
+}
+.users table thead th:nth-child(1),
+.users table thead th:nth-child(3),
+.users table thead th:nth-child(6){
+    text-align: center;
+}
+.users table thead th:nth-child(2),
+.users table tbody td:nth-child(2),
+.users table thead th:nth-child(4),
+.users table tbody td:nth-child(4){
+    text-align: start;
+}
+.users table thead th:nth-child(5),
+.users table tbody td:nth-child(5),
+.users table thead th:last-child,
+.users table tbody td:last-child{
+    text-align: end;
+}
+.users thead th:nth-child(1){
+    border-top-left-radius: 15px;
+}
+.users thead th:last-child{
+    border-top-right-radius: 15px;
+}
+.users table tbody td{
+    height: 40px;
+    font-size: 1em;
+}
+.users tbody tr:hover{
+    cursor: pointer;
+    background: var(--blue);
     color: #fff;
-    font-size: 18px;
-    border-radius: 30px;
-    border: 2px solid #fff;
-    right: -20px;
-    background: seagreen;
+    transition: .8s ease-in-out;
 }
-.users .dashboard-panel{
-    transform: translateX(20%);
-    padding: 30px 0;
+.users tbody td .true{
+    background: rgb(53, 184, 103);
+    padding: 5px 20px;
+    border-radius: 20px;
+    color: #078041;
 }
-
-
-
+.users tbody td .false{
+    background: rgb(184, 68, 53);
+    padding: 2px 10px;
+    border-radius: 20px;
+    color: #801f07;
+}
+.users tbody .true ion-icon{
+    color: rgb(53, 184, 103);
+}
+.users tbody .false ion-icon{
+    color: rgb(184, 68, 53);
+}
+.users tbody td ion-icon{
+    padding: 5px 0;
+    font-size: 25px;
+}
+.users tbody td .icons{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.users tbody td .icons .edit{
+    color: #007AFF;
+}
+.users tbody td .icons .remove{
+    color: #ff5722;
+}
+.users tbody td .icons .view{
+    color: #077e74;
+}
 /* Responsive */
 @media (max-width: 600px) {
     .navbar {

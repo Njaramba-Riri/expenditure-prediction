@@ -6,52 +6,60 @@ const polar = document.getElementById('polar').getContext('2d');
 const donught = document.getElementById('donut').getContext('2d');
 
 
-// Plotly.newPlot(line, [{
-//     x: [1, 2, 3, 4, 5],
-//     y: [1, 2, 4, 8, 16, 32]
-// }],
-// {
-//     margin: {t: 0 }
-// });
+fetch('/letsgo/admin/features')
+.then(response => response.json())
+.then(data => {
+    let labels = [];
+    let parents = [];
 
+    data.forEach(item => {
+        // Add main activity to labels and its parent to parents
+        labels.push(item.tour_arrangement);
+        parents.push(item.info_source);
 
-// Plotly.newPlot(sunburst, [{
-//     data: [{
-//         type: "sunburst",
-//         labels: ["Eve", "Cain", "Seth", "Enos", "Noam", "Abel", "Awan", "Enoch", "Azura"],
-//         parents: ["", "Eve", "Eve", "Seth", "Seth", "Eve", "Eve", "Awan", "Eve" ],
-//         values: [10, 14, 12, 10, 2, 6, 6, 4, 4],
-//         outsidetextfont: {size: 20, color: "#377eb8"},
-//         leaf: {opacity: .4},
-//         marker: {line: {width: 2}},
-//     }],
-//     layout: {
-//         margin: {l:0, r:0, b:0, t:0},
-//         width: 500,
-//         height: 500
-//     },
-// }]);
+        // Add arrangement to labels and an empty string to parents
+        if (!labels.includes(item.info_source)) {
+            labels.push(item.info_source);
+            parents.push('');
+        }
+    });
 
-var data = [
-    {
-      "type": "sunburst",
-      "labels": ["Eve", "Cain", "Seth", "Enos", "Noam", "Abel", "Awan", "Enoch", "Azura"],
-      "parents": ["", "Eve", "Eve", "Seth", "Seth", "Eve", "Eve", "Awan", "Eve" ],
-      "values":  [65, 14, 12, 10, 2, 6, 6, 4, 4],
-      "leaf": {"opacity": 0.4},
-      "marker": {"line": {"width": 2}},
-      "branchvalues": 'total'
+    // let data_values = labels.map(label => {
+    //     let count = data.filter(item => item.info_source === label).length;
+    //     return count;
+    // });
+
+    var chartData = [{
+        "type": "sunburst",
+        "labels": labels,
+        "parents": parents,
+        //"values": data_values,
+        "leaf": {"opacity": .7},
+       "insidetextfont": {"size": 20, "color": 'white'},
+        "outsidetextfont": {"size": 20, "color": 'black'}
     }];
-    
-var layout = {
-    "margin": {"l": 0, "r": 0, "b": 0, "t": 0},
-};
 
+    var layout = {
+        "title": {
+            "text": "Effect of Information Source in Planning Tour",
+            "font": {
+                "family": "Courier New, monospace",
+                "size": 20,
+                
+            },
+            "xref": 'paper',
+            "X": 0.05
+        },
+        "margin": {"l":0, "r":0, "b":0, "t":0},
+        //"sunburstcolorway": ["#636efa","#ef553b","#00cc96"]
+    };
 
-Plotly.newPlot('sunburst', data, layout, {showSendToCloud: true})
+    var config = {
+        'displayModeBar': false
+    }
 
-myPlot = document.getElementById("sunburst");
-
+    Plotly.newPlot(sunburst, chartData, layout, config);
+});
 
 fetch('/letsgo/admin/features')
 .then( response => response.json())
@@ -166,6 +174,8 @@ fetch('/letsgo/admin/features')
                     }
                 }            
             },
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 x: {
                     grid: {
@@ -201,7 +211,7 @@ fetch('/letsgo/admin/features')
     let data_values = Object.values(counts);
     let hoveredElement = null;
 
-    new Chart(donught, {
+    let doughnut = new Chart(donught, {
         type: 'doughnut',
         data: {
             labels: data_labels,
@@ -222,6 +232,8 @@ fetch('/letsgo/admin/features')
                     }
                 }
             },
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 x: {
                     grid: {
@@ -254,44 +266,55 @@ fetch('/letsgo/admin/features')
         }
     });    
 
-    donught.onmouseout =  function() {
+    doughnut.onmouseout =  function() {
         if (hoveredElement) {
             hoveredElement.outerRadius -= 5;
             hoveredElement = null;
             pieChart.update();
         }
     }
-    Chart.defaults.doughnut.animation = {
-        animateScale: true
-    } 
 });
 
 fetch('/letsgo/admin/features')
 .then(response => response.json())
 .then(data => {
+    let counts = {};
+    data.forEach(item => {
+        if(counts[item.predicted_category]){
+            counts[item.predicted_category]++;
+        }else {
+            counts[item.predicted_category]=1;
+        }
+    })
+
+    let data_labels = Object.keys(counts)
     new Chart(line, {
         type: 'line',
         data: {
-            labels: data.map(item => item.purpose),
+            labels: data_labels,
             datasets: [{
                 label: "Females",
                 data: data.map(item => item.total_female),
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                tension: .4,
                 fill: {
-                    target: 'Origin',
-                    below: 'rgba(0, 0, 255, .5)'
-                },
+                    target: 'origin',
+                    below: 'rgba(0, 0, 255, .8)'
+                }
+            }, {
                 label: 'Males',
                 data: data.map(item => item.total_male),
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1,
+                tension: .4,
                 fill:{
                     target: 'origin',
-                    below: 'rgba(255, 255, 0, .5)'
-                }
-            }],
+                    below: 'rgba(255, 255, 0, .8)'
+                }                   
+            }
+            ],
             scales: {
+                y: {
+                    beginAtZero: false
+                },
                 yAxes: [{
                     ticks: {
                         beginAtZero: true
@@ -300,6 +323,15 @@ fetch('/letsgo/admin/features')
             } 
         },
         options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Gender Influence on Spending.",
+                    font: {
+                        size: 20
+                    }
+                }  
+            },
             responsive: true,
             maintainAspectRatio: false            
         }

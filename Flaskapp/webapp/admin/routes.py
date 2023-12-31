@@ -212,14 +212,15 @@ def profile():
     user = User.query.filter_by(username=current_user.username).first_or_404()
     return render_template("admin/profile.html", user=user)
 
-@admin_blueprint.route("users", methods=['GET', 'POST'])
+@admin_blueprint.route("/users", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def users():
+    users = User.query.all()
     form = UsersForm()
     if request.method == 'POST' and form.validate_on_submit():
         users_email = User.query.filter_by(email=form.user.data).first_or_404()
         users_id = User.query.filter_by(id=form.user_id.data).first_or_404()
         #resp = json.loads(users_email)
         return jsonify({"User": users_email.id})
-    return render_template("admin/users.html",form=form)
+    return render_template("admin/users.html",users=users, form=form)

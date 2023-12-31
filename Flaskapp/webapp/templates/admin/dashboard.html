@@ -86,7 +86,7 @@
                         <canvas id="polar"></canvas>
                     </div>
                     <div class="chart">
-                        <canvas id="donut"></canvas>
+                        <canvas id="donut" height="300"></canvas>
                     </div>                    
                 </div>                
                 <div class="sect2">
@@ -152,7 +152,7 @@
                 <div class="user-tab">
                     <div class="tab-header">
                         <h2>System Users</h2>
-                        <a href="" class="btn">View all</a>
+                        <a href="{{ url_for('.users') }}" class="btn">View all</a>
                     </div>    
                     <div class="table_body">
                         <table >

@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
       }
     });
-  });
+});
 
 function goToReset(){
     window.location.href = "{{ url_for('auth.forgotpass') }}"
@@ -171,25 +171,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 //adding hovered class to selected list item
-let sidebar_list = document.querySelectorAll(".savigation li");
+document.addEventListener('DOMContentLoaded', (event) => {
+  let sidebar_list = document.querySelectorAll(".savigation li");
 
-function activeLink() {
-    sidebar_list.forEach((item) => {
-        item.classList.remove("hovered");
-    });
-    this.classList.add("hovered");
-}
+  function activeLink() {
+      sidebar_list.forEach((item) => {
+          item.classList.remove("hovered");
+      });
+      this.classList.add("hovered");
+  }
 
-sidebar_list.forEach((item) =>  item.addEventListener("mouseover", activeLink));
+  sidebar_list.forEach((item) =>  item.addEventListener("mouseover", activeLink));
 
-let main =  document.querySelector(".main-dash");
-let sidebar = document.querySelector(".savigation");
-let toggle = document.querySelector(".toggle");
+  let main =  document.querySelector(".main-dash");
+  let sidebar = document.querySelector(".savigation");
+  let toggle = document.querySelector(".toggle");
 
-toggle.onclick = function () {
-    sidebar.classList.toggle("active");
-    main.classList.toggle("active");
-};
+  if (toggle){
+    toggle.onclick = function () {
+      sidebar.classList.toggle("active");
+      main.classList.toggle("active");
+    };    
+  }
+});
+
 
 window.onscroll = function() {scrollFunction()};
 
@@ -236,3 +241,35 @@ $(document).ready(function() {
 });
 
 
+// Searching Users Table.
+document.getElementById('search').addEventListener('keyup', function() {
+  var input, filter, table, tr, td, i,j, txtValue;
+  input = document.getElementById('search');
+  filter = input.value.toUpperCase();
+  table = document.getElementById('users');
+  tr = table.getElementsByTagName('tr');
+
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName('td');
+    for (j = 0; j < tr.length; j++){
+      if (td[j]) {
+        txtValue = td[j].textContent || td[j].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1){
+          tr[i].style.display = '';
+          break;
+        }else {
+          tr[i].style.display = 'none';
+        }
+      }
+    }
+  }
+});
+
+$('users').on('keyup', 'input', function() {
+  var $row = $(this).closest('tr');
+  $row.css('transition', 'opacity 0.5s ease-in-out');
+  $row.css('opacity', '0');
+  setTimeout(function() {
+      $row.remove();
+  }, 500); // delay in ms
+});
