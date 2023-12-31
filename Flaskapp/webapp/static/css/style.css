@@ -10,6 +10,7 @@
     --gray: #f5f5f5;
     --black: #222;
     --dark: #999;
+    --dark-blue: rgba(1, 1, 54, 0.8);
 }
 body{
     min-height: 100vh;
@@ -2546,12 +2547,12 @@ ul .main:hover{
 }
 .chartSec  .chart{
     position: relative;
-    background: #fff;
+    background: var(--white);
     padding: 20px;
     width: 100%;
-    border: 1px solid var(--blue);
+    border: none;
     border-radius: 10px;
-    box-shadow: 0 7px 25px rgba(39, 39, 39, .4);
+    box-shadow: 0 2px 4px 5px rgba(39, 39, 39, .2);
 }
 /* Dashboard Tables */
 .mezas{

@@ -19,26 +19,24 @@
         rel="stylesheet">
 </head>
 <body>
-    {% block messages %}
-    <div class="messages">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible" fade show role="alert">
-                <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                {{ message }}
-                </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}        
-    </div>
-    {% endblock %}
-    {% block content %}   
+
+    {% block content %}
+        <div class="messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible" fade show role="alert">
+                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}        
+        </div>
         {{ content }}
     {% endblock %}
     {% block scripts %}
         <script src="{{ url_for('static', filename='js/plotly.js') }}"></script>
-     
         <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/responsive.js') }}"></script>
         <script src="{{ url_for('static', filename='js/vanilla-tilt.min.js') }}"></script>

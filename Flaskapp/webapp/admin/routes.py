@@ -71,6 +71,18 @@ def home():
                            template='home-template',
                            body="This is a homepage served with Flask.")
 
+def fetch_data():
+    results = Features.query.all()
+    return [{column.name: getattr(row, column.name) for column in row.__table__.columns} for row in results]
+
+
+@admin_blueprint.route("features", methods=['GET', 'POST'])
+@login_required
+@admin_required
+def fetch_features():
+    result = fetch_data()
+    return jsonify(result)
+
 @admin_blueprint.route("/dashboard")
 @login_required
 @admin_required

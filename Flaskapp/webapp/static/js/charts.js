@@ -1,65 +1,19 @@
-const line = document.getElementById('line');
-const pleth = document.getElementById('pleth')
-const sunburst = document.getElementById('sunburst')
-const bar = document.getElementById('bar');
-const polar = document.getElementById('polar');
-const donught = document.getElementById('donut');
+const line = document.getElementById('line').getContext('2d');
+//const pleth = document.getElementById('pleth');
+const sunburst = document.getElementById('sunburst');
+const bar = document.getElementById('bar').getContext('2d');
+const polar = document.getElementById('polar').getContext('2d');
+const donught = document.getElementById('donut').getContext('2d');
 
 
-Plotly.newPlot(line, [{
-    x: [1, 2, 3, 4, 5],
-    y: [1, 2, 4, 8, 16, 32]
-}],
-{
-    margin: {t: 0 }
-});
+// Plotly.newPlot(line, [{
+//     x: [1, 2, 3, 4, 5],
+//     y: [1, 2, 4, 8, 16, 32]
+// }],
+// {
+//     margin: {t: 0 }
+// });
 
-Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv', function(err, rows){
-    function unpack(rows, key) {
-        return rows.map(function(row) { return row[key]; });
-    }
-
-    var data = [{
-        type: 'choropleth',
-        locations: unpack(rows, 'CODE'),
-        z: unpack(rows, 'GDP (BILLIONS)'),
-        text: unpack(rows, 'COUNTRY'),
-        colorscale: [
-            [0,'rgb(5, 10, 172)'],[0.35,'rgb(40, 60, 190)'],
-            [0.5,'rgb(70, 100, 245)'], [0.6,'rgb(90, 120, 245)'],
-            [0.7,'rgb(106, 137, 247)'],[1,'rgb(220, 220, 220)']
-        ],
-        autocolorscale: false,
-        reversescale: true,
-        marker: {
-            line: {
-                color: 'rgb(180,180,180)',
-                width: 0.5
-            }
-        },
-        tick0: 0,
-        zmin: 0,
-        dtick: 1000,
-        colorbar: {
-            autotic: false,
-            tickprefix: '$',
-            title: 'GDP<br>Billions US$'
-        }
-    }];
-
-    var layout = {
-        title: '2014 Global GDP<br>Source: <a href="https://www.cia.gov/library/publications/the-world-factbook/fields/2195.html">CIA World Factbook</a>',
-        geo:{
-            showframe: false,
-            showcoastlines: false,
-            projection:{
-                type: 'mercator'
-            }
-        }
-    };
-
-    Plotly.newPlot(pleth, data, layout, {showLink: false});
-});
 
 // Plotly.newPlot(sunburst, [{
 //     data: [{
@@ -81,8 +35,8 @@ Plotly.d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/2014_wor
 var data = [
     {
       "type": "sunburst",
-      "labels": ["Tour Arrangement", "Cain", "Seth", "Enos", "Noam", "Abel", "Awan", "Enoch", "Azura"],
-      "parents": ["", "Tour Arrangement", "Eve", "Seth", "Seth", "Eve", "Eve", "Awan", "Eve" ],
+      "labels": ["Eve", "Cain", "Seth", "Enos", "Noam", "Abel", "Awan", "Enoch", "Azura"],
+      "parents": ["", "Eve", "Eve", "Seth", "Seth", "Eve", "Eve", "Awan", "Eve" ],
       "values":  [65, 14, 12, 10, 2, 6, 6, 4, 4],
       "leaf": {"opacity": 0.4},
       "marker": {"line": {"width": 2}},
@@ -98,168 +52,260 @@ Plotly.newPlot('sunburst', data, layout, {showSendToCloud: true})
 
 myPlot = document.getElementById("sunburst");
 
-const chart = new Chart(bar, {
-    type: 'bar',
-    data: {
-    labels: ['Wildlife', 'Beach', 'Cultural', 'Medical', 'Business', 'Volunteering'],
-    datasets: [{
-        label: 'Number of Tourists',
-        data: [12392, 8738, 3482, 72, 2387, 978],
-        borderWidth: 1
-    }]
-    },
-    options: {
-        plugins: {
-            title: {
-                display: true,
-                text: "Purpose of the Trip.",
-                font: {
-                    size: 20,
-                    
-                    family: 'helvetica'
-                }
-            },
-            legend: {
-                display: false,
-                onHover: function (event, legendItem) {
-                    chart.legend.options.display = true;
-                    chart.update();
-                },
-                onLeave: function (event, legendItem) {
-                    chart.legend.options.display = false;
-                    chart.update();
-                }
-            }
-        },
-        responsive: true,
-        maintainAspectRatio: false,
-        indexAxis: 'y',
-        scales: {
-            x: {
-                grid: {
-                    display: false
-                }
-            },
-            y: {
-                beginAtZero: true,
-                grid: {
-                    display: false
-                }
-            }
+
+fetch('/letsgo/admin/features')
+.then( response => response.json())
+.then(data => {
+    let counts = {};
+    data.forEach(item => {
+        if (counts[item.main_activity]) {
+            counts[item.main_activity]++;
+        } else {
+            counts[item.main_activity] = 1;
         }
-    }
-});
+    });
 
-const polarChart = new Chart( polar, {
-    type: 'polarArea',
-    data: {
+    // Create arrays for the labels and data
+    let data_labels = Object.keys(counts);
+    let data_values = Object.values(counts);
+
+    const chart = new Chart(bar, {
+        type: 'bar',
+        data: {
+        labels: data_labels,
         datasets: [{
-            label: "Number of Tourists",
-            data: [2500, 1564, 437, 5490, 11883, 6308],
-            borderWidth: 1,
-            backgroundColor: [
-                'rgba(255, 0, 0, .5)',
-                'rgba(0, 255, 255, .5)',
-                'rgba(0, 255, 0, .5)',
-                'rgba(255, 0, 255, .5)',
-                'rgba(255, 255, 0, .5)',
-                'rgba(0, 0, 255, .5)'
-            ]
-        }],     
-        labels: ['High Cost', 'Higher Cost', 'Highest Cost', 'Low Cost', 'Normal Cost', 'Lower Cost'],
-    },
-    options: {
-        plugins: {
-            title: {
-                display: true,
-                text: "Spending Categories",
-                font: {
-                    size: 20,
-                    
-                    family: 'helvetica'
-                }
-            }            
-        },
-        scales: {
-            x: {
-                grid: {
-                    display: false
-                },
-                display: false
-            },
-            y: {
-                grid: {
-                    display: false
-                },
-                display: false
-            }
-        }
-    }
-    
-});
-
-let hoveredElement = null;
-
-const pieChart = new Chart(donught, {
-    type: 'doughnut',
-    data: {
-        labels: ['Kenya', 'United Kingdom', 'United States', 'South Africa', 'Uganda'],
-        datasets: [{
-            label: "Number of Tourists",
-            data: [8956, 5342, 6839, 4983, 7389],
-            borderWidth: 1,
-            hoverOffset: 4
+            label: 'Number of Tourists',
+            data: data_values,
+            borderWidth: 1
         }]
-    },
-    options: {
-        plugins: {
-            title: {
-                display: true,
-                text: "Tourist's Country of Origin",
-                font: {
-                    size: 20,
-                }
-            }
         },
-        scales: {
-            x: {
-                grid: {
-                    display: false
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Main Activity of the Trip.",
+                    font: {
+                        size: 20,
+                        family: 'helvetica'
+                    }
                 },
-                display: false
+                legend: {
+                    display: false,
+                    onHover: function (event, legendItem) {
+                        chart.legend.options.display = true;
+                        chart.update();
+                    },
+                    onLeave: function (event, legendItem) {
+                        chart.legend.options.display = false;
+                        chart.update();
+                    }
+                }
             },
-            y: {
-                grid: {
-                    display: false
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    }
                 },
-                display: false
-            }
-        },
-        onHover: (event, chartElement) => {
-            if (chartElement[0] && chartElement[0].element != hoveredElement) {
-                if (hoveredElement) {
-                    hoveredElement.outerRadius -= 10;
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        display: false
+                    }
                 }
-                hoveredElement = chartElement[0].element;
-                hoveredElement.outerRadius += 10;
-            }
-        },
-        onLeave: (event, chartElement) => {
-            if (hoveredElement) {
-                hoveredElement.outerRadius -= 10;
-                hoveredElement = null;
             }
         }
-    }
+    });
 });
 
-donught.onmouseout =  function() {
-    if (hoveredElement) {
-        hoveredElement.outerRadius -= 10;
-        hoveredElement = null;
-        pieChart.update();
+fetch('/letsgo/admin/features')
+.then(response => response.json())
+.then(data => {
+    let counts = {};
+    data.forEach(item => {
+        if(counts[item.predicted_category]) {
+            counts[item.predicted_category]++;
+        } else {
+            counts[item.predicted_category] = 1;
+        }
+    });
+
+    let data_labels = Object.keys(counts);
+    let data_values = Object.values(counts);
+
+    new Chart( polar, {
+        type: 'polarArea',
+        data: {
+            datasets: [{
+                label: "Predicted",
+                data: data_values,
+                borderWidth: 1,
+                backgroundColor: [
+                    'rgba(255, 0, 0, .5)',
+                    'rgba(0, 255, 255, .5)',
+                    'rgba(0, 255, 0, .5)',
+                    'rgba(255, 0, 255, .5)',
+                    'rgba(255, 255, 0, .5)',
+                    'rgba(0, 0, 255, .5)',
+                ]
+            }],     
+            labels: data_labels,
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Spending Categories",
+                    font: {
+                        size: 20,
+                        
+                        family: 'helvetica'
+                    }
+                }            
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    display: false
+                },
+                y: {
+                    grid: {
+                        display: false
+                    },
+                    display: false
+                }
+            }
+        }
+        
+    });
+});
+
+fetch('/letsgo/admin/features')
+.then(response => response.json())
+.then(data => {
+    let counts = {};
+    data.forEach(item =>{
+        if(counts[item.country]){
+            counts[item.country]++;
+        }else {
+            counts[item.country] = 1;
+        }
+    })
+
+    let data_labels = Object.keys(counts);
+    let data_values = Object.values(counts);
+    let hoveredElement = null;
+
+    new Chart(donught, {
+        type: 'doughnut',
+        data: {
+            labels: data_labels,
+            datasets: [{
+                label: "Number of Tourists",
+                data: data_values,
+                borderWidth: 1,
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Tourist's Country of Origin",
+                    font: {
+                        size: 20,
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    display: false
+                },
+                y: {
+                    grid: {
+                        display: false
+                    },
+                    display: false
+                }
+            },
+            onHover: (event, chartElement) => {
+                if (chartElement[0] && chartElement[0].element != hoveredElement) {
+                    if (hoveredElement) {
+                        hoveredElement.outerRadius -= 5;
+                    }
+                    hoveredElement = chartElement[0].element;
+                    hoveredElement.outerRadius += 5;
+                }
+            },
+            onLeave: (event, chartElement) => {
+                if (hoveredElement) {
+                    hoveredElement.outerRadius -= 5;
+                    hoveredElement = null;
+                }
+            }
+        }
+    });    
+
+    donught.onmouseout =  function() {
+        if (hoveredElement) {
+            hoveredElement.outerRadius -= 5;
+            hoveredElement = null;
+            pieChart.update();
+        }
     }
-}
-Chart.defaults.doughnut.animation = {
-    animateScale: true
-} 
+    Chart.defaults.doughnut.animation = {
+        animateScale: true
+    } 
+});
+
+fetch('/letsgo/admin/features')
+.then(response => response.json())
+.then(data => {
+    new Chart(line, {
+        type: 'line',
+        data: {
+            labels: data.map(item => item.purpose),
+            datasets: [{
+                label: "Females",
+                data: data.map(item => item.total_female),
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                fill: {
+                    target: 'Origin',
+                    below: 'rgba(0, 0, 255, .5)'
+                },
+                label: 'Males',
+                data: data.map(item => item.total_male),
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill:{
+                    target: 'origin',
+                    below: 'rgba(255, 255, 0, .5)'
+                }
+            }],
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            } 
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false            
+        }
+    })
+});
+
+
+
+
