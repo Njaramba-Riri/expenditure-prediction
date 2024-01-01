@@ -2941,11 +2941,20 @@ ul .main:hover{
     padding: 20px 40px;
     min-height: 100vh ;
 }
-.users .heading{
+.users .meza{
+    border-radius: 15px;
+    box-shadow: 0 2px 7px 5px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+.meza .heading{
     position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background: var(--gray);
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    padding: 0 15px;
 }
 .heading h2{
     font-size: 30px;
@@ -2956,6 +2965,9 @@ ul .main:hover{
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+.heading label:hover{
+    width: 20%;
 }
 .heading input{
     position: relative;
@@ -2977,24 +2989,23 @@ ul .main:hover{
     font-size: 20px;
     padding-left: 5px;
 }
-.users .meza{
-    overflow-x: auto;
+.table-main{
+    margin: 20px auto;
+    padding: 0 30px;
+    border-radius: .5rem;
+    overflow: auto;
 }
 .users table{
     position: relative;
     width: 100%;
-    margin-top: 30px;
     border-collapse: collapse;
-    background: var(--white);
-}
-.users tbody td{
-    border: 1px solid var(--dark);
+    background: #fff5;
 }
 .users table thead{
-    height: 40px;
-    background: var(--gray);
+    background: #d5d1defe;
     font-size: 1.2em;
     font-weight: 500;
+    height: 40px;
 }
 .users table thead th:nth-child(1),
 .users table thead th:nth-child(3),
@@ -3019,15 +3030,41 @@ ul .main:hover{
 .users thead th:last-child{
     border-top-right-radius: 15px;
 }
+.users tbody tr:last-child{
+    border-bottom-right-radius: 15px;
+}
 .users table tbody td{
-    height: 40px;
     font-size: 1em;
 }
-.users tbody tr:hover{
+.users table tbody tr:nth-child(even){
+    background: rgba(129, 129, 252, 0.2);
+}
+.users tbody tr:nth-child(odd):hover{
     cursor: pointer;
     background: var(--blue);
     color: #fff;
     transition: .8s ease-in-out;
+}
+.users tbody tr:nth-child(even):hover{
+    cursor: pointer;
+    background: var(--blue);
+    color: #fff;
+    transition: .8s ease-in-out;
+}
+.users tbody tr{
+    --delay: .1s;
+    transition: .5s ease-in-out var(--delay);
+}
+.users tbody tr.hide{
+    opacity: 0;
+    transform: translateX(100%);
+}
+.users tbody tr td{
+    transition: .2s ease-in-out;
+}
+.users tbody tr.hide td{
+    padding: 0;
+    transition: .2s ease-in-out;
 }
 .users tbody td .true{
     background: rgb(53, 184, 103);

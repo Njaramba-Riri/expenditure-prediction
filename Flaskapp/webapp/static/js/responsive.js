@@ -242,34 +242,31 @@ $(document).ready(function() {
 
 
 // Searching Users Table.
-document.getElementById('search').addEventListener('keyup', function() {
-  var input, filter, table, tr, td, i,j, txtValue;
-  input = document.getElementById('search');
-  filter = input.value.toUpperCase();
-  table = document.getElementById('users');
-  tr = table.getElementsByTagName('tr');
+document.addEventListener('DOMContentLoaded', (event) => {
+  search = document.getElementById('search');
+  if (search) {
+    search.addEventListener('keyup', function() {
+    var input, filter, table, tr, td, i,j, txtValue;
+    input = document.getElementById('search');
+    filter = input.value.toUpperCase();
+    table = document.getElementById('users');
+    tr = table.getElementsByTagName('tr');
 
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName('td');
-    for (j = 0; j < tr.length; j++){
-      if (td[j]) {
-        txtValue = td[j].textContent || td[j].innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1){
-          tr[i].style.display = '';
-          break;
-        }else {
-          tr[i].style.display = 'none';
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName('td');
+      for (j = 0; j < tr.length; j++){
+        if (td[j]) {
+          txtValue = td[j].textContent || td[j].innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1){
+            tr[i].classList.remove('hide');
+            break;
+          }else {
+            tr[i].classList.add('hide');
+            tr[i].style.setProperty('--delay', i/25 + 's');
+          }
         }
       }
     }
+  })
   }
-});
-
-$('users').on('keyup', 'input', function() {
-  var $row = $(this).closest('tr');
-  $row.css('transition', 'opacity 0.5s ease-in-out');
-  $row.css('opacity', '0');
-  setTimeout(function() {
-      $row.remove();
-  }, 500); // delay in ms
 });

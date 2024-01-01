@@ -5,69 +5,76 @@
 
 {% block content %}
 <div class="users">
-    <div class="heading">
-        <h2>System Users</h2>
-        <label>
-            <input type="text" name="" id="search" placeholder="Search user">
-            <ion-icon name="search-outline"></ion-icon>
-        </label>
-    </div>
     <div class="meza">
-        <table id="users">
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                    <th>Role</th>
-                    <th>Interactivity</th>
-                    <th>From</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-                <tr>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.email }}</td>
-                    {% if user.confirmed == True %}
-                        <td class="true">
-                            <!-- <span class="true">Confirmed</span> -->
-                            <ion-icon name="checkmark-circle-outline" title="Confirmed"></ion-icon>
+        <div class="heading">
+            <h2>System Users</h2>
+            <label>
+                <input type="text" name="" id="search" placeholder="Search user">
+                <ion-icon name="search-outline"></ion-icon>
+            </label>
+        </div>  
+        <div class="table-main">
+            <table id="users">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Role</th>
+                        <th>Location</th>
+                        <th>Joined</th>
+                        <th>Last Seen</th>
+                        <th>Interactivity</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        {% if user.confirmed == True %}
+                            <td class="true">
+                                <!-- <span class="true">Confirmed</span> -->
+                                <ion-icon name="checkmark-circle-outline" title="Confirmed"></ion-icon>
+                            </td>
+                        {% else %}
+                            <td class="false">
+                                <!-- <span class="false">Uncomfirmed</span> -->
+                                <ion-icon name="alert-circle-outline" title="Uncomfirmed"></ion-icon>
+                            </td>
+                        {% endif %}
+                        <td>{{ user.role_name }}</td>
+                        {% if user.location == None %}
+                            <td>---</td>
+                        {% else %}
+                            <td>{{ user.location }}</td>
+                        {% endif %}                        
+                        <td>{{ user.date_created.strftime('%d-%m-%Y') }}</td>
+                        <td>{{ user.last_seen.strftime('%d-%m-%Y') }}</td>
+                        <td>{{ user.feed }}</td>
+                        <td>
+                            <div class="icons">
+                                <ion-icon name="pencil-outline" title="Edit"
+                                class="edit" class="edit" data-url="{{ url_for('.update_profile', id=user.id) }}"></ion-icon>
+                                <ion-icon name="trash-outline" title="Remove" 
+                                class="remove" class="remove" data-url="{{ url_for('.update_profile', id=user.id) }}" ></ion-icon>
+                                <ion-icon name="eye-outline" title="View" 
+                                class="view" class="view" data-url="{{ url_for('.update_profile', id=user.id) }}"></ion-icon>
+                            </div>
                         </td>
-                    {% else %}
-                        <td class="false">
-                            <!-- <span class="false">Uncomfirmed</span> -->
-                            <ion-icon name="alert-circle-outline" title="Uncomfirmed"></ion-icon>
-                        </td>
-                    {% endif %}
-                    <td>{{ user.role_name }}</td>
-                    <td>{{ user.feed }}</td>
-                    {% if user.location == None %}
-                        <td>---</td>
-                    {% else %}
-                        <td>{{ user.location }}</td>
-                    {% endif %}
-                    <td>
-                        <div class="icons">
-                            <ion-icon name="pencil-outline" title="Edit"
-                            class="edit" class="edit" data-url="{{ url_for('.update_profile', id=user.id) }}"></ion-icon>
-                            <ion-icon name="trash-outline" title="Remove" 
-                            class="remove" class="remove" data-url="{{ url_for('.update_profile', id=user.id) }}" ></ion-icon>
-                            <ion-icon name="eye-outline" title="View" 
-                            class="view" class="view" data-url="{{ url_for('.update_profile', id=user.id) }}"></ion-icon>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>        
+        </div>              
     </div>
+
 
 </div>
 {% endblock %}
 {% block js %}
-    {{ super() }}
+   
     <script type="text/javascript">
         const edits = document.querySelectorAll('.edit');
         const removes = document.querySelectorAll('.remove');
