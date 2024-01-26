@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}LetsGo | User Profile {% endblock %}
+
+{% block content %}
+<div class="view-profile">
+    <div class="user-profile">
+		<div class="header">
+			<h2>{{ user.username | title }} Profile</h2>
+		</div>
+        <div class="user-info">
+            <div class="bleep">
+                {% if user.gravataar %}
+                    <img src="../static/images/admin.png">
+                {% else %}
+                    <ion-icon name="person-outline"></ion-icon>
+                {% endif %}     
+                <div class="action-btns">
+                    <button type="submit" onclick="toEdit()" id="edit">Edit</button>
+                    <button type="submit" onclick="toBack()" id="close">Back</button>
+                </div>                 
+            </div>
+            <div class="info-card">
+                <div class="info">
+                    <p>Email: <span>{{ user.email }}</span></p>
+                </div>
+                <div class="info">
+                    <p>Username: <span>{{ user.username }}</span></p>
+                </div>
+                <div class="info">
+                    <p>User Role: <span>{{ user.role_name }}</span></p>
+                </div>
+                {% if user.mobile %}
+                    <div class="info">
+                        <p>Mobile: <span>{{ user.mobile }}</span></p>
+                    </div>
+                {% endif %}
+                {% if user.location %}
+                    <div class="info">
+                        <p>Location: <span>{{ user.mobile }}</span></p>
+                    </div>
+                {% endif %} 
+                {% if user.about %}
+                    <div class="info">
+                        <p>Bio: <span>{{ user.about }}</span></p>
+                    </div>
+                {% endif %} 
+                {% if user.tour_company %}
+                    <div class="info">
+                        <p>Tour Company: <span>{{ user.tour_company }}</span></p>
+                    </div>
+                {% endif %} 
+                {% if user.company_email %}
+                    <div class="info">
+                        <p>Company Email: <span>{{ user.company_email }}</span></p>
+                    </div>
+                {% endif %}
+                {% if user.company_mobile %}
+                    <div class="info">
+                        <p>Company Mobile: <span>{{ user.company_mobile }}</span></p>
+                    </div>
+                {% endif %}
+                {% if user.company_address %}
+                    <div class="info">
+                        <p>Company Address: <span>{{ user.company_address }}</span></p>
+                    </div>
+                {% endif %}
+                <div class="info">
+                    <p>Last Seen: <span>{{ user.last_seen.strftime('%d-%m-%Y') }}</span></p>
+                </div>
+                {% if user.confirmed == True %}
+                    <div class="info">
+                        <p>Account Status: <span>Confirmed</span></p>
+                    </div>
+                {% else %}
+                <div class="info">
+                    <p>Account Status: <span>Unconfirmed</span></p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+	</div>
+</div>
+{% endblock %}
+{% block js %}
+    {{ super() }}
+    <script>
+        const back = document.getElementById('close');
+        const edit = document.getElementById('edit');
+
+        if (back){
+            back.addEventListener('click', (event) => {
+                window.history.back();
+            });
+        }
+
+        if(edit){
+            edit.addEventListener('click', (event) => {
+                window.location.href = "{{ url_for('.update_profile', username=user.username)}}";
+            });
+        }
+    </script>
+{% endblock %}

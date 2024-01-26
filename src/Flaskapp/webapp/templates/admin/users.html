@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% import 'macros/auth.html' as macro %}
+
+{% block title %}LetsGo | System Users{% endblock %}
+
+{% block content %}
+<div class="users">
+    <div class="meza">
+        <div class="heading">
+            <h2>System Users</h2>
+            <label>
+                <input type="text" name="" id="search" placeholder="Search user">
+                <ion-icon name="search-outline"></ion-icon>
+            </label>
+        </div>  
+        <div class="table-main">
+            <table id="users">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Role</th>
+                        <th>Location</th>
+                        <th>Joined</th>
+                        <th>Last Seen</th>
+                        <th>Interactivity</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        {% if user.confirmed == True %}
+                            <td class="true">
+                                <!-- <span class="true">Confirmed</span> -->
+                                <ion-icon name="checkmark-circle-outline" title="Confirmed"></ion-icon>
+                            </td>
+                        {% else %}
+                            <td class="false">
+                                <!-- <span class="false">Uncomfirmed</span> -->
+                                <ion-icon name="alert-circle-outline" title="Uncomfirmed"></ion-icon>
+                            </td>
+                        {% endif %}
+                        <td>{{ user.role_name }}</td>
+                        {% if user.location == None %}
+                            <td>---</td>
+                        {% else %}
+                            <td>{{ user.location }}</td>
+                        {% endif %}                        
+                        <td>{{ user.date_created.strftime('%d-%m-%Y') }}</td>
+                        <td>{{ user.last_seen.strftime('%d-%m-%Y') }}</td>
+                        <td>{{ user.feed }}</td>
+                        <td>
+                            <div class="icons">
+                                <ion-icon name="pencil-outline" title="Edit" 
+                                class="edit" class="edit" data-url="{{ url_for('.update_profile', username=user.username) }}"></ion-icon>
+                                <ion-icon name="trash-outline" title="Remove" 
+                                class="remove" class="remove" data-url="{{ url_for('.delete_profile', username=user.username) }}" ></ion-icon>
+                                <ion-icon name="eye-outline" title="View" 
+                                class="view" class="view" data-url="{{ url_for('.user_profile', username=user.username) }}"></ion-icon>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>        
+        </div>              
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+    {{ super() }}
+    <script type="text/javascript">
+        const edits = document.querySelectorAll('.edit');
+        const removes = document.querySelectorAll('.remove');
+        const views = document.querySelectorAll('.view');
+
+        edits.forEach(edit => {
+            edit.addEventListener('click', function() {
+                window.location.href = this.getAttribute('data-url');
+            });           
+        });
+
+        removes.forEach(remove => {
+            remove.addEventListener('click', function() {
+                alert("Confirm that you want to remove this user, this action can't be reversed.")
+                window.location.href = this.getAttribute('data-url');
+            });            
+        });
+
+        views.forEach(view => {
+            view.addEventListener('click', function() {
+                window.location.href = this.getAttribute('data-url');
+            });            
+        });
+
+    </script>
+{% endblock %}

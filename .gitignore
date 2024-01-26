@@ -1,0 +1,13 @@
+/venv
+/env
+*.flaskenv
+
+/.idea
+/.vscode
+
+config.py
+/.zen
+*.pyc
+*.sqlite
+*.log
+.env

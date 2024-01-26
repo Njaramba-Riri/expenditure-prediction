@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% import 'macros/auth.html' as macro %}
+
+{% block title %} LetsGo | Signin {% endblock %}
+
+{% block content %}
+<section class="login">
+    <div class="welcome">
+        <h1>{{ _('Welcome Back!.') }}</h1>  
+    </div>
+    <div class="auth-form">
+        <form action="{{ url_for('auth.signin') }}" method="POST" id="auth">
+            <div class="wrapper">    
+                <div class="login-btn">
+                    <a href="{{ url_for('google.login') }}">Login with Google</a>
+                    <i class="fab fa-google fa-stack "></i> 
+                </div>
+                <div class="login-btn">
+                    <a href="{{ url_for('facebook.login') }}">Login with Facebook </a>
+                    <i class="fab fa-facebook fa-stack"></i>
+                </div>
+                <p class="mid">OR</p>
+                {{ _(macro.authenticate(form)) }}
+            </div>        
+        </form>                
+    </div>
+    <div class="footer-note">
+        <hr>
+        <div style="float: left;">
+            &copy; All rights reserved. 2024
+        </div>
+        <div style="float: right;">
+            Made with love by Riri. <i class="fa fa-heart"></i>
+        </div>
+    </div>        
+</section>
+{% endblock %}

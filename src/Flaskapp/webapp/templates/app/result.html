@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %} LetsGo | Prediction Results {% endblock %}
+
+{% block content %}
+{% include 'include/nav.html' %}
+<section class="results">
+    <h1>What we've got?.</h1>
+    <p>Started from below now we here.</p>
+    <div class="row">
+        <div class="another-box">
+            <p>From the <button onclick="showDetails()"> details</button> that you have provided, your spending category alongside your predicted total cost will be as follows: </p>
+            <div class="predicted">
+                <h4>Cost Category: <span>{{ predicted_result }}.</span> </h4>
+                <h4>Total Cost: <span>KES 132, 765.</span></h4>
+                <h4>Probability: <span>{{ probability }} %.</span></h4>
+            </div>
+ 
+        </div>
+    </div>
+    <div class="row">
+        <div class="btn-activity">
+            <button type="button" class="activity-btn" onclick="toActivity()">Recommended Places.</button>                
+        </div>            
+    </div>
+</section>
+<section class="teaser">
+    <div class="another">
+        <div class="row">
+            <h3> Feels like a rollercoaster?.</h3>
+            <p>Give it another try?.</p>
+            <div class="btns">
+                <button type="button" onclick="toForm()" class="result-btn">Of Course.</button>
+                <button type="button" onclick="toThanks()" class="result-btn">I'm good.</button>                
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'include/footer.html' %}
+<script>
+    function toActivity(){
+        window.location.href = "{{ url_for('suser.activity', username=current_user.username) }}"
+    }
+    function toForm(){
+        window.location.href = "{{ url_for('app.form') }}"
+    }
+    function toThanks(){
+        window.location.href = "{{ url_for('app.thanks') }}"
+    }
+
+    var showDetails = document.getElementById("features")
+    showDetails.addEventListener('click', function(){
+        showDetails.classList.add('features-show')
+    })
+</script>
+{% endblock %}

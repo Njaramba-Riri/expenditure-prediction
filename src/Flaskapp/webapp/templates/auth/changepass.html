@@ -1,0 +1,42 @@
+{% extends 'Base.html' %}
+{% import 'macros/auth.html' as macro %}
+
+{% block title %}LetsGo | Change Password {% endblock %}
+
+{% block content %}
+{% include 'include/navigation.html' %}
+<section class="login">
+    <div class="welcome">
+    </div>
+    <div class="forgot-form">
+        <form action="{{ url_for('auth.password_reset', token=token) }}" method="POST" id="auth">
+            <div class="wrapper">
+                <div class="empa">
+                    <h2>Resetting Password?.</h2>
+                    <p>Just a reminder: <small>A strong password should contain at least one unique character, capital letter and a number.</small></p>
+                </div>
+                 {{ macro.authenticate(form) }}
+                <div class="login-register">
+                    <button type="submit" class="submit-btn" id="submit-btn">
+                        <span class="btn-text">Reset Password</span>
+                        <div class="btn-loader">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </button>
+                </div>                 
+            </div>
+        </form>  
+    </div>
+    <div class="footer-note">
+        <hr>
+        <div style="float: left;">
+            &copy; All rights reserved. 2024
+        </div>
+        <div style="float: right;">
+            Made with love by Riri. <i class="fa fa-heart"></i>
+        </div>
+    </div>        
+</section>
+{% endblock %}

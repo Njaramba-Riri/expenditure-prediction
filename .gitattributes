@@ -1,0 +1,8 @@
+*.sh
+*.jpeg binary
+*.png binary 
+*.mp4 LFS
+*.webpb LFS
+*.psd LFS
+*.sln eol=crlf
+*.psd,[[:space:]]*.mp4,[[:space:]]*.webpm,[[:space:]]*.iso filter=lfs diff=lfs merge=lfs -text

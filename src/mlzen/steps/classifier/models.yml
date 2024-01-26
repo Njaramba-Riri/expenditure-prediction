@@ -1,0 +1,65 @@
+#Configuration file containing the model names and their respective parameters.
+
+---
+models:
+  - name: XGBClassifier
+    parameters:
+      n_estimators: 600
+      objective: "multiclass"
+      max_depth: 4
+      learning_rate: 0.1
+      subsample: .64 #fraction of samples to be used to train each tree.
+      colsample_bytree: .5 #fraction of features to used to train each tree. 
+      reg_lambda: 10
+      n_jobs: -1 
+      random_state: 42
+  #- name: XGBRegressor
+  #   parameters:
+  #     max_depth: 6
+  - name: LGBMClassifier
+    parameters: 
+      n_estimators: 800
+      max_depth: 6
+      learning_rate: 0.01
+      subsample: .45
+      colsample_bytree: .63
+      reg_lambda: 10
+      n_jobs: -1
+      importance_type: "gain"
+      random_state: 42
+  # - name: LGBMRegressor
+  #   parameters: 
+  #     None
+  - name: CatBoost
+    parameters: 
+      iterations: 800
+      learning_rate: 0.1
+      depth: 8
+      l2_leaf_reg: 10.0
+      loss_function: "MultiClass"
+      verbose: 0
+  # - name: CatBoostRegressor
+  #   parameters:
+  #     n_estimators: 800
+  #     learning_rate: 0.01
+  #     verbose: "silent"
+  - name: RandomForest
+    parameters:
+      n_estimators: 600
+      criterion: "gini"
+      max_depth: 6
+      max_features: "log2"
+      n_jobs: -1
+      class_weight: "balanced"
+      random_state: 42
+  # - name: RandomForestRegressor
+  #   parameters:
+  #     n_estimators: 800
+  #     max_depth: 4
+  #     max_features: "log2"
+  #     n_jobs: -1
+  #     random_state: 42
+  # - name: LogisticRegression
+  #   parameters:
+  #     penalty: l2
+  #     C: 1.0

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}LetsGo | User Profile {% endblock %}
+{% block content %}
+{% include 'include/nav.html' %}
+<section class="profile">
+    <div class="container">
+        <div class="row panel">
+            <div class="panel-header">
+                <h3>Jambo {{ current_user.username}}, glad to see you here.</h3>
+            </div>
+            <div class="col-md-6">
+                <div class="panel-note text-center">
+                    <div class="panel-body">
+                        <span class="fa-stack fa-3x">
+                            <i class="fa fa-square fa-stack"></i><i class="fa fa-user-circle fa-stack-1x fa-inverse"></i>
+                        </span>
+                        <h2 >Profile</h2>
+                        <p class="links cl-effect-1">
+                            <a href="{{ url_for('suser.profile', username=current_user.username) }}"
+                            data-bs-toggle="modal" data-bs-target="#ProfileBackdrop">Manage Your Profile</a>
+                            <div class="modal fade" id="ProfileBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="PofileBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="ProfileBackdropLabel"><span
+                                                    class="text-uppercase" style="font-style: inherit; font-weight: 600;">{{ user.username }}</span> Profile Details
+                                            </h5>
+                                        </div>
+                                        <div class="modal-body text-bold text-start">
+                                            {% if user.username or user.location %}
+                                                {% if user.username %}
+                                                <p><span>Username:</span> {{ current_user.username }}</p>
+                                                {% endif %}
+                                                {% if user.email %}
+                                                <p><span>Email:</span> {{ current_user.email }}</p>
+                                                {% endif %}
+                                            <div>
+                                                {% if user.location %}
+                                                <p><span>From:</span> <a href="http://maps.google.com/?q={{ user.nationality }}"
+                                                    target="_blank">
+                                                    {{ user.location }}
+                                                </a></p>
+                                                {% endif %}
+                                            </div>
+                                            {% endif %}
+                                            {% if user.about %}
+                                            <div>
+                                                <p><span>About me:</span> {{ user.about }}</p>
+                                            </div>
+                                            {% endif %}
+                                            <p><span>Member Since:</span> {{ user.date_created }}.</p>
+                                            <p><span>Last Seen:</span>  {{ user.last_seen }}</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <a type="button" class="btn btn-primary"
+                                                href="{{ url_for('suser.update', username=current_user.username) }}">Edit
+                                                Profile</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p>
+                    </div>                        
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel-note">
+                    <div class="panel-body">
+                        <span class="fa-stack fa-3x">
+                            <i class="fa fa-square fa-stack "></i><i class="fa fa-face-grin-stars fa-stack-1x fa-inverse"></i>
+                        </span>
+                        <h2>My Activity</h2>
+                        <p class="links cl-effect-1">
+                            <a href="{{ url_for('suser.activity', username=current_user.username) }}">
+                                See Your Activity
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'include/footer.html' %}
+{% endblock %}

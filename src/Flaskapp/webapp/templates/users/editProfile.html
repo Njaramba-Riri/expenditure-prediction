@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% import 'macros/auth.html' as macro %}
+
+{% block title %}LetsGo | Profile Edit{% endblock %}
+
+{% block content %}
+{% include 'include/nav.html' %}
+<section class="edit-profile">
+    <div class="row">
+        <div class="col">
+            <h2>User | Profile Edit</h2>
+        </div>
+        <div class="col update">   
+            <div class="container">
+                <fieldset class="profile-wrapper">
+                    <legend>
+                        <div>
+                            <p>Update Profile:</p>
+                        </div>            
+                    </legend>
+                    <form action="{{ url_for('suser.update', username=current_user.username) }}" method="POST">
+                        <div class="form-group">
+                        {{ form.hidden_tag() }}
+                        {% for field in form %}
+                        {% if field.widget.input_type != 'hidden' %}
+                            {% if field.type != 'TextAreaField' %}
+                            <div class="input">
+                                {{ field.label }}:
+                                {{ field(class_='form-control', placeholder=field.label.text) }} 
+                                 {% for e in field.errors %}
+                                <span class="help-block">{{ e }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <div class="text-area">
+                                {{ field.label }}:
+                                {{ field(class_='form-control', placeholder=field.label.text) }}
+                                 {% for e in field.errors %}
+                                <p class="help-block">{{ e }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                        <div class="buttons">
+                            <a class="btn btn-secondary" onclick="goBack()">Back</a>
+                            <button class="btn btn-success" type="submit">Update Profile</button>
+                        </div>
+                        </div>
+                    </form>        
+                </fieldset>
+            </div> 
+        </div>
+
+    </div>
+</section>
+<script>
+    function goBack(){
+        window.history.back()
+    }
+</script>
+
+{% endblock %}
