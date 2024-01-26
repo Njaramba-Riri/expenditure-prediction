@@ -3,27 +3,19 @@ from .models import Countries
 from webapp import db
 from wtforms import StringField, IntegerField, SelectField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Length, NumberRange, InputRequired, ValidationError
+import csv
 
-"""
-with open("/Users/User/Desktop/expenditure/models/flaskapp/webapp/app/all.csv", 'r') as csvfile:
-    reader = csv.DictReader(csvfile)
-    for row in reader:
-        country = Countries(Country=row["name"], Alpha_Code=row["alpha-3"], Region=row["region"],Sub_Region=row["sub-region"]) 
-        
-        db.session.add(country)
-        db.session.commit()  
-"""
 
 class FeaturesForm(FlaskForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.country.choices = [(None, '')] + [(c.Country, c.Country) for c in Countries.query.all()]
+        self.country.choices = [('', '----')] + [(c.Country, c.Country) for c in Countries.query.all()]
 
-    country = SelectField("Country: ", validators=[InputRequired()])
-    age = SelectField("Age Group: ", choices=[(None, ''), ("1-17", "Below 18"), ("18-24", "18-24"), 
+    country = SelectField("Country: ", validators=[DataRequired()])
+    age = SelectField("Age Group: ", choices=[('', '----'), ("1-17", "Below 18"), ("18-24", "18-24"), 
                                             ("25-44", "25-44"), ("45-64", "45-64"), ("65-100", "Above 64")],
-                                            validators=[DataRequired(),InputRequired() , Length(min=3)])
-    companion = SelectField("Travel Companion: ", choices=[(None, ''), ("Alone", "Alone"), ("Spouse", "With Spouse"), 
+                                            validators=[DataRequired(), Length(min=3)])
+    companion = SelectField("Travel Companion: ", choices=[('', '----'), ("Alone", "Alone"), ("Spouse", "With Spouse"), 
                                                          ("Children", "With Children"), ("Spouse & Children", "Spouse and Children"),
                                                          ("Friends", "Friends/Relatives")], validators=[DataRequired()])
     male = IntegerField("Total Male: ", validators=[InputRequired(message="Kindly enter a positive value.") ,
@@ -33,35 +25,35 @@ class FeaturesForm(FlaskForm):
     main_nights = IntegerField("Nights In Mainland TZ: ", validators=[InputRequired(message="Kindly enter a positive value."),
                                                                              NumberRange(min=0, max=365)])
     zanzi_nights = IntegerField("Nights In Zanzibar: ", validators=[InputRequired(), NumberRange(min=0, max=365)]) 
-    purpose  = SelectField("Travel Purpose: ", choices=[(None, ''), ("Leisure and Holidays", "Leisure/Holidays" ), 
+    purpose  = SelectField("Travel Purpose: ", choices=[('', '----'), ("Leisure and Holidays", "Leisure/Holidays" ), 
                                                       ("Visiting Friends and Family", "Visiting Friends and Relatives"),("Business", "Business"), ( "Meetings and Confrence", "Meeting/Conference"), 
                                                       ("Scientific and Academic", "Scientific and Academic"), ("Volunteering", "Volunteering"), ("Medical", "Medical"), ("Other", "Other")], validators=[DataRequired()])
-    activity = SelectField("Main Activity: ", choices=[(None, ''), ("Wildlife Tourism", "Wildlife Tourism"), ("Beach Tourism", "Beach Tourism"),
+    activity = SelectField("Main Activity: ", choices=[('', '----'), ("Wildlife Tourism", "Wildlife Tourism"), ("Beach Tourism", "Beach Tourism"),
                                                      ("Hunting Tourism", "Hunting Tourism"), ("Cultural Tourism", "Cultural Tourism"), 
                                                      ("Mountain Climbing", "Mountain Climbing"), ("Bird Tourism", "Bird Tourism"), ("Conference Tourism", "Conference Tourism"), ("Diving and Sport Fishing", "Diving and Sport Fishing")], validators=[DataRequired()])
-    info = SelectField("Source of Information: ", choices=[(None, ''), ("Others", "Others"), 
+    info = SelectField("Source of Information: ", choices=[('', '----'), ("Others", "Others"), 
                                                                                     ("Travel agent, tour operator", "Tour Agent/Operator"),
                                                                                     ("Radio, TV, Web", "Radio/TV/Social Media"),
                                                                                     ("Friends, relatives", "Friends/Relatives"), 
                                                                                     ("Inflight magazines", "Inflight Magazines"), 
                                                                                     ('Trade fair', "Trade Fair"),('Newspaper, magazines, brochures', "Newspaper/Magazines/Brochures"),('Tanzania Mission Abroad', "Tanzania Mission Abroad")], validators=[DataRequired()])
-    arrangement = SelectField("Your Tour Arrangement: ", choices=[(None, ''), ("Independent", "Independent Tour"),
+    arrangement = SelectField("Your Tour Arrangement: ", choices=[('', '----'), ("Independent", "Independent Tour"),
                                                               ("Package Tour", "Package Tour")], validators=[DataRequired()])
-    pack_tra_int = SelectField("Transport International?: ", choices=[(None, ''), ("Yes", "Yes"), 
+    pack_tra_int = SelectField("Transport International?: ", choices=[('', '----'), ("Yes", "Yes"), 
                                                                         ("No", "No")], validators=[DataRequired()])
-    pack_tra_tz = SelectField("Transport Within TZ?: ", choices=[(None, ''), ("Yes", "Yes"),
+    pack_tra_tz = SelectField("Transport Within TZ?: ", choices=[('', '----'), ("Yes", "Yes"),
                                                                         ("No", "No")], validators=[DataRequired()])  
-    pack_acc = SelectField("Package Accomodation?: ", choices=[(None, ''), ("Yes", "Yes"),
+    pack_acc = SelectField("Package Accomodation?: ", choices=[('', '----'), ("Yes", "Yes"),
                                                       ("No", "No")], validators=[DataRequired()])
-    pack_food = SelectField("Package Food?: ", choices=[(None, ''), ("Yes", "Yes"),
+    pack_food = SelectField("Package Food?: ", choices=[('', '----'), ("Yes", "Yes"),
                                                       ("No", "No")], validators=[DataRequired()])
-    pack_sight = SelectField("Package SigthSeeing?: ", choices=[(None, ''), ("Yes", "Yes"),
+    pack_sight = SelectField("Package SigthSeeing?: ", choices=[('', '----'), ("Yes", "Yes"),
                                                       ("No", "No")], validators=[DataRequired()])
-    pack_guide = SelectField("Package Guided Tour?: ", choices=[(None, ''), ("Yes", "Yes"),
+    pack_guide = SelectField("Package Guided Tour?: ", choices=[('', '----'), ("Yes", "Yes"),
                                                       ("No", "No")], validators=[DataRequired()])
-    pack_insurance = SelectField("Package Insurance?: ", choices=[(None, ''), ("Yes", "Yes"),
+    pack_insurance = SelectField("Package Insurance?: ", choices=[('', '----'), ("Yes", "Yes"),
                                                       ("No", "No")], validators=[DataRequired()])
-    freq = SelectField("First Time Visiting TZ?: ", choices=[(None, ''), ("Yes", "Yes"),
+    freq = SelectField("First Time Visiting TZ?: ", choices=[('', '----'), ("Yes", "Yes"),
                                                             ("No", "No")], validators=[DataRequired()])
     submit = SubmitField("Generate Predictions")   
     

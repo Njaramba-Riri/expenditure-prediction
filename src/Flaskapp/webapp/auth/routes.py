@@ -1,3 +1,5 @@
+import logging
+
 from flask import Blueprint, redirect, url_for, render_template, request, flash, abort, session, jsonify
 from flask_login import login_required, login_user, logout_user, current_user
 from flask_moment import Moment
@@ -13,8 +15,7 @@ from .. import db
 from . import authenticate
 
 auth_blueprint = Blueprint("auth", __name__,
-                           static_folder="../static/auth/",
-                           template_folder="../templates/auth", 
+                           static_folder="static/auth/", template_folder="templates/auth/", 
                            url_prefix= "/letsgo/auth")
 
 @auth_blueprint.before_app_request
@@ -54,18 +55,22 @@ def signup():
     if not current_user.is_anonymous:
         return redirect(url_for('app.index'))
     form = user_register()
-    if request.method == 'POST' and form.validate():
+    if request.method == 'POST' and form.validate_on_submit():
         new_user = User()
         new_user.email = form.email.data.lower()
         new_user.username = form.username.data
-        new_user.Siri(form.password.data)
-        db.session.add(new_user)
-        db.session.commit()
-        token = new_user.generate_confirmation_token()
-        send_email(new_user.email, "Confirm your account.",
-                    "auth/email/confirm", user=new_user, token=token)
-        flash("A confirmation email has been sent to you.", category="info")
-        return redirect(url_for('.signin'))
+        new_user.set_password(form.password.data)
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+            token = new_user.generate_confirmation_token()
+            send_email(new_user.email, "Confirm your account.",
+                        "auth/email/confirm", user=new_user, token=token)
+            flash("A confirmation email has been sent to you.", category="info")
+            return redirect(url_for('.signin'))
+        except Exception as e:
+            logging.error("Failed to create user object.")
+            db.session.rollback()
     return render_template('auth/register.html', form=form)
 
 @auth_blueprint.route('/confirm/<token>')
@@ -79,7 +84,6 @@ def confirm(token):
     else:
         flash('The confirmation link is invalid or has expired.')
     return redirect(url_for('app.index'))
-
 
 @auth_blueprint.route('/confirm')
 @login_required

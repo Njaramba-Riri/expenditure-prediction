@@ -1,17 +1,18 @@
+import json
+import random
+
+import numpy as np
+
+from sqlalchemy import exc
+
 from flask import render_template, url_for, redirect, Blueprint, flash, request, session, jsonify
 from flask_login import login_required, current_user
 
-from .models import Features, Feedback, SearcHDestination
+from webapp import db, cache
 from webapp.auth.models import User
+from .models import Features, Feedback, SearcHDestination
 from .forms import FeaturesForm, feedbackform, search
-from webapp import db
-from .. import cache
-import random
-from sqlalchemy import exc
 
-import requests
-
-import numpy as np
 from ..predict import predict_details, predict_feed_sentiment
 from ..train import train_clf
 
@@ -49,7 +50,7 @@ def searchdestination(destination):
 @cache.cached(timeout=2)
 def form():    
     form = FeaturesForm(request.form)
-    if request.method == 'POST' and form.validate_on_submit():
+    if request.method == 'POST' and form.validate():
         country = form.country.data
         age = form.age.data
         companion = form.companion.data
@@ -77,6 +78,8 @@ def form():
             category, probability = predict_details(data)
             if current_user.is_authenticated:
                 user_id = current_user.id
+            else:
+                user_id = None
             features = Features(country=country, age_group=age, travel_with=companion, total_male=male, total_female=female, 
                      purpose=purpose, main_activity=activity, info_source=info, tour_arrangement=arrangement, 
                      package_transport_int=pack_tra_int, package_transport_tz=pack_tra_tz , package_accomodation=pack_acc,
@@ -88,21 +91,20 @@ def form():
             db.session.commit()
             session['category'] = category
             session['probability'] = probability
+            session["features"] = submitted
             return redirect(url_for('.predict'))
-        except Exception as e:
+        except exc.IntegrityError as e:
             flash(f" {e} ", 'warning')
             db.session.rollback()       
     return render_template('app/form.html', form=form)
 
 @app_blueprint.route('/prediction')
 def predict():
-    # details = Features.query.order_by(Features.id.desc()).first()
     category = session.get('category')
     probability = session.get('probability')
-    #features = session.get('features')
-
-    return render_template('app/result.html',
-                           predicted_result=category, probability=f"{probability}")
+    features = session.get('features')
+    return render_template('app/result.html', featues=features,
+                           predicted_result=category, probability=probability)
 
 @app_blueprint.route('/thanks', methods=['GET', 'POST'])
 @login_required
@@ -113,7 +115,6 @@ def thanks():
                 return redirect(url_for('app.sema'))
         flash("Thank you, we're very happy to hear that. 🤗🎆🎇", category='info')
     return render_template('app/thanks.html')
-
 
 @app_blueprint.route('/feedback', methods=['GET', 'POST'])
 @login_required
@@ -133,5 +134,3 @@ def sema():
         return redirect(url_for('suser.activity', username=current_user.username))
  
     return render_template('app/feedback.html', form=form)
-
-

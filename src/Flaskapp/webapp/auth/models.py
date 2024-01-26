@@ -1,12 +1,14 @@
-from webapp import db, cache
-from . import bcrypt
 import datetime
 import hashlib 
-from flask_login import AnonymousUserMixin, UserMixin, login_manager
-from flask import current_app
-from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from time import time
+
+from flask import current_app
+from flask_login import AnonymousUserMixin, UserMixin, login_manager
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from webapp import db, cache
+from . import bcrypt
 
 roles = db.Table(
     'role_users',
@@ -20,8 +22,7 @@ class Permission:
     GIVE_FEEDBACK = 0x04
     MODERATE_FEEDBACK = 0x08
     ADMINISTER = 0x80
-
-
+    
 class Role(db.Model):
     __tablename_ = "roles"
 
@@ -74,7 +75,7 @@ class Role(db.Model):
         return self.permissions & perm == perm
     
     def __repr__(self):
-        return '<Role {}>'.format(self.name)
+        return '{}'.format(self.name)
 
 
 class User(UserMixin, db.Model):
@@ -120,16 +121,16 @@ class User(UserMixin, db.Model):
             self.username = username
     """
 
-    @property
-    def Siri(self):
-        raise AttributeError("Password is not a readable character.")
+    # @property
+    # def password(self):
+    #     raise AttributeError("Password is not a readable character.")
     
-    @Siri.setter
-    def Siri(self, siri):
-        self.password = bcrypt.generate_password_hash(siri)
+    # @password.setter
+    def set_password(self, password):
+        return bcrypt.generate_password_hash(self.password, password)
 
-    def check_password(self, siri):
-        return bcrypt.check_password_hash(self.password, siri)
+    def check_password(self, password):
+        return bcrypt.check_password_hash(self.password, password)
     
     def generate_confirmation_token(self, expiration=3600):
         reset_token = jwt.encode(
@@ -203,10 +204,6 @@ class User(UserMixin, db.Model):
             return False
         else:
             return True
-        
-    @property
-    def is_active(self):
-        return True
     
     @property
     def is_anonymous(self):

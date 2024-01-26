@@ -48,11 +48,11 @@ def create_app(object_name):
     app = Flask(__name__)
     app.config.from_object(DevConfig)
 
-    from .admin.routes import admin_blueprint
-    from .users.routes import user_blueprint
-    from .auth.routes import auth_blueprint
-    from .mainapp.routes import app_blueprint
-    from .api_1_0.routes import api_blueprint
+    # from .admin.routes import admin_blueprint
+    # from .users.routes import user_blueprint
+    # from .auth.routes import auth_blueprint
+    # from .mainapp.routes import app_blueprint
+    # from .api_1_0.routes import api_blueprint
 
     @app.after_request
     def add_header(response):
@@ -73,11 +73,11 @@ def create_app(object_name):
     from .api_1_0 import create_module as api_create_module
     from .api_1_0 import creaate_module as feedback_create_module
     from .dashapp import init_dash
-
+    
+    auth_create_module(app)
     admin_create_module(app)
     babel_create_module(app)
     app_create_module(app)
-    auth_create_module(app)
     user_create_module(app)
     api_create_module(app)
     feedback_create_module(app)
@@ -93,6 +93,6 @@ def create_app(object_name):
     app.register_error_handler(403, forbidden)
     app.register_error_handler(405, not_allowed)
 
-    app = init_dash(app)
+    #app = init_dash(app)
     return app
 

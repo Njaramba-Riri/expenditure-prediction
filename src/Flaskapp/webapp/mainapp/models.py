@@ -1,8 +1,10 @@
+from datetime import datetime, timezone
+
 from webapp import db
-import csv
-import datetime
 
 class Countries(db.Model):
+    """Creates a database model for country names and related details.
+    """
     __tablename__ = 'Countries'
 
     id = db.Column(db.Integer(), primary_key=True)
@@ -11,18 +13,12 @@ class Countries(db.Model):
     Region = db.Column(db.String(20))
     Sub_Region = db.Column(db.String(100))
 
-"""
-with open("/Users/james/Desktop/expenditure/Datasets/all.csv", 'r') as csvfile:
-    reader = csv.DictReader(csvfile)
-    for row in reader:
-        country = Countries(Country=row["name"], Alpha_Code=row["alpha-3"], Region=row["region"],Sub_Region=row["sub-region"]) 
-        
-        db.session.add(country)
-        db.session.commit() 
-"""
-
-
 class Features(db.Model):
+    """Creates a database model that stores the features submitted by the user.
+
+    Args:
+        db (Sqlalchemy): Base class for all db models.
+    """
     __tablename__ = "Features"
 
     id = db.Column(db.Integer(), primary_key=True)
@@ -50,13 +46,17 @@ class Features(db.Model):
     total_cost = db.Column(db.Integer())
     cost_probability = db.Column(db.Float())
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
-    date = db.Column(db.DateTime(), default=datetime.datetime.now)
+    date = db.Column(db.DateTime(), default=datetime.now(timezone.utc))
     feedback = db.relationship(
         'Feedback', backref='Features', lazy='dynamic'
     )
 
-
 class Reference_Features(db.Model):
+    """Creates a features reference data model for reference features during monitoring.
+
+    Args:
+        db (Sqlalchemy): Base class for all db models.
+    """
     __tablename__ = "Reference_Features"
 
     id = db.Column(db.String(20), primary_key=True)
@@ -86,6 +86,11 @@ class Reference_Features(db.Model):
 
 
 class Feedback(db.Model):
+    """Creates a database representation where feedback submitted by the user is stored. 
+
+    Args:
+        db (Sqlachemy): Base class for all db models.
+    """
     __tablename__ ="feedback"
 
     id = db.Column(db.Integer(), primary_key=True) 
@@ -94,10 +99,15 @@ class Feedback(db.Model):
     probability = db.Column(db.Float())
     feature_id = db.Column(db.Integer(), db.ForeignKey('Features.id'))
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
-    date = db.Column(db.DateTime(), default=datetime.datetime.now)
+    date = db.Column(db.DateTime(), default=datetime.now(timezone.utc))
 
 
 class SearcHDestination(db.Model):
+    """Creates a database representation of the destinations searched by the user.
+
+    Args:
+        db (Sqlachemy): Base class for all db models.
+    """
     __tablename__ = "destinations"
 
     id = db.Column(db.Integer(), primary_key=True)

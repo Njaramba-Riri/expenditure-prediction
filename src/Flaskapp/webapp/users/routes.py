@@ -1,23 +1,31 @@
-from flask import render_template, redirect, url_for, Blueprint, flash, request, session, abort, jsonify
-from webapp import db
-from .forms import  SearchQuery, editProfile
-from .models import Search
-from ..auth.models import User
-from webapp.mainapp.models import Features, Feedback
-from flask_login import login_required, current_user
+import logging
+
+logger = logging.getLogger(__name__)
+
 import functools
 import datetime
-
 import requests
 import json
+from io import StringIO
+
 import numpy as np
 import pandas as pd
 from pandas import json_normalize
-from io import StringIO
+
+from flask import render_template, redirect, url_for, Blueprint, flash, request, session, abort, jsonify
+from flask_login import login_required, current_user
+from sqlalchemy import exc
+
+from webapp import db
+from webapp.mainapp.models import Features, Feedback
+from ..auth.models import User
+from .forms import  SearchQuery, editProfile
+from .models import Search
+
 
 user_blueprint = Blueprint("user", __name__,
-                           template_folder="../templates/users", 
-                           static_folder="../static/users", url_prefix="/letsgo/user")
+                           template_folder="templates/users", 
+                           static_folder="static/users", url_prefix="/letsgo/user")
 
 @user_blueprint.route("/<username>/profile")
 @login_required
@@ -49,25 +57,32 @@ def update(username):
     form.about_me.data  =current_user.about or session.get('about')
     return render_template('editProfile.html', form=form)
 
-@user_blueprint.route("/<username>/activity", methods=['GET', 'POST'])
+@user_blueprint.route("/<string:username>/activity", methods=['GET', 'POST'])
 @login_required
 def activity(username):
+    if not current_user.is_authenticated:
+        flash("Kindly login to access the page")
     user = User.query.filter_by(username=username).first_or_404()
     features = Features.query.filter_by(user_id=user.id).all()
     feedback = Feedback.query.filter_by(user_id=user.id, feature_id=Features.id).all()    
     form = SearchQuery(request.form)
-    if request.method == 'POST' and form.validate_on_submit():
+    if request.method == 'POST' and form.validate():
         destination = form.where.data
         adults = form.adults.data
         kids =  form.kids.data
         start = form.checkin.data
         end  =  form.checkout.data
         rooms = form.rooms.data
-        query = Search(destination=destination, total_adults=adults, total_kids=kids,
-                       checkin_date=start, checkout_date=end, rooms=rooms, user_id=current_user.id)
-        db.session.add(query)
-        db.session.commit()
-        return redirect(url_for('.get_data'))   
+        try:
+            query = Search(destination=destination, total_adults=adults, total_kids=kids,
+                        checkin_date=start, checkout_date=end, rooms=rooms, user_id=current_user.id)
+            db.session.add(query)
+            db.session.commit()
+            return redirect(url_for('.get_data'))   
+        except exc.IntegrityError as e:
+            logger.info("Error while adding destination search: {}".format(e))
+            flash("Your search details couldn't be successful.")
+            db.session.rollback()
     return render_template("users/activity.html", 
                            features=features, feedback=feedback, 
                            user=user, zip=zip, len=len, form=form)

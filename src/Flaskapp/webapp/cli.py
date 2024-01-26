@@ -1,10 +1,16 @@
 import logging 
 import click
-from .auth.models import User, db
+from webapp import db
+from .auth.models import User
 
 log = logging.getLogger(__name__)
 
 def register(app):
+    """Creates click commands for the apllication.
+
+    Args:
+        app (Any): An instance of flask app.
+    """
     @app.cli.command('create-user')
     @click.argument('username')
     @click.argument('password')

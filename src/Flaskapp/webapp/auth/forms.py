@@ -5,12 +5,17 @@ from .models import User
 import re
 
 class user_register(FlaskForm):
-    email = StringField("Enter your Email. ", validators=[DataRequired(), Length(max=64) , Email(message="Kindly check your email address.")])
+    email = StringField("Enter your email. ", validators=[DataRequired(), Length(max=64) , 
+                                                          Email(message="Kindly check your email address.")])
     username = StringField("Your preffered username. ", validators=[DataRequired(), Length(max=64),
                                                       Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, \
                                                              'Usernames must have only letters, numbers, dots or underscores')])
-    password = PasswordField("Your Password. ", validators=[DataRequired(), Length(min=8)])
-    confirm = PasswordField("Confirm Password. ", validators=[DataRequired(), 
+    password = PasswordField("Your password. ", validators=[DataRequired(), Length(min=8),
+                                                            Regexp('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])',
+                                                                    "Password must contain at least one \
+                                                                          uppercase letter, one lowercase letter, \
+                                                                            and one number.")])
+    confirm = PasswordField("Confirm password. ", validators=[DataRequired(), 
                                                               EqualTo('password', message="Passwords must match.")])
 
     def validate_email(self, field):
