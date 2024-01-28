@@ -1,8 +1,11 @@
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField,BooleanField, ValidationError
-from wtforms.validators import DataRequired, Length, EqualTo, Email, Regexp
-from .models import User
 import re
+
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, ValidationError
+from flask_wtf.recaptcha import RecaptchaField
+from wtforms.validators import DataRequired, Length, EqualTo, Email, Regexp
+
+from .models import User
 
 class user_register(FlaskForm):
     email = StringField("Enter your email. ", validators=[DataRequired(), Length(max=64) , 
@@ -10,13 +13,10 @@ class user_register(FlaskForm):
     username = StringField("Your preffered username. ", validators=[DataRequired(), Length(max=64),
                                                       Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, \
                                                              'Usernames must have only letters, numbers, dots or underscores')])
-    password = PasswordField("Your password. ", validators=[DataRequired(), Length(min=8),
-                                                            Regexp('(?=.*\d)(?=.*[a-z])(?=.*[A-Z])',
-                                                                    "Password must contain at least one \
-                                                                          uppercase letter, one lowercase letter, \
-                                                                            and one number.")])
+    password = PasswordField("Your password. ", validators=[DataRequired(), Length(min=8)])
     confirm = PasswordField("Confirm password. ", validators=[DataRequired(), 
                                                               EqualTo('password', message="Passwords must match.")])
+    #captcha = RecaptchaField()
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
@@ -39,7 +39,7 @@ class user_signin(FlaskForm):
         #User exists?
         user =  User.query.filter_by(username=self.username.data).first()
         if not user:
-            self.username.errors.append("User with that username does'nt exist.")
+            self.username.errors.append("User with that username doesn't exist.")
             return False
         #check password match
         if not user.check_password(self.password.data):
@@ -50,9 +50,9 @@ class user_signin(FlaskForm):
     
 class changePass(FlaskForm):
     old_password = PasswordField('Old password', validators=[DataRequired()])
-    new_password = PasswordField('New password', validators=[DataRequired(), 
-                                                             EqualTo('confirm', message='Passwords must match.')])
-    confirm= PasswordField('Confirm new password', validators=[DataRequired()])
+    new_password = PasswordField('New password', validators=[DataRequired(), Length(min=8)])
+    confirm= PasswordField('Confirm new password', validators=[DataRequired(), 
+                                                               EqualTo('confirm', message='Passwords must match.')])
 
 
 class forgot(FlaskForm):

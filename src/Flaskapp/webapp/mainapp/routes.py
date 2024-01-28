@@ -1,3 +1,5 @@
+import logging
+
 import json
 import random
 
@@ -13,8 +15,10 @@ from webapp.auth.models import User
 from .models import Features, Feedback, SearcHDestination
 from .forms import FeaturesForm, feedbackform, search
 
+from ..users.forms import feedback
 from ..predict import predict_details, predict_feed_sentiment
 from ..train import train_clf
+
 
 app_blueprint = Blueprint('app', __name__,
                           static_folder="../static", template_folder="../templates/app", 
@@ -70,7 +74,6 @@ def form():
         main_nights = int(form.main_nights.data)
         zanzi_nights = form.zanzi_nights.data
         freq = form.freq.data
-
         try:
             submitted = [country, age, companion, male, female, purpose, activity, info, arrangement, pack_tra_int,
                     pack_tra_tz, pack_acc, pack_food, pack_sigh, pack_guide, pack_insurance, main_nights, zanzi_nights, freq]
@@ -88,6 +91,8 @@ def form():
                      first_trip_tz=freq, predicted_category=category, probability=probability, total_cost=None,
                      cost_probability=None, user_id=user_id)
             db.session.add(features)
+            db.session.flush()
+            session['feature_id'] = features.id 
             db.session.commit()
             session['category'] = category
             session['probability'] = probability
@@ -98,13 +103,29 @@ def form():
             db.session.rollback()       
     return render_template('app/form.html', form=form)
 
-@app_blueprint.route('/prediction')
+@app_blueprint.route('/prediction', methods=['POST', 'GET'])
 def predict():
     category = session.get('category')
     probability = session.get('probability')
     features = session.get('features')
-    return render_template('app/result.html', featues=features,
-                           predicted_result=category, probability=probability)
+    feature_id = session.get('feature_id')
+    form = feedback()
+    if request.method == 'POST' and form.validate_on_submit():
+        feed = form.feed.data
+        sentiment, proba = predict_feed_sentiment(feed)
+        user_id = current_user.id
+        try:
+            user_feedback = Feedback(feed=feed, sentiment=sentiment, probability=proba, 
+                                 feature_id=feature_id,user_id= user_id)
+            db.session.add(user_feedback)
+            db.session.commit()
+            flash("Thank you for your feedback.", category="info")
+            return redirect(url_for('.predict'))
+        except exc.IntegrityError as e:
+            flash("Your feedback was not sent, our apologies.", category="info")
+            logging.error("Error while adding user feedback: {}".format(e))
+    return render_template('app/result.html', featues=features, predicted_result=category, 
+                           probability=probability, form=form)
 
 @app_blueprint.route('/thanks', methods=['GET', 'POST'])
 @login_required

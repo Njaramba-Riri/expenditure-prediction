@@ -94,7 +94,7 @@ class XGBoost(TrainClassifier):
         try:
             logging.info("TRaining XGBoost Classifier...")
             model = XGBClassifier(**kwargs)
-            xgb = model.fif(X_train, y_train)
+            xgb = model.fit(X_train, y_train)
             logging.info("Done training xgb classifier.")
             return xgb
         except Exception as e:

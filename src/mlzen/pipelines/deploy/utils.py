@@ -2,11 +2,11 @@ import logging
 
 import pandas as pd
 
-from src.mlzen.utils.classifier.data_cleaning import DataCleaning, DataPreprocessStrategy
+from utils.classifier.data_cleaning import DataCleaning, DataPreprocessStrategy
 
 def get_data_for_test():
     try:
-        data = pd.read_csv("Datasets/test.csv")
+        data = pd.read_csv("Datasets/Test.csv")
         data = data.sample(n=100)
         preprocess_strategy = DataPreprocessStrategy()
         data_cleaning = DataCleaning(data, preprocess_strategy)
@@ -14,5 +14,5 @@ def get_data_for_test():
         result = data.to_json(orient="split")
         return result
     except Exception as e:
-        logging.exception(e)
+        logging.exception("Couldn't get data for testing: {}".format(e))
         raise e

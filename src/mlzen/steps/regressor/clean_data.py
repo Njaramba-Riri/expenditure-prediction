@@ -10,7 +10,7 @@ from zenml import step
 from zenml.client import Client
 
 from utils.regressor.data_cleaning import DataCleanStrategy, DataPreprocessStrategy, \
-    DataSplitStrategy, DataCleaning
+     DataCleaning
 
 experiment_tracker = Client().active_stack.experiment_tracker
 
@@ -38,12 +38,12 @@ def data_clean(df: pd.DataFrame) -> Tuple[
         logging.info("Preprocessing cleaned dataframe...")
         preprocess_strategy = DataPreprocessStrategy()
         data_prepro = DataCleaning(cleaned_df, strategy=preprocess_strategy)
-        preprocessed = data_prepro.clean_data()
-        logging.info("Preprocessing of the dataframe is complete, shape: {}".format(preprocessed.shape[0]))
-        logging.info("Splitting of the preprocessed data...")
-        split_strategy = DataSplitStrategy()
-        data_split = DataCleaning(preprocessed, strategy=split_strategy)
-        X_train, X_test, y_train, y_test = data_split.clean_data()
+        # preprocessed = data_prepro.clean_data()
+        logging.info("Preprocessing of the dataframe is complete.")
+        # logging.info("Splitting of the preprocessed data...")
+        # split_strategy = DataSplitStrategy()
+        # data_split = DataCleaning(preprocessed, strategy=split_strategy)
+        X_train, X_test, y_train, y_test = data_prepro.clean_data()
         logging.info(f"Done splitting data into `X_train`:{X_train.shape}, `X_test`:{X_test.shape}, `y_train`:{y_train.shape}, `y_test`:{y_test.shape}")
         return (X_train, X_test, y_train, y_test)
     except Exception as e:

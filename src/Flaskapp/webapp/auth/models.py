@@ -29,8 +29,8 @@ class Role(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
-    default = db.Column(db.Boolean, default=False, index=True)
-    permissions = db.Column(db.Integer)
+    default = db.Column(db.Boolean(), default=False, index=True)
+    permissions = db.Column(db.Integer())
     users = db.relationship('User', backref='role', lazy='dynamic')
 
     def __init__(self, **kwargs):
@@ -85,27 +85,21 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(64), unique=True, nullable=False)
     username = db.Column(db.String(64), nullable=False, unique=True)
     password = db.Column(db.String(255))
-    mobile = db.Column(db.Integer())
     location = db.Column(db.String(255))
-    about = db.Column(db.Text())
+    about = db.Column(db.String(200))
     date_created = db.Column(db.DateTime(), default=datetime.datetime.now)
     last_seen = db.Column(db.DateTime(), default=datetime.datetime.utcnow)
-    confirmed = db.Column(db.Boolean, default=False)
-    role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
+    confirmed = db.Column(db.Boolean(), default=False)
     role_name = db.Column(db.String(64))
-    tour_company = db.Column(db.String(64), nullable=False)
-    company_email = db.Column(db.String(64), unique=True)
-    company_mobile = db.Column(db.Integer())    
-    company_address = db.Column(db.String(100))
-
+    role_id = db.Column(db.Integer(), db.ForeignKey('role.id'))
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
+        if self.email == current_app.config['LETSGO_ADMIN']:
+            self.role_name = Role.query.filter_by(name='Administrator').first()
+            self.confirmed = True
         if self.role_name is None:
-            if self.email == current_app.config['LETSGO_ADMIN']:
-                self.role_name = Role.query.filter_by(name='Administrator').first()
-            if self.role_name is None:
-                self.role_name = Role.query.filter_by(default=True).first()
+            self.role_name = Role.query.filter_by(default=True).first()
 
     def can(self, permissions):
         return self.role is not None and \
@@ -127,7 +121,7 @@ class User(UserMixin, db.Model):
     
     # @password.setter
     def set_password(self, password):
-        return bcrypt.generate_password_hash(self.password, password)
+        self.password = bcrypt.generate_password_hash(password)
 
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password, password)

@@ -14,7 +14,7 @@ from zenml import step
 from zenml.client import Client
 import mlflow
 
-from utils.regressor.model_train import Logistic, RandomForest, CatBoost, XGBoost, Light
+from utils.regressor.model_train import Linear, RandomForest, CatBoost, XGBoost, Light
 
 
 experiment_tracker = Client().active_stack.experiment_tracker
@@ -52,19 +52,19 @@ def train_regressor(
             model_name = model_config["name"]
             model_parameters = model_config["parameters"]
 
-            if model_name == "Logistic":
-                model = Logistic()
+            if model_name == "Linear":
+                model = Linear()
                 mlflow.sklearn.autolog()
                 trained_lr = model.train(X_train, y_train, **model_parameters)
             elif model_name == "Forest":
                 model = RandomForest()
                 mlflow.autolog()
-                trained_rf = model.train(X_train, y_train, model_parameters)
+                trained_rf = model.train(X_train, y_train, **model_parameters)
             elif model_name == "CatBoost":
                 model = CatBoost()
-                mlflow.catboost.autolog()
+                #mlflow.catboost.log_model(model,"catboost")
                 trained_cat = model.train(X_train, y_train, **model_parameters)
-            elif model_name == "XGBOoost":
+            elif model_name == "XGBoost":
                 model = XGBoost()
                 mlflow.xgboost.autolog()
                 trained_xgb = model.train(X_train, y_train, **model_parameters)

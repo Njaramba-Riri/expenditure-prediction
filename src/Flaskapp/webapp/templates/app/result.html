@@ -5,23 +5,105 @@
 {% block content %}
 {% include 'include/navigation.html' %}
 <section class="results">
-    <h1>What we've got?.</h1>
-    <p>Started from below now we here.</p>
-    <div class="row">
-        <div class="another-box">
-            <p>From the <button onclick="showDetails()"> details</button> that you have provided, your spending category alongside your predicted total cost will be as follows: </p>
-            <div class="predicted">
-                <h4>Cost Category: <span>{{ predicted_result }}.</span> </h4>
-                <h4>Total Cost: <span>KES 132, 765.</span></h4>
-                <h4>Probability: <span>{{ "%.2f" | format(probability) }} %.</span></h4>
+    <div class="result">
+        <div class="predictions">
+            <h1>What we've got?.</h1>
+            <p>Here's your predictions...</p>        
+            <div class="another-box">
+                <p>From the <button onclick="showDetails()"> details</button> that you have provided, your spending category alongside your predicted total cost will be as follows: </p>
+                <div class="predicted">
+                    <h4>Cost Category: <span>{{ predicted_result }}.</span> </h4>
+                    <h4>Total Cost: <span>KES 132, 765.</span></h4>
+                    <h4>Probability: <span>{{ "%.2f" | format(probability) }} %.</span></h4>
+                </div>
+                <div class="mawoni">
+                    <p>A quick one, how do you feel about the predictions?.</p>
+                    <div class="ions">
+                        <ion-icon name="thumbs-up-outline" title="Satisfied" onclick="happyFeed()"></ion-icon> 
+                        <ion-icon name="happy-outline" title="Neutral" onclick="neutralFeed()"></ion-icon>
+                        <ion-icon name="thumbs-down-outline" title="Disatisfied." onclick="unhappyFeed()" id="Disatisfied"></ion-icon> 
+                        <form action="{{ url_for('.predict') }}" method="post">
+                            {% for field in form %}
+                                <div class="user-mawoni" id="mawoni">
+                                    {% if field.type == 'TextAreaField' %}
+                                        {{ field(class_='input') }}
+                                    {% else %}
+                                        {{ field(class_='send-btn') }}
+                                    {% endif %}                                    
+                                </div>
+                            {% endfor %}
+                        </form>                        
+                    </div>
+                </div>
             </div>
-
         </div>
-    </div>
-    <div class="row">
-        <div class="btn-activity">
-            <button type="button" class="activity-btn" onclick="toActivity()">Recommended Places.</button>                
-        </div>            
+        <div class="recommended">
+            {% if current_user.is_authenticated %}
+                <h2>{{ current_user.username | title }}, All within your budget.</h2>
+            {% else %}
+                <h2>All within your budget. It's all yours.</h2>
+            {% endif %}
+            <div class="places">
+                <ul class="gallery">                
+                    <li>
+                        <figure>
+                            <a href=""><img src="/static/images/maasai.jpeg" alt="" srcset=""></a>
+                            <figcaption>
+                                <main>
+                                    <p class="">
+                                        <span><i class="fa fa-map-marker"></i>Mara</span>
+                                        <span><i class="fa fa-sun"></i>4 Days</span>
+                                        <span><i class="fa fa-moon"></i>3 Nights</span>
+                                    </p>
+                                    <h3>Maasai Mara</h3>
+                                    <p>
+                                        Experience an authentic encounter with the Maasai community, 
+                                        renowned for their cultural richness and unique way of life  
+                                    </p>
+                                </main>
+                                <footer>
+                                    <div>
+                                        <p class="small">From</p>
+                                        <p class="price">$300</p>
+                                        <i class="fa fa-arrow-right"></i>
+                                    </div>
+                                </footer>
+                            </figcaption>
+                        </figure>
+                    </li> 
+                    <li>
+                        <figure>
+                            <a href=""><img src="/static/images/ele.jpg" alt=""></a>
+                            <figcaption>
+                                <main>
+                                    <p>                        
+                                        <span><i class="fa fa-map-marker"></i>Serengeti</span>
+                                        <span><i class="fa fa-sun"></i>4 Days</span>
+                                        <span><i class="fa fa-moon"></i>3 Nights</span>
+                                    </p>
+                                    <h3>Serengeti</h3>
+                                    <p>Book your safari today and get ready to be awed by the beauty of the African savannah!</p>
+                                </main>
+                                <footer>
+                                    <div>
+                                        <p class="small">From</p>
+                                        <p class="price">$100</p>
+                                        <i class="fa fa-arrow-right"></i>
+                                    </div>
+                                </footer>
+                            </figcaption>
+                        </figure>
+                    </li> 
+                </ul>
+            </div>
+            <div class="btn-activity">
+                {% if current_user.is_authenticated %}
+                    <button type="button" class="activity-btn" onclick="toActivity()">Discover More.</button>
+                {% else %}
+                    <button type="button" class="activity-btn" onclick="toSign()">Sign In to Discover More.</button>
+                {% endif  %}                
+            </div>            
+        </div>        
     </div>
 </section>
 <section class="teaser">
@@ -38,8 +120,31 @@
 </section>
 {% include 'include/footer.html' %}
 <script>
+    var feedback = document.getElementById("Disatisfied");
+    var mawoni = document.getElementById("mawoni");
+    
+    feedback.addEventListener('click', () => {
+        if(mawoni){
+            mawoni.classList.add("active");
+        }else{
+            mawoni.classList.remove("active");
+        }
+    });
+
+    function happyFeed(){
+        alert("Thank you for that and thank you for your time.")
+    }
+    function neutralFeed(){
+        alert("We'll take that. Thank you for your feedback.")
+    }
+    // function unhappyFeed(){
+    //     alert("We feel sorry for that. Thank you for helping us get feedback.")
+    // }
     function toActivity(){
         window.location.href = "{{ url_for('suser.activity', username=current_user.username) }}"
+    }
+    function toSign(){
+        window.location.href = "{{ url_for('auth.signin') }}"
     }
     function toForm(){
         window.location.href = "{{ url_for('app.form') }}"

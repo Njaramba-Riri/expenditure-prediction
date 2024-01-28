@@ -1,10 +1,13 @@
 import logging
 
+logger = logging.getLogger(__name__)
+
 from flask import Blueprint, redirect, url_for, render_template, request, flash, abort, session, jsonify
 from flask_login import login_required, login_user, logout_user, current_user
 from flask_moment import Moment
 import requests
 from flask_jwt_extended import create_access_token
+from sqlalchemy import exc
 
 from .models import User
 from .forms import user_register, user_signin, forgot, ResetPassword, changePass 
@@ -43,10 +46,10 @@ def signin():
         user = User.query.filter_by(username=form.username.data).first()
         if user is not None and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            next = request.args.get('next')
-            if next is None:
-                next = url_for('app.index')
-            return redirect(next)
+            url = request.args.get('next')
+            if url is None:
+                return redirect(url_for('app.index'))
+            return redirect(url)
         flash("Invalid username or password")
     return render_template('auth/user_login.html', form=form) 
 
@@ -55,12 +58,12 @@ def signup():
     if not current_user.is_anonymous:
         return redirect(url_for('app.index'))
     form = user_register()
-    if request.method == 'POST' and form.validate_on_submit():
+    if request.method == 'POST' and form.validate():
         new_user = User()
         new_user.email = form.email.data.lower()
         new_user.username = form.username.data
-        new_user.set_password(form.password.data)
-        try:
+        new_user.set_password(form.password.data) 
+        try:          
             db.session.add(new_user)
             db.session.commit()
             token = new_user.generate_confirmation_token()
@@ -68,9 +71,11 @@ def signup():
                         "auth/email/confirm", user=new_user, token=token)
             flash("A confirmation email has been sent to you.", category="info")
             return redirect(url_for('.signin'))
-        except Exception as e:
-            logging.error("Failed to create user object.")
+        except exc.IntegrityError as e:
             db.session.rollback()
+            flash("{}".format(e), category="info")
+            logger.error("Failed to create user object: {}".format(e))
+
     return render_template('auth/register.html', form=form)
 
 @auth_blueprint.route('/confirm/<token>')
@@ -80,9 +85,9 @@ def confirm(token):
         return redirect(url_for('app.index'))
     if current_user.confirm(token):
         db.session.commit()
-        flash('You have confirmed your account. Welcome to the party!.')
+        flash('You have confirmed your account. Welcome to the party!.', category="info")
     else:
-        flash('The confirmation link is invalid or has expired.')
+        flash('The confirmation link is invalid or has expired.', category="warning")
     return redirect(url_for('app.index'))
 
 @auth_blueprint.route('/confirm')
@@ -91,24 +96,30 @@ def resend_confirmation():
     token = current_user.generate_confirmation_token()
     send_email(current_user.email, 'Confirm Your Account',
                'auth/email/confirm', user=current_user, token=token)
-    flash('A new confirmation email has been sent to you by email, kindly check your inbox.')
+    flash('A new confirmation email has been sent to you by email, kindly check your inbox.', category="info")
     return redirect(url_for('app.index'))
 
-@auth_blueprint.route('/<username>/change_password', methods=['GET', 'POST'])
+@auth_blueprint.route('/<string:username>/change_password', methods=['GET', 'POST'])
 @login_required
 def changePassword(username):
     form = changePass()
-    user = User.query.filter_by(username=username).first()
-    if form.validate_on_submit():
+    if request.method=='POST' and form.validate_on_submit():
+        user = User.query.filter_by(username=username).first()
         if user.check_password(form.old_password.data):
-            user.password = user.set_password(form.new_password.data)
-            db.session.add(user)
-            db.session.commit()
-            flash("Password changed successfully, you'll be redirected to login page.")
-            logout_user()
-            return redirect(url_for('auth.signin'))
+            user.set_password(form.new_password.data)
+            try:
+                db.session.add(user)
+                db.session.commit()
+                flash("Password changed successfully, kindly log back in.", category="info")
+                logout_user()
+                return redirect(url_for('auth.signin'))
+            except exc.IntegrityError as e:
+                db.session.rollback()
+                flash("Your password couldn't be changed.", category="warning")
+                logger.error("User password could not be changed: {}".format(e))
         else:
-            flash("Invalid password.")
+            flash("Invalid old password.", category="warning")
+    flash("You will be logged out when you change password.", category="info")
     return render_template('/auth/changepass.html', form=form)
 
 @auth_blueprint.route('/reset', methods=['GET', 'POST'])
@@ -157,8 +168,8 @@ def api():
     access_token = create_access_token(identity=user.id)
     return jsonify(access_token=access_token), 200
 
-@auth_blueprint.route("/logout", methods=['GET', 'POST'])
+@auth_blueprint.route("/logout")
+@login_required
 def logout():
     logout_user()
-    flash("You've logged out. ", category="info")
     return redirect(url_for('app.index'))

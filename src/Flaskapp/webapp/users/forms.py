@@ -59,9 +59,9 @@ class forgotPasswordForm(FlaskForm):
 
     
 class editProfile(FlaskForm):
-    username = StringField("Username", validators=[DataRequired(), Length(0, 50)])
-    location = StringField("Where are you from?", validators=[DataRequired(), Length(0, 100)])
-    about_me = TextAreaField("Say something about yourself.", validators=[Length(0, 80)])
+    username = StringField("New username.", validators=[DataRequired(), Length(max=50)])
+    location = StringField("Where are you from.", validators=[DataRequired(), Length(max=100)])
+    about_me = TextAreaField("Say something about yourself.", validators=[Length(max=80)])
 
     def validate_username(self, field):
         user = User.query.filter_by(username=field.data).first()
@@ -72,7 +72,8 @@ class editProfile(FlaskForm):
 
 
 class feedback(FlaskForm):
-    feed = TextAreaField("What should we improve on: ", validators=[DataRequired()])
+    feed = TextAreaField("What should we improve on: ", validators=[DataRequired(), Length(max=500)])
+    submit = SubmitField("Send")
 
 
 class SearchQuery(FlaskForm):

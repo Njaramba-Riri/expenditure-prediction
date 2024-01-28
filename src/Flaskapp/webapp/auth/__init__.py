@@ -22,7 +22,7 @@ jwt = JWTManager()
 
 login_manager.login_view = "auth.signin" 
 login_manager.session_protection = "strong"
-login_manager.login_message = "Kindly login to access this page."
+login_manager.login_message = "You need to be logged in for you to access the endpoint."
 login_manager.login_message_category = "info"
 
 @login_manager.user_loader

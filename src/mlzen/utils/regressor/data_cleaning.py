@@ -70,7 +70,7 @@ class DataPreprocessStrategy(DataStrategy):
     Args:
         DataStrategy (_type_): Abstract inherited ABC class.
     """
-    def clean_data(self, df: pd.DataFrame) -> Union[pd.DataFrame, pd.Series, np.ndarray]:
+    def clean_data(self, df: pd.DataFrame) -> np.ndarray:
         """Handles the preprocessing of the data.
 
         Args:
@@ -80,9 +80,9 @@ class DataPreprocessStrategy(DataStrategy):
             Union[pd.DataFrame, pd.Series, np.ndarray]: Numpy arrays of preprocessed data.
         """
         try:
-            X = df.drop('total_cost', axis=1)
-            numerical = X.select_dtypes(include=np.number).columns.to_list()
-            categorical = X.select_dtypes(exclude=np.number).columns.to_list()
+            features = df.drop('total_cost', axis=1)
+            numerical = features.select_dtypes(include=np.number).columns.to_list()
+            categorical = features.select_dtypes(exclude=np.number).columns.to_list()
 
             numerical_pipeline = Pipeline(steps=[
                 ('imputer', SimpleImputer(strategy="median")),
@@ -90,52 +90,54 @@ class DataPreprocessStrategy(DataStrategy):
             ])
 
             categorical_pipeline = Pipeline(steps=[
-                ("imputer", SimpleImputer(strategy="most_frequesnt")),
+                ("imputer", SimpleImputer(strategy="most_frequent")),
                 ("encoder", OneHotEncoder(sparse_output=False, max_categories=50)),
                 ("scaler", MinMaxScaler())
             ])
 
-            transformer = ColumnTransformer([
+            transformer = ColumnTransformer(transformers=[
                 ("numerical", numerical_pipeline, numerical),
-                ("categorical", categorical_pipeline, categorical),
-                ("scaler", StandardScaler())
+                ("categorical", categorical_pipeline, categorical)
             ])
 
-            X = transformer.fit_transform(df)
-            y = df['total_cost'].to_list()
-            return X, y
+            X = transformer.fit_transform(df[numerical + categorical])
+            y = np.array(df['total_cost'])
+
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True, random_state=42)
+
+            return X_train, X_test, y_train, y_test
         except Exception as e:
             logging.error("Error while preprocessing the dataframe: {}".format(e))
             raise e
         
-class DataSplitStrategy(DataStrategy):
-    """Defines the strategy to split data ready for model training and evaluation.
+# class DataSplitStrategy(DataStrategy):
+#     """Defines the strategy to split data ready for model training and evaluation.
 
-    Args:
-        DataStrategy (_type_): Abstract inheritance class.
-    """
-    def clean_data(self, X: np.ndarray, y: Union[np.ndarray, pd.Series, pd.DataFrame]) -> np.ndarray:
-        """Splits the input variables as well as the target variable.
+#     Args:
+#         DataStrategy (_type_): Abstract inheritance class.
+#     """
+#     def clean_data(self, X: np.ndarray, y: Union[np.ndarray, pd.Series, pd.DataFrame]) -> np.ndarray:
+#         """Splits the input variables as well as the target variable.
 
-        Args:
-            X (np.ndarray): Input features.
-            y (Union[np.ndarray, pd.Series, pd.DataFrame]): Target feature.
+#         Args:
+#             X (np.ndarray): Input features.
+#             y (Union[np.ndarray, pd.Series, pd.DataFrame]): Target feature.
 
-        Returns:
-            np.ndarray: Numpy array of split features.
-        """
-        try:
-            n_folds = 10
-            k_folds = StratifiedKFold(n_folds, shuffle=True, random_state=42)
+#         Returns:
+#             np.ndarray: Numpy array of split features.
+#         """
+#         try:
+#             n_folds = 10
+#             k_folds = StratifiedKFold(n_folds, shuffle=True, random_state=42)
 
-            for(train_idx, val_idx) in k_folds.split(X, y):
-                X_train, X_test = X[train_idx], X[val_idx]
-                y_train, y_test = y[train_idx], y[val_idx]
+#             for(train_idx, val_idx) in k_folds.split(X, y):
+#                 X_train, X_test = X[train_idx], X[val_idx]
+#                 y_train, y_test = y[train_idx], y[val_idx]
 
-            return X_train, X_test, y_train, y_test
-        except Exception as e:
-            logging.error("Error while splitting the data: {}".format(e))
-            raise e
+#             return X_train, X_test, y_train, y_test
+#         except Exception as e:
+#             logging.error("Error while splitting the data: {}".format(e))
+#             raise e
         
 class DataCleaning:
     """Cleans and preprocesses data using a specified data strategy.

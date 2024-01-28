@@ -37,25 +37,31 @@ def profile(username):
     return render_template("users/myprofile.html", current_time=datetime.datetime.utcnow(),
                            username=session.get('username'), user=user) 
 
-@user_blueprint.route("<username>/edit_profile", methods=['GET', 'POST'])
+@user_blueprint.route("<string:username>/edit_profile", methods=['GET', 'POST'])
 @login_required
 def update(username):
     form = editProfile()
     user = User.query.filter_by(username=username).first()
     if request.method == 'POST' and form.validate_on_submit():
-        current_user.username = form.username.data
-        current_user.location = form.location.data
-        current_user.about = form.about_me.data
+        user.username = form.username.data
+        user.location = form.location.data
+        user.about = form.about_me.data
         session['username'] = form.username.data
         session['location'] = form.location.data
         session['about']  = form.about_me.data
-        db.session.add(user)
-        flash("Details Updated.")
-        return redirect(url_for('suser.profile', username=current_user.username))
+        try:
+            db.session.add(user)
+            db.session.commit()
+            flash("Your profile details updated successfully.", category="info")
+            return redirect(url_for('suser.profile', username=current_user.username))
+        except Exception as e:
+            flash("Your profile could not be updated, sorry.", category="info")
+            logging.error("Error when updating user profile: {}".format(e))
+    
     form.username.data = current_user.username or session.get('username')
     form.location.data = current_user.location or session.get('location')
     form.about_me.data  =current_user.about or session.get('about')
-    return render_template('editProfile.html', form=form)
+    return render_template('users/editProfile.html', form=form)
 
 @user_blueprint.route("/<string:username>/activity", methods=['GET', 'POST'])
 @login_required

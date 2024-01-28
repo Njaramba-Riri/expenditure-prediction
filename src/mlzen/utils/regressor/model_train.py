@@ -1,15 +1,14 @@
 import logging 
 
 from abc import ABC, abstractmethod
-from sys import exception
 
 import numpy as np
 
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from catboost import CatBoostRegressor
 from xgboost import XGBRegressor
-from lightgbm import LGBMClassifier, LGBMRegressor
+from lightgbm import LGBMRegressor
 
 
 
@@ -29,13 +28,13 @@ class TrainRegressor(ABC):
         """
         pass
 
-class Logistic(TrainRegressor):
+class Linear(TrainRegressor):
     """Defines the strategy for training the logistic regression model.
     Args:
         TrainRegressor (_type_): Base class.
     """
     def train(self, X_train: np.ndarray, y_train: np.ndarray, **kwargs):
-        """Trains logistic regression model.
+        """Trains linear regression model.
 
         Args:
             X_train (np.ndarray): Input numpy array features.
@@ -46,10 +45,10 @@ class Logistic(TrainRegressor):
             Exception
         """
         try:
-            lr = LogisticRegression(**kwargs)
+            lr = LinearRegression(**kwargs)
             trained_lr = lr.fit(X_train, y_train)
             return trained_lr
-        except exception as e:
+        except Exception as e:
             logging.error("Error while training logistic regression model: {}".format(e))
             raise e
 
@@ -125,7 +124,7 @@ class XGBoost(TrainRegressor):
         """
         try:
             xgb = XGBRegressor(**kwargs)
-            trained_xgb = xgb.train(X_train, y_train)
+            trained_xgb = xgb.fit(X_train, y_train)
             return trained_xgb
         except Exception as e:
             logging.error("Error while training xgboost regressor model: {}".format(e))

@@ -16,7 +16,7 @@ from utils.classifier.model_train import RandomForest, CatBoost, XGBoost, LightG
 
 experiment_tracker = Client().active_stack.experiment_tracker
 
-with open('src/zen/steps/classifier/models.yml', 'r') as f:
+with open('src/mlzen/steps/classifier/models.yml', 'r') as f:
     model_configs = yaml.safe_load(f)
 
 
@@ -26,12 +26,10 @@ def model_train(
     y_train: np.ndarray,
     X_test: np.ndarray,
     y_test: np.ndarray
-) -> Tuple[
-    Annotated[ClassifierMixin, "LGB classifier"],  
-    Annotated[ClassifierMixin, "XGB classifier"],  
-    Annotated[ClassifierMixin, "forest classifier"],  
-    Annotated[CatBoostClassifier, "catboost classifier" ]
-    ]:
+) -> Annotated[ClassifierMixin, "LGBM Classifier"]: 
+    # Annotated[ClassifierMixin, "XGB classifier"],  
+    # Annotated[ClassifierMixin, "forest classifier"],  
+    # Annotated[CatBoostClassifier, "catboost classifier" ]
     
     """Model training step.
 
@@ -54,20 +52,20 @@ def model_train(
                 model = LightGClassifier()
                 mlflow.lightgbm.autolog()
                 trained_lgb = model.train(X_train, y_train, **model_parameters)
-            elif model_name == "XGBClassifier":
-                model = XGBoost()
-                mlflow.xgboost.autolog()
-                trained_xgb = model.train(X_train, y_train, **model_parameters)
-            elif model_name == "RandomForest":
-                model = RandomForest()
-                mlflow.sklearn.autolog()
-                trained_forest = model.train(X_train, y_train, **model_parameters)
-            elif model_name == "CatBoost":
-                model = CatBoost()
-                trained_cat = model.train(X_train, y_train, **model_parameters)
+            # elif model_name == "XGBClassifier":
+            #     model = XGBoost()
+            #     mlflow.xgboost.autolog()
+            #     trained_xgb = model.train(X_train, y_train, **model_parameters)
+            # elif model_name == "RandomForest":
+            #     model = RandomForest()
+            #     mlflow.sklearn.autolog()
+            #     trained_forest = model.train(X_train, y_train, **model_parameters)
+            # elif model_name == "CatBoost":
+            #     model = CatBoost()
+            #     trained_cat = model.train(X_train, y_train, **model_parameters)
             else:
                 raise ValueError("Model {} not supported".format(model_name))
-        return (trained_lgb, trained_xgb, trained_forest, trained_cat)
+        return trained_lgb#, trained_xgb, trained_forest, trained_cat)
     except Exception as e:
         logging.error("Error while trying to train the model: {}".format(e))
         raise e

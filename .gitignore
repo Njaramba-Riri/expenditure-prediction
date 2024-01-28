@@ -1,11 +1,11 @@
 /venv
 /env
 .flaskenv
+.env
 
 /.idea
 /.vscode
 /.github
-
 catboost_info/
 expenditure/
 /fastapi/

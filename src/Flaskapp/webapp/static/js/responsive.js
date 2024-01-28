@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', (event) => {
   var loader = document.querySelector('.loader-content');
   var content = document.querySelector('#page-contents');
 
@@ -10,6 +10,34 @@ document.addEventListener('DOMContentLoaded', () => {
       loader.classList.remove('hidden');
     }
   })
+});
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  var element = document.getElementById("messages");
+  var timer;
+  
+  function startTimer(){
+    timer = setTimeout(function(){
+      if(element){
+        element.classList.add('close');
+      }
+    }, 4000);
+  }
+
+  function stopTimer(){
+    clearTimeout(timer);
+  }
+
+  if(element){
+    element.addEventListener('mouseover', stopTimer);
+    element.addEventListener('mouseout', startTimer);
+    element.addEventListener('click', function(){
+      stopTimer();
+      element.classList.add('close');
+    });
+
+    startTimer();
+  }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
