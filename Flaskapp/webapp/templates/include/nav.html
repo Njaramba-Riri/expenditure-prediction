@@ -1,0 +1,86 @@
+<section class="navigation">
+    <nav class="navbar navbar-expand nav-inverse" id="Nav" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-brand">
+                <i class="fa fa-paper-plane fa-3x" style="color: rgb(255, 255, 255);"></i>
+                <span class="brand-name">LetsGO</span></span>
+            </div>
+            <ul class="navbar-nav mr-auto">
+                {% if current_user.confirmed and current_user.is_administrator() %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('admin.admindashboard')}}">
+                        Admin Dashboard<span class="sr-only">(current)</span></a>
+                </li>            
+                {% endif %}
+                {% if current_user.is_authenticated and not current_user.is_administrator() %}
+                <div class="nav-item ">
+                    <a class="nav-link" href="{{ url_for('app.index') }}">
+                        Home
+                    </a>
+                </div>
+                <li class="nav-item">
+                    <a href="{{ url_for('app.form') }}" class="nav-link">Predict</a>
+                </li>
+                <div class="nav-item">
+                    <a href="#" class="nav-link">About</a>
+                </div>
+                <li class="nav-item">
+                    <a href="" class="nav-link">Top Destinations</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="dropdown-toggle dropdown-link-title text-uppercase nav-link" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ current_user.username }}
+                    </a>
+                    <ul class="dropdown-menu show-dropdown" aria-labelledby="dropdowwnMenuLink" id="dropdownMenu">
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('suser.profile', username=current_user.username) }}">
+                                My Profile<i class="fa fa-fw fa-user-circle" style="margin-left: 5px;"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('suser.update', username=current_user.username) }}">
+                                Edit Profile <i class="fa fa-user"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('auth.changePassword', username=current_user.username) }}">
+                                Change Password<i class="fa fa-lock" style="margin-left: 10px;"></i>
+                            </a>
+                        </li>
+                        <hr>
+                        <li>
+                            <a class="dropdown-item" href="{{ url_for('auth.logout') }}">
+                                Logout<i class="fa fa-fw fa-sign-out" style="margin-left: 5px;"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {% elif current_user.is_anonymous %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('app.index') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link login-btn dropdown-btn" href="{{ url_for('auth.signin') }}">Login</a>
+                </li>
+                {% endif %}
+                <li class="nav-item dropdown">
+                    <a class="dropdown-toggle" id="langDropdown" data-bs-toggle="dropdown">
+                        Language
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="langDropdown">
+                        <a class="dropdown-item" href="{{ url_for('babel.index', locale='en') }}">English</a>
+                        <a class="dropdown-item" href="{{ url_for('babel.index', locale='sw') }}">Swahili</a>
+                        <a class="dropdown-item" href="{{ url_for('babel.index', locale='es') }}">Spanish</a>
+                        <a class="dropdown-item" href="{{ url_for('babel.index', locale='de') }}">German</a>
+                        <a class="dropdown-item" href="{{ url_for('babel.index', locale='fr') }}">French</a>
+                        <a class="dropdown-item" href="{{ url_for('babel.index', locale='pt') }}">Portuguese</a>
+                    </div>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </nav>  
+</section>

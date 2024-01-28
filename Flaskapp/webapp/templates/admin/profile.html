@@ -1,0 +1,38 @@
+{% extends 'Base.html' %}
+
+{% block title %} Admin | Profile {% endblock %}
+
+{% block content %}
+{% include 'include/sidebar.html' %}
+<section class="admin-profile">
+    <div class="container profile-wrapper">
+        <div class="row">  
+            <div class="col-md-4 personal">
+                <div class="img-update">
+                  <img src="../static/images/admin.png" alt=""> 
+                  <div class="buttons">
+                    <button class="update-btn" onclick="editProfile()">Edit.</button> 
+                    <button class="update-btn" onclick="window.history.back()">Back</button>    
+                  </div> 
+                </div>
+                <h3>Profile Details</h3>
+                <p><strong>Username:</strong> {{ current_user.username }}</p>
+                <p><i class="fa fa-envelope"></i><span class="input-box">{{ current_user.email }}</span></p>               
+            </div>                     
+            <div class="col-md-4 sect">
+                <h3>Organization Details</h3>
+                <p>Tour Agency: <a href="">Let'Go Tours and Travel.</a></p>
+                <p><i class="fa fa-phone"></i>+254 758630202</p>
+                <p><i class="fa fa-envelope"></i></i><a href="mailto:info.letsgo@gmail.com" target="_top">info.letsgo@gmail.com</a></p>
+                <p><i class="fa fa-home"><a href="https://googlemaps/g=?"></i>Muthangari, Gigiri Road, Nairobi, Kenya.</a></p>
+            </div>
+
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    function editProfile(){
+        window.location.href = "{{ url_for('.update_profile', id=user.id) }}"
+    }
+</script>
+{% endblock %}

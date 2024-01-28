@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'include/nav.html' %}
+<section class="submissions">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="mainTitle text-bold text-uppercase float-start"> | Activity</div>
+        </div>
+    </div>
+    <div class="container">
+        {% if len(features) == 0 %}
+        <div class="none">
+            <h2>My Requests:</h2>
+            <h3>Oops, Looks like you have'nt submitted any details for predictions.</h3>
+            <button type="button" class="api-btn btn btn-success">Try it.</button>
+        </div>
+        {% else %}
+        <div class="something">
+            <h2>My Requests</h2>
+            <h5>Total Submissions:{{ len(features) }}</h5>
+            <p><a href="{{ url_for('app.form') }}">Submit another?</a></p>
+            <h4>Your Activity:</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">From</th>
+                        <th scope="col">Age Group</th>
+                        <th scope="col">Purpose</th>
+                        <th scope="col">Main Activity</th>
+                        <th scope="col">Tour Arrangement</th>
+                        <th scope="col">Predicted Category</th>
+                        <th scope="col">Probability</th>
+                        <th scope="col">What I said</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for feature, feed in zip(features, feedback) %}
+                    <tr>
+                        <th scope="row">
+                            <a data-bs-toggle="modal" data-bs-target="features"
+                                href="{{ feature.id }}">{{ feature.id }}</a>
+                        </th>
+                        <td data-details="Country">{{ feature.country }}</td>
+                        <td data-details="Age Group">{{ feature.age_group }}</td>
+                        <td data-details="Purpose">{{ feature.purpose }}</td>
+                        <td data-details="Main Activity">{{ feature.main_activity }}</td>
+                        <td data-details="Tour Arrangement">{{ feature.tour_arrangement }}</td>
+                        <td data-details="Predicted Category">{{ feature.predicted_category }}</td>
+                        <td data-details="Probability">{{ feature.probability }}</td>
+                        <td data-details="What I Said">{{ feed.feed | truncate(30, true, '.....') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+        <div class="modal fade" id="features" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="featureBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    {% for feature in features %}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="featureBackdropLabel">Feature Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Edit</button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+</section>
+<section class="submissions">
+    <h1>{{ user.username }} | Activity</h1>
+    <div class="container">
+        {% if len(features) == 0 %}
+        <div class="none">
+            <h2>My Requests:</h2>
+            <h3>Oops, Looks like you have'nt submitted any details for predictions.</h3>
+            <button type="button" class="api-btn btn btn-success" onclick="toForm()">Try it.</button>
+        </div>
+        {% else %}
+        <div class="something">
+            <div class="activity-header">
+                <h4>Your Activity:</h4>
+                <h4>Total Submissions: {{ len(features) }}</h4>
+                <a href="{{ url_for('app.form') }}">Submit another?</a>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">From</th>
+                        <th scope="col">Age Group</th>
+                        <th scope="col">Purpose</th>
+                        <th scope="col">Main Activity</th>
+                        <th scope="col">Tour Arrangement</th>
+                        <th scope="col">Predicted Category</th>
+                        <th scope="col">Probability</th>
+                        <th scope="col">What I said</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for feature, feed in zip(features, feedback) %}
+                    <tr data-bs-toggle="modal" data-bs-target="#features" title="Click to show.">
+                        <div class="modal fade" id="features" data-bs-keyboard="false" tabindex="-1"
+                            aria-labelledby="featureBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="featureBackdropLabel">Feature Details</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Country: {{ feature.country }}</p>
+                                        <p>Age Group: {{ feature.age_group }}</p>
+                                        <p>Travel With: {{ feature.travel_with }}</p>
+                                        <p>Total Male: {{ feature.total_male }}</p>
+                                        <p>Total Female: {{ feature.total_female }}</p>
+                                        <p>Purpose of Visit: {{ feature.purpose }}</p>
+                                        <p>Main Activity of the Visit: {{ feature.main_activity }}</p>
+                                        <p>Information Source: {{ feature.info_source }}</p>
+                                        <p>Tour Arrangement: {{ feature.tour_arrangement }}</p>
+                                        <p>International Transport: {{ feature.package_transport_int }}</p>
+                                        <p>Transport withing Tanzania: {{ feature.package_transport_tz }}</p>
+                                        <p>Package Accomodation: {{ feature.package_accomodation }}</p>
+                                        <p>Package Food: {{ feature.package_food }}</p>
+                                        <p>Package Sightseeing: {{ feature.package_sightseeing }}</p>
+                                        <p>Package Guided Tour: {{ feature.package_guided_tour }}</p>
+                                        <p>Package Insurance: {{ feature.package_insurance }}</p>
+                                        <p>Total Nights in Mainland Tz: {{ feature.night_mainland }}</p>
+                                        <p>Total Nights in Zanzibar: {{ feature.night_zanzibar }}</p>
+                                        <p>First Trip Tz: {{ feature.first_trip_tz }}</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Edit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <td data-details="Country">{{ feature.country }}</td>
+                        <td data-details="Age Group">{{ feature.age_group }}</td>
+                        <td data-details="Purpose">{{ feature.purpose }}</td>
+                        <td data-details="Main Activity">{{ feature.main_activity }}</td>
+                        <td data-details="Tour Arrangement">{{ feature.tour_arrangement }}</td>
+                        <td data-details="Predicted Category">{{ feature.predicted_category }}</td>
+                        <td data-details="Probability">{{ feature.probability }}</td>
+                        <td data-details="What I Said">{{ feed.feed | truncate(30, true, '.....') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+
+</section>
+{% include 'include/footer.html' %}
+    {% block script %}
+    <script>
+        function apiData() {
+            window.location.href = "{{ url_for('.get_data') }}"
+        }
+    </script>
+    {% endblock script %}
+{% endblock %}
+
+    <div class="container">
+        <div class="dashbodard-panel">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="dashboard-card">
+                        <span class="fa-stack fa-3x"><i class="fa fa-square"></i><i
+                                class="fa fa-user fa-stack-1x fa-inverse"></i></span>
+                        <h2>Profile</h2>
+                        <p>Update, and customize your admin profile.</p>
+                        <p class="links cl-effect-1">
+                            <a href="{{ url_for('.profile') }}">
+                                See profile.
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="dashboard-card">
+                        <span class="fa-stack fa-3x"><i class="fa fa-square fa-stack"></i><i
+                                class="fa fa-file fa-stack-1x fa-inverse"></i></span>
+                        <h2>Reports</h2>
+                        <p>View, download, and share various reports generated by the model.</p>
+                        <p class="links cl-effect-1">
+                            <a href="{{ url_for('/letsgo/admin/dashboard/') }}">
+                                Go To Reports
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="dashboard-card">
+                        <span class="fa-stack fa-3x"><i class="fa fa-square fa-stack"></i><i
+                                class="fa fa-comment fa-stack-1x fa-inverse"></i></span>
+                        <h2>User Feedback</h2>
+                        <p>Engage with user feedback.</p>
+                        <p class="links cl-effect-1">
+                            <a href="{{ url_for('admin.feedback') }}">
+                                View Feedback
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="dashboard-card">
+                        <span class="fa-stack fa-3x"><i class="fa fa-square fa-stack"></i><i
+                                class="fa fa-users fa-stack-1x fa-inverse"></i></span>
+                        <h2>System Users</h2>
+                        <p>View and Manage your users.</p>
+                        <p class="links cl-effect-1">
+                            <a href="{{ url_for('admin.users') }}">View Users.</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

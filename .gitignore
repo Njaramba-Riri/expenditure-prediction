@@ -1,13 +1,22 @@
 /venv
 /env
-*.flaskenv
+.flaskenv
 
 /.idea
 /.vscode
+/.github
+
+catboost_info/
+expenditure/
+/fastapi/
+Flask/
+notebooks/
+
+
 
 config.py
 /.zen
 *.pyc
 *.sqlite
 *.log
-.env
+.envgit

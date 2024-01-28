@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %} LetsGo | Performance Reports {% endblock%}
+
+{% block content %}
+{# % include 'admin/include/sidebar.html'% #}
+<section class="reports">
+    <h1>System Reports</h1>
+    <div class="container">
+        <div class="dashboard-panel">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="dashboard-card">
+                        <h2>Model Reports.</h2>
+                        <p>Explore, view, and download model performance reports.</p>
+                        <p class="links cl-effect-1">
+                            <a href="{{ url_for('admin.performance') }}">To Performance Reports</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="dashboard-card">
+                        <h2>Data Drift Reports.</h2>
+                        <p>Is your incoming data drifting?, explore.</p>
+                        <p class="links cl-effect-1">
+                            <a href="{{ url_for('app.index') }}">To Data Reports.</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="dashboard-card">
+                        <h2>Insightful Visuals.</h2>
+                        <p>Which are the specific factors influencing tourist spending?.</p>
+                        <p class="links cl-effect-1">
+                            <a href="{{ url_for('app.index') }}">To Insights.</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'include/footer.html' %}
+{% endblock %}
