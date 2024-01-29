@@ -46,11 +46,13 @@ def signin():
         user = User.query.filter_by(username=form.username.data).first()
         if user is not None and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
+            if user.is_administrator:
+                return redirect(url_for('admin.admindashboard'))
             url = request.args.get('next')
             if url is None:
                 return redirect(url_for('app.index'))
             return redirect(url)
-        flash("Invalid username or password")
+        flash("Invalid username or password.", category="info")
     return render_template('auth/user_login.html', form=form) 
 
 @auth_blueprint.route('/signup', methods=['GET', 'POST'])
@@ -99,6 +101,37 @@ def resend_confirmation():
     flash('A new confirmation email has been sent to you by email, kindly check your inbox.', category="info")
     return redirect(url_for('app.index'))
 
+@auth_blueprint.route('/reset', methods=['GET', 'POST'])
+def forgotpass():
+    if not current_user.is_anonymous:
+        return redirect(url_for('app.index'))
+    form = forgot()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data.lower()).first()
+        if user:
+            token = user.generate_reset_token()
+            send_email(user.email, 'Reset Your Password',
+                       'auth/email/resetpass', user=user, token=token)
+        flash("An email with reset instructions has just been sent to you.", category="info")
+        return redirect(url_for('.signin'))
+    return render_template('/auth/forgot.html', form=form)
+
+@auth_blueprint.route('/reset/<string:token>/', methods=['POST', 'GET'])
+def password_reset(token):
+    if not current_user.is_anonymous:
+        return redirect(url_for('app.index'))
+    form = ResetPassword()
+    if form.validate_on_submit():
+        if User.confirm_reset_token(token, form.password.data):
+            db.session.commit()
+            flash('Your password has been successfully updated, you can now log in.', category="info")    
+            return redirect(url_for('.signin'))
+        else:
+            flash("The password reset link is invalid or has expired.", category="warning")
+            return redirect(url_for('.forgotpass'))
+    return render_template('/auth/changepass.html', form=form)
+
+
 @auth_blueprint.route('/<string:username>/change_password', methods=['GET', 'POST'])
 @login_required
 def changePassword(username):
@@ -120,35 +153,6 @@ def changePassword(username):
         else:
             flash("Invalid old password.", category="warning")
     flash("You will be logged out when you change password.", category="info")
-    return render_template('/auth/changepass.html', form=form)
-
-@auth_blueprint.route('/reset', methods=['GET', 'POST'])
-def forgotpass():
-    if not current_user.is_anonymous:
-        return redirect(url_for('app.index'))
-    form = forgot()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data.lower()).first()
-        if user:
-            token = user.generate_reset_token()
-            send_email(user.email, 'Reset Your Password',
-                       'auth/email/resetpass', user=user, token=token)
-        flash("An email with reset instructions has just been sent to you.")
-        return redirect(url_for('.signin'))
-    return render_template('/auth/forgot.html', form=form)
-
-@auth_blueprint.route('/reset/<token>', methods=['GET', 'POST'])
-def password_reset(token):
-    if not current_user.is_anonymous:
-        return redirect(url_for('app.index'))
-    form = ResetPassword()
-    if request.method == 'POST' and form.validate_on_submit():
-        if User.confirm_reset_token(token, form.password.data):
-            db.session.commit()
-            flash('Your password has been updated.')    
-            return redirect(url_for('signin'))
-        else:
-            return redirect(url_for('app.index'))
     return render_template('/auth/changepass.html', form=form)
 
 @auth_blueprint.route('/api', methods=['POST'])

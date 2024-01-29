@@ -9,7 +9,7 @@
     <div class="welcome">
     </div>
     <div class="auth-form">
-        <form action="{{ url_for('auth.changePassword', username=current_user.username) }}" method="POST" id="auth">
+        <form action="{{ url_for('auth.password_reset', token=token) }}" method="POST" id="auth">
             <div class="wrapper">
                 <div class="empa">
                     <p>Just a reminder: <small>A strong password should contain at least one unique character, 

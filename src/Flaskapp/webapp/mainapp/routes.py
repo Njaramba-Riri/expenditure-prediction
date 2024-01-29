@@ -109,6 +109,9 @@ def predict():
     probability = session.get('probability')
     features = session.get('features')
     feature_id = session.get('feature_id')
+    if not probability:
+        flash("Kindly provide your travel details first", category="info")
+        return redirect(url_for('.form'))
     form = feedback()
     if request.method == 'POST' and form.validate_on_submit():
         feed = form.feed.data
@@ -124,7 +127,7 @@ def predict():
         except exc.IntegrityError as e:
             flash("Your feedback was not sent, our apologies.", category="info")
             logging.error("Error while adding user feedback: {}".format(e))
-    return render_template('app/result.html', featues=features, predicted_result=category, 
+    return render_template('app/result.html', features=features, predicted_result=category, 
                            probability=probability, form=form)
 
 @app_blueprint.route('/thanks', methods=['GET', 'POST'])

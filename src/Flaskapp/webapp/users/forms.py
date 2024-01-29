@@ -72,7 +72,7 @@ class editProfile(FlaskForm):
 
 
 class feedback(FlaskForm):
-    feed = TextAreaField("What should we improve on: ", validators=[DataRequired(), Length(max=500)])
+    feed = TextAreaField("What didn't go right, tell us.", validators=[DataRequired(), Length(max=500)])
     submit = SubmitField("Send")
 
 

@@ -60,41 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // }, 2000)
 });
 
-$(document).ready(function() {
-    $('input[name="tarr"]').on('change', function() {
-        var selectedValue = $(this).val();
-        if (selectedValue === 'Package Tour') {
-            $('#pkg').show();
-        } else if (selectedValue === 'Independent') {
-            $('#pkg').hide();
-        } else {
-            $('#pkg').show();
-        }
-    });
-});
-
-
-function Package(){
-    var selectedValue = document.getElementById('PKG');
-    if (selectedValue === 'Package Tour') {
-            $('#pkg').show();
-        } else if (selectedValue === 'Independent') {
-            $('#pkg').hide();
-        } else {
-            $('#pkg').show();
-        }
-}
-
-
-function myFunction() {
-  var x = document.getElementById("Nav");
-  if (x.className === "navbar") {
-    x.className += " responsive";
-  } else {
-    x.className = "navbar";
-  }
-}
-
 document.addEventListener('DOMContentLoaded', (event) => {
     const passwordFields = document.querySelectorAll(".password-field");
     const togglePasswords = document.querySelectorAll(".toggle-password");
@@ -116,25 +81,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
-// function goToReset(){
-//     window.location.href = "{{ url_for('auth.forgotpass') }}"
-// }
-
-// function openPass() {
-//     popup.classList.add("pop-show")
-// }
-
-// function closePop() {
-//     popup.classList.remove("pop-show")
-// } 
-
-// $(document).ready(function () {
-//     var messages = "{{ get_flashed_messages() }}";
-
-//     if (typeof messages != 'undefined' && messages != '[]') {
-//         $("#myModal").modal();
-//     };
-// });
 
 /* Trigger flash modal */
 $(document).ready(function () {
@@ -154,36 +100,69 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const dropdownlink = document.querySelector("#dropdownMenulink");
     const dropdownmenu = document.querySelector("#dropdownMenu");
   
-    // Check if the elements exist
     if (dropdownlink && dropdownmenu) {
       dropdownlink.addEventListener('click', function(){
         dropdownmenu.className === "show-dropdown";
       });
     }
   });
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  var details = document.getElementById("details");
+  var features = document.getElementById("features");
+
+  details.addEventListener('click', ()=>{
+    if(features){
+      if(features.classList.contains('show')){
+        features.classList.remove('show');
+      }else{
+        features.classList.add('show');
+      } 
+    }
+  })
+
+  var feedback = document.getElementById("Disatisfied");
+  var mawoni = document.getElementById("mawoni");
   
+  feedback.addEventListener('click', () => {
+      if(mawoni.classList.contains("active")){
+          mawoni.classList.remove("active");
+      }else{
+          mawoni.classList.add("active");
+      }
+  });
 
+  var icons = document.querySelectorAll("ion-icon");
+  var modal = document.getElementById("feed-modal");
+  var content = document.getElementById("feed-content");
+  var close = document.getElementsByClassName("close")[0];
 
-// function goBack(){
-//     window.history.back()
-// }
+  icons.forEach(function(icon){
+    icon.addEventListener('click', function(){
+      icons.forEach(function(otherIcons){
+          otherIcons.classList.remove('active');
+        });
 
-// let popup = document.getElementById("pass");
+      this.classList.toggle('active');
 
-// function openPass() {
-//     popup.classList.add("pop-show")
-//     popup.classList.add("dark-back")
-// }
+      function showMessage(message){
+        document.getElementById("modalText").innerText = message;
+        modal.style.display = "block";
+      }   
+      showMessage;
 
-// function closePop() {
-//     popup.classList.remove("pop-show")
-// }
-
-
-
-// function goToReset(){
-//     window.location.href = "{{ url_for('auth.forgotpass') }}"
-// }
+      close.onclick = function(){
+        modal.style.display = "none";
+      }
+      
+      window.onclick = function(event){
+        if (event.target == modal){
+          modal.style.display = "none";
+        }
+      }
+    });
+  });
+});
 
 document.addEventListener('DOMContentLoaded', (event) => {
   const users = document.querySelector("#goers");

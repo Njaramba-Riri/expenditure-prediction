@@ -139,7 +139,7 @@ def update_profile(username):
 def user_profile(username):
     user = User.query.filter_by(username=username).first()
     if not user:
-        flash('No such user with the given username', 'warn')
+        flash('No such user with the given username', 'warning')
         return redirect(url_for('.users')) 
        
     return render_template('/user/view.html', user=user)

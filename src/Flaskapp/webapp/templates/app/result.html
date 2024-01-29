@@ -10,29 +10,62 @@
             <h1>What we've got?.</h1>
             <p>Here's your predictions...</p>        
             <div class="another-box">
-                <p>From the <button onclick="showDetails()"> details</button> that you have provided, your spending category alongside your predicted total cost will be as follows: </p>
+                <p>From the <button onclick="showDetails()" id="details"> details</button> that you have provided, your spending category alongside your predicted total cost will be as follows: </p>
                 <div class="predicted">
                     <h4>Cost Category: <span>{{ predicted_result }}.</span> </h4>
                     <h4>Total Cost: <span>KES 132, 765.</span></h4>
                     <h4>Probability: <span>{{ "%.2f" | format(probability) }} %.</span></h4>
                 </div>
+                <div class="details" id="features">
+                    {% if features %}
+                    <div class="features">
+                        <p>Country: <strong>{{ features[0] }}</strong></p>
+                        <p>Age group: <strong>{{ features[1] }}</strong></p>
+                        <p>Travel with: <strong>{{ features[2] }}</strong></p>
+                        <p>Total male: <strong>{{ features[3] }}</strong></p>
+                        <p>Total female: <strong>{{ features[4] }}</strong></p>
+                        <p>Tour purpose: <strong>{{ features[5] }}</strong></p>
+                        <p>Main activity: <strong>{{ features[6] }}</strong></p>
+                        <p>Info source: <strong>{{ features[7] }}</strong></p>
+                        <p>Arrangement: <strong>{{ features[8] }}</strong></p>
+                        <p>Int transport: <strong>{{ features[9] }}</strong></p>
+                        <p>Tnz transport: <strong>{{ features[10] }}</strong></p>
+                        <p>Accomodation: <strong>{{ features[11] }}</strong></p>
+                        <p>Food: <strong>{{ features[12] }}</strong></p>
+                        <p>Sightseeing: <strong>{{ features[13] }}</strong></p>
+                        <p>Guided tour: <strong>{{ features[14] }}</strong></p>
+                        <p>Package insurance: <strong>{{ features[15] }}</strong></p>
+                        <p>Nights mainland: <strong>{{ features[16] }}</strong></p>
+                        <p>Nights Zanzibar: <strong>{{ features[17] }}</strong></p>
+                        <p>First time: <strong>{{ features[18] }}</strong></p>                        
+                    </div>
+                    {% endif %}
+                </div>
                 <div class="mawoni">
                     <p>A quick one, how do you feel about the predictions?.</p>
                     <div class="ions">
-                        <ion-icon name="thumbs-up-outline" title="Satisfied" onclick="happyFeed()"></ion-icon> 
-                        <ion-icon name="happy-outline" title="Neutral" onclick="neutralFeed()"></ion-icon>
+                        <ion-icon name="thumbs-up-outline" title="Satisfied" 
+                        onclick="showMessage('We are happy you liked the prediction!.')"></ion-icon> 
+                        <ion-icon name="happy-outline" title="Neutral" 
+                        onclick="showMessage('We will take that, tuko happy sana.')"></ion-icon>
                         <ion-icon name="thumbs-down-outline" title="Disatisfied." onclick="unhappyFeed()" id="Disatisfied"></ion-icon> 
                         <form action="{{ url_for('.predict') }}" method="post">
                             {% for field in form %}
                                 <div class="user-mawoni" id="mawoni">
                                     {% if field.type == 'TextAreaField' %}
-                                        {{ field(class_='input') }}
+                                        {{ field(class_='input', placeholder=field.label.text) }}
                                     {% else %}
                                         {{ field(class_='send-btn') }}
                                     {% endif %}                                    
                                 </div>
                             {% endfor %}
-                        </form>                        
+                        </form>  
+                        <div id="feed-modal">
+                            <div class="feed-content">
+                                <span class="close">&times;</span>
+                                <p id="modalText"></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -120,17 +153,20 @@
 </section>
 {% include 'include/footer.html' %}
 <script>
-    var feedback = document.getElementById("Disatisfied");
-    var mawoni = document.getElementById("mawoni");
-    
-    feedback.addEventListener('click', () => {
-        if(mawoni){
-            mawoni.classList.add("active");
-        }else{
-            mawoni.classList.remove("active");
-        }
-    });
+    function showMessage(message){
+        document.getElementById("modalText").innerText = message;
+        modal.style.display = "block";
+    }
 
+    close.onclick = function(){
+        modal.style.display = "none";
+    }
+  
+    window.onclick = function(event){
+        if (event.target == modal){
+        modal.style.display = "none";
+        }
+    }
     function happyFeed(){
         alert("Thank you for that and thank you for your time.")
     }

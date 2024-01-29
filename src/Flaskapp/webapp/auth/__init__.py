@@ -87,7 +87,7 @@ def logged_in(blueprint, token):
         except exc.IntegrityError:
             db.session.rollback()
     login_user(user)
-    flash("You have been logged in.", "info")
+    flash("Login have been successful, welcome.", "info")
     redirect(url_for('app.index'))
 
 def has_role(name):

@@ -381,9 +381,9 @@ svg text.loader-i{
 }
 .login .auth-form{
     position: relative;
+    width: 0%;
     top: 50%;
     left: 50%;
-    width: 50%;
     margin:-140px 0 20px -200px ;
     z-index: 2;
 }
@@ -1439,8 +1439,8 @@ figure:hover figcaption::before{
 /* Forbiddem */
 .forbidden{
     height: 90vh;
-    padding: 60px 40px;
-    background: whitesmoke;
+    padding: 10rem;
+    background: linear-gradient(45deg, rgba(236, 128, 146, .3)50%, rgba(138, 9, 138, .2)50%);
     text-align: center;
 }
 
@@ -1529,7 +1529,7 @@ figure:hover figcaption::before{
     width: 100%;
     height: 40%;
     color: cornsilk;
-    padding: 10px 0;
+    padding: 15px 0;
     margin: 2px 0;
 }
 .input-box .select-multiple{
@@ -1537,24 +1537,27 @@ figure:hover figcaption::before{
     width: 100%;
     height: 40px;
     color: #000;
-    background: gainsboro ;
+    background-color: gainsboro ;
     box-shadow: none !important;
     border: none !important;
-    border-radius: 15px;
+    border-radius: 10px;
     padding: 0 10px ;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
 
 }
-.input-box .select-multiple:hover{
+.input-box .select-multiple:hover,
+.input-box .number:hover{
+    background-color: #e6b7f1;
     appearance: button;
+    cursor: pointer;
 }
 .input-box .number{
     width: 100%;
     height: 40px;
-    border-radius: 15px;
-    background: gainsboro;
+    border-radius: 10px;
+    background-color: gainsboro;
     color: #000;
     border: none !important;
     outline: none !important;
@@ -1586,7 +1589,7 @@ figure:hover figcaption::before{
     backdrop-filter: blur(10px);
     visibility: hidden;
     -webkit-backdrop-filter: blur(10px);
-    transition: transform 0.4s, top 0.4s;
+    transition: transform 0.4s ease-in-out, visibility .5s ease-in-out, top 0.4s ease;
 }
 .pop-show {
     visibility: visible;
@@ -1645,16 +1648,16 @@ figure:hover figcaption::before{
     outline: none !important;
     border: 1px solid #fff;
     color: #fff;
-    background: transparent;
+    background-image: none;
+    background-color: transparent;
     border-radius: 30px;
     font-size: 18px;
     float: right;
+    transition: background-image .5s ease-in-out;
 }
 .form .pred-btn:hover{
     border: none !important;
-    transform: scale(.95);
-    background: linear-gradient(to left,rgb(59, 130, 158), rgb(192, 88, 192));
-    transition: transform 2s ease-in-out;
+    background-image: linear-gradient(to left,rgb(59, 130, 158), rgb(192, 88, 192));
 }
 
 
@@ -1729,7 +1732,38 @@ figure:hover figcaption::before{
     border: none !important;
     color: #007AFF;
 }
+.another-box .details{
+    background: rgba(247, 168, 158, 0.3);
+    border-radius: .7rem;
+    padding: 1rem 0;
+    /* margin: 2rem 0; */
+    height: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .3s ease-in-out, visibility .5s ease;
+}
+.another-box .details.show{
+    height: auto;
+    opacity: 1;
+    visibility: visible;
+}
+.details .features{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-flow: dense;
+}
+.features p{
+    margin: .2rem !important;
+    font-size: .84em;
+    transition: background-color .6s ease-in-out, padding .3s ease;
+}
+.features p:hover{
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: .4rem;
+    border-radius: .5rem;
+}
 .mawoni{
+    transition: all 4s;
     margin: 3rem 0;
     animation: 4s ease-in-out forwards SlideLeft;
 }
@@ -1742,22 +1776,59 @@ figure:hover figcaption::before{
     cursor: pointer;
     transition: transform .5s ease-in-out;
 }
+.ions ion-icon.active{
+    color: #ff5722;
+    font-size: 2rem;
+}
+
+/* CSS */
+.feed-modal{
+    display: none;
+}
+.feed-content {
+    background-color: rgba(36, 89, 113, .2);
+    border: 1px solid #888;
+    color: #fff;
+    border-radius: .6rem;
+    min-height: 80px;
+    padding-right: .8rem;
+}
+.feed-content.active{
+    display: block ;
+    margin: 0;
+}
+#modalText{
+    color: #fff;
+    padding-left: 1rem;
+    padding-top: 1rem;
+}
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #f5f5f5;
+    text-decoration: none;
+    cursor: pointer;
+}
+  
+
 .ions ion-icon:hover{
     color: #ff5722;
     transform: scale(1.1);
 }
 .ions .user-mawoni{
-    /* display: flex;
-    align-items: center;
-    flex-direction: row;
-    gap: 1rem; */
-    position: relative;
-    display: none;
-    width: 100%;
-    transition: display 1s ease-in-out;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s ease-in-out, visibility .5s ease;
 }
 .ions .user-mawoni.active{
-    display: flex;
+    opacity: 1;
+    visibility: visible;
 }
 .user-mawoni .input{
     width: 100%;

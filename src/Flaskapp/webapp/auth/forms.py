@@ -47,14 +47,12 @@ class user_signin(FlaskForm):
             return False
         return True
 
-    
 class changePass(FlaskForm):
     old_password = PasswordField('Old password', validators=[DataRequired()])
     new_password = PasswordField('New password', validators=[DataRequired(), Length(min=8)])
     confirm= PasswordField('Confirm new password', validators=[DataRequired(), 
                                                                EqualTo('confirm', message='Passwords must match.')])
-
-
+    
 class forgot(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64)])
     
