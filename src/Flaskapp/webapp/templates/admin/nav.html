@@ -1,0 +1,18 @@
+<nav>
+    <ul class="be-flex">
+        <li>
+            <a href="{{ url_for('app.index') }}"><ion-icon name="paper-plane-outline"></ion-icon>LetsGo</a>
+        </li>
+        <li>
+            <a href="{{ url_for('.admindashboard') }}">Dashboard</a>
+        </li>
+        <li>
+            <a href="{{ url_for('.profile') }}">
+                <span>{{ current_user.username | capitalize }}</span>
+                {% if current_user.gravatar %}
+                    <span><img src="{{ current_user.gravatar(100) }}" alt=""></span>
+                {% endif %}
+            </a>
+        </li>
+    </ul>
+</nav>

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% import 'macros/pagination.html' as paginate %}
+
+{% block title %}LetsGo | Features {% endblock %}
+
+{% block content %}
+{% include 'nav.html' %}
+<section class="users">
+    <div class="meza">
+        <div class="heading">
+            <h2>Submited Features<ion-icon name="clipboard-outline"></ion-icon></h2>
+            <label>
+                <input type="text" name="" id="search" placeholder="Search feature">
+                <ion-icon name="search-outline"></ion-icon>
+            </label>
+        </div> 
+        <div class="table-main">
+            <table id="users">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Country</th>
+                        <th>Age Group</th>
+                        <th>Companion</th>
+                        <th>Purpose</th>
+                        <th>Activity</th>
+                        <th>Info</th>
+                        <th>Arrangement</th>
+                        <th>First Trip</th>
+                        <th>Category</th>
+                        <th>Proba</th>
+                        <th>User</th>
+                    </tr>                
+                </thead>
+                <tbody>
+                    {% for feature in features %}
+                        <tr> 
+                            <td class="data">{{ feature.id }}</td>
+                            <td>{{ feature.country | truncate(10) }}</td>
+                            <td class="data">{{ feature.age_group }}</td>
+                            <td class="data">{{ feature.travel_with }}</td>
+                            <td class="data">{{ feature.purpose }}</td>
+                            <td class="data">{{ feature.main_activity }}</td>
+                            <td class="data">{{ feature.info_source }}</td>  
+                            <td class="data">{{ feature.tour_arrangement }}</td> 
+                            <td class="data">{{ feature.first_trip_tz }}</td>
+                            <td class="data">{{ feature.predicted_category }}</td>
+                            <td class="data">{{ feature.probability }} %</td>
+                            <td class="data">{{ feature.user_id }}</td>               
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>            
+        </div>
+        <hr>
+        <div class="paginate">
+            {{ paginate.pagination_widget(pagination, '.features') }}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

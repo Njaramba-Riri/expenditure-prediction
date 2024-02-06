@@ -11,8 +11,11 @@
 		</div>
 		<div class="user-wrapper">
 			<div class="over">
-				<img src="./static/images/admin.png" alt="">
-				<ion-icon name="person-outline"></ion-icon>
+				{% if user.gravatar() %}
+					<img src="{{ user.gravatar(size=100) }}" alt="Profile">
+				{% else %}
+					<ion-icon name="person-outline"></ion-icon>
+				{% endif %}
 				<div class="cred">
 					<h4>Username: <span>{{ user.username }}</span></h4>
 					<h4>Email:  <span><a href="mailto: {{ user.email }}" target="_top">{{ user.email }}</a></span></h4>					

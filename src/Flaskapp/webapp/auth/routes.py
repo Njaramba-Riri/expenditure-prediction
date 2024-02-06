@@ -44,6 +44,8 @@ def signin():
     form = user_signin()
     if request.method == 'POST' and form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
+        if not user.confirmed:
+            flash("You are yet to confirm your account.")
         if user is not None and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             if user.is_administrator:
@@ -51,7 +53,7 @@ def signin():
             url = request.args.get('next')
             if url is None:
                 return redirect(url_for('app.index'))
-            return redirect(url)
+            return redirect(url_for(url))
         flash("Invalid username or password.", category="info")
     return render_template('auth/user_login.html', form=form) 
 
@@ -101,7 +103,7 @@ def resend_confirmation():
     flash('A new confirmation email has been sent to you by email, kindly check your inbox.', category="info")
     return redirect(url_for('app.index'))
 
-@auth_blueprint.route('/reset', methods=['GET', 'POST'])
+@auth_blueprint.route('/reset', methods=['POST', 'GET'])
 def forgotpass():
     if not current_user.is_anonymous:
         return redirect(url_for('app.index'))
@@ -116,19 +118,20 @@ def forgotpass():
         return redirect(url_for('.signin'))
     return render_template('/auth/forgot.html', form=form)
 
-@auth_blueprint.route('/reset/<string:token>/', methods=['POST', 'GET'])
+@auth_blueprint.route('/reset/<string:token>', methods=['GET'])
 def password_reset(token):
     if not current_user.is_anonymous:
         return redirect(url_for('app.index'))
     form = ResetPassword()
-    if form.validate_on_submit():
+    if request.method == 'POST' and form.validate_on_submit():
         if User.confirm_reset_token(token, form.password.data):
             db.session.commit()
-            flash('Your password has been successfully updated, you can now log in.', category="info")    
-            return redirect(url_for('.signin'))
-        else:
-            flash("The password reset link is invalid or has expired.", category="warning")
-            return redirect(url_for('.forgotpass'))
+        flash('Your password has been updated successfully, you can now log in.', category="info")    
+        return redirect(url_for('.signin'))
+        # else:
+        #     flash("The password reset link is invalid or has expired.", category="warning")
+        #     return redirect(url_for('.forgotpass'))
+    flash("something's not right.")
     return render_template('/auth/changepass.html', form=form)
 
 

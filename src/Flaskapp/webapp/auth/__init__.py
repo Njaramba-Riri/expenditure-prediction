@@ -34,6 +34,30 @@ class LetsGoAnonymousUser(AnonymousUserMixin):
     def __init__(self):
         self.username = 'Guest'
 
+def has_role(name):
+    def real_decorator(f):
+        def wraps(*args, **kwargs):
+            if current_user.has_role(name):
+                return f(*args, **kwargs)
+            else:
+                abort(403)
+        return functools.update_wrapper(wraps, f)
+    return real_decorator
+
+def permission_required(permission):
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if not current_user.can(permission):
+                abort(403)
+            return f(*args, **kwargs)
+        return decorated_function
+    return decorator
+
+def admin_required(f):
+    from .models import Permission
+    return permission_required(Permission.ADMINISTER)(f)
+
 def create_module(app, **kwargs):
     bcrypt.init_app(app)
     login_manager.init_app(app)
@@ -89,30 +113,6 @@ def logged_in(blueprint, token):
     login_user(user)
     flash("Login have been successful, welcome.", "info")
     redirect(url_for('app.index'))
-
-def has_role(name):
-    def real_decorator(f):
-        def wraps(*args, **kwargs):
-            if current_user.has_role(name):
-                return f(*args, **kwargs)
-            else:
-                abort(403)
-        return functools.update_wrapper(wraps, f)
-    return real_decorator
-
-def permission_required(permission):
-    def decorator(f):
-        @wraps(f)
-        def decorated_function(*args, **kwargs):
-            if not current_user.can(permission):
-                abort(403)
-            return f(*args, **kwargs)
-        return decorated_function
-    return decorator
-
-def admin_required(f):
-    from .models import Permission
-    return permission_required(Permission.ADMINISTER)(f)
 
 def authenticate(username, password):
     from .models import User

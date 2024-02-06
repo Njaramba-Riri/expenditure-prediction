@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% import 'macros/auth.html' as macro %}
 
-{% block title %}LetsGo | Change Password {% endblock %}
+{% block title %}LetsGo | Reset Password {% endblock %}
 
 {% block content %}
 {% include 'include/navigation.html' %}
@@ -9,7 +9,7 @@
     <div class="welcome">
     </div>
     <div class="auth-form">
-        <form action="{{ url_for('auth.password_reset', token=token) }}" method="POST" id="auth">
+        <form action="{{ url_for('auth.password_reset', token=token) }}" method="post">
             <div class="wrapper">
                 <div class="empa">
                     <p>Just a reminder: <small>A strong password should contain at least one unique character, 

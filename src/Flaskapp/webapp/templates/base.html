@@ -13,7 +13,6 @@
     <link href="https://fonts.cdnfonts.com/css/calligraphy-2" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='font/css/all.css') }}">
-    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo.ico') }}" type="image/x-icon">
@@ -40,7 +39,9 @@
             {{ content }}
         {% endblock %}
     {% endblock %}
-    {% block scripts %}
+    {% block scripts %}        
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+        <script src="{{ url_for('static', filename='js/charts.js')}}"></script>
         <script src="{{ url_for('static', filename='js/plotly.js') }}"></script>
         <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/responsive.js') }}"></script>
@@ -48,8 +49,7 @@
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
         <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-        <script src="{{ url_for('static', filename='js/charts.js')}}"></script>
+
         <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
         <script src="https://kit.fontawesome.com/40d4d3ba0c.js" crossorigin="anonymous"></script>
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

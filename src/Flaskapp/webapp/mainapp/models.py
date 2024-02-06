@@ -48,7 +48,7 @@ class Features(db.Model):
     user_id = db.Column(db.Integer(), db.ForeignKey('users.id'))
     date = db.Column(db.DateTime(), default=datetime.now(timezone.utc))
     feedback = db.relationship(
-        'Feedback', backref='Features', lazy='dynamic'
+        'Feedback', backref='feature', lazy='dynamic'
     )
 
 class Reference_Features(db.Model):

@@ -1,5 +1,5 @@
 const line = document.getElementById('line').getContext('2d');
-//const pleth = document.getElementById('pleth');
+// const pleth = document.getElementById('pleth');
 const sunburst = document.getElementById('sunburst');
 const bar = document.getElementById('bar').getContext('2d');
 const polar = document.getElementById('polar').getContext('2d');
@@ -24,19 +24,19 @@ fetch('/letsgo/admin/features')
         }
     });
 
-    // let data_values = labels.map(label => {
-    //     let count = data.filter(item => item.info_source === label).length;
-    //     return count;
-    // });
+    let data_values = labels.map(label => {
+        let count = data.filter(item => item.info_source === label).length;
+        return count;
+    });
 
     var chartData = [{
         "type": "sunburst",
         "labels": labels,
         "parents": parents,
-        //"values": data_values,
+        "values": data_values,
         "leaf": {"opacity": .7},
-       "insidetextfont": {"size": 20, "color": 'white'},
-        "outsidetextfont": {"size": 20, "color": 'black'}
+       "insidetextfont": {"size": 10, "color": 'white'},
+        "outsidetextfont": {"size": 10, "color": 'black'}
     }];
 
     var layout = {
@@ -55,7 +55,7 @@ fetch('/letsgo/admin/features')
     };
 
     var config = {
-        'displayModeBar': false
+        'displayModeBar': true
     }
 
     Plotly.newPlot(sunburst, chartData, layout, config);
@@ -337,7 +337,3 @@ fetch('/letsgo/admin/features')
         }
     })
 });
-
-
-
-

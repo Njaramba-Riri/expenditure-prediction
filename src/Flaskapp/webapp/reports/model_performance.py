@@ -63,7 +63,7 @@ from evidently.ui.workspace import WorkspaceBase
 
 #adult_data = datasets.fetch_openml(name="adult", version=2, as_frame="auto")
 #adult = adult_data.frame
-expend = pd.read_csv("Datasets/Train.csv")
+expend = pd.read_csv("~/Desktop/expenditure/Datasets/Train.csv")
 expend.drop("Tour_ID", axis=1, inplace=True)
 expend_ref = expend[~expend.cost_category.isin(["Higher Cost", "Lower Cost", "Highest Cost"])]
 expend_cur = expend[expend.cost_category.isin(["Higher Cost", "Lower Cost", "Highest Cost"])]

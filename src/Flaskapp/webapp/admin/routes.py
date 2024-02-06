@@ -76,7 +76,7 @@ def fetch_data():
     return [{column.name: getattr(row, column.name) for column in row.__table__.columns} for row in results]
 
 
-@admin_blueprint.route("features", methods=['GET', 'POST'])
+@admin_blueprint.route("/features", methods=['GET', 'POST'])
 @login_required
 @admin_required
 def fetch_features():
@@ -92,15 +92,47 @@ def admindashboard():
     authenticated = [ user for user in users if user.confirmed ]
     anonymous = [ user for user in users if user.is_anonymous ]
     unverified = [ user for user in users if not user.confirmed ]   
-    users = random.sample(users, min(3, len(users)))
+    users = random.sample(users, min(5, len(users)))
     feedback = Feedback.query.all()
-    feedback = random.sample(feedback, min(3, len(feedback))) 
-    features = Features.query.order_by(Features.date.desc()).limit(10)
-    #features = random.sample(features, min(3, len(features)))
+    feedback = random.sample(feedback, min(5, len(feedback))) 
+    features = Features.query.order_by(Features.date.desc()).all()
+    features = random.sample(features, min(5, len(features)))
     return render_template('dashboard.html', users=users, 
                            feedback=feedback, features=features,
                            auth=authenticated, anony=anonymous, unveri=unverified)
 
+@admin_blueprint.route("/users", methods=['GET', 'POST'])
+@login_required
+@admin_required
+def users():
+    page = request.args.get('page', 1, type=int)
+    users = User.query.order_by(User.last_seen.desc())
+    pagination = db.paginate(users, page=page, per_page=7, error_out=False)
+    users = pagination.items
+    return render_template("admin/users.html",users=users, pagination=pagination)
+
+@admin_blueprint.route("/feedback")
+@login_required
+@admin_required
+def feed():
+    users = User.query.all()
+    feat = Features.query.all()
+    page = request.args.get('page', 1, type=int)
+    feed = Feedback.query.order_by(Feedback.date.desc())
+    pagination = db.paginate(feed, page=page, per_page=10, error_out=False)
+    feedback = pagination.items
+    return render_template("admin/feedback.html", feedback=feedback, pagination=pagination, 
+                           features=feat, users=users ,zip=zip)
+@admin_blueprint.route("/all_features")
+@login_required
+@admin_required
+def features():
+    feats = Features.query.order_by(Features.date.asc()).order_by(Features.id.asc())
+    page = request.args.get('page', 1, type=int)
+    pagination = db.paginate(feats, page=page, per_page=10, error_out=False)
+    feats = pagination.items
+
+    return render_template("admin/features.html", features=feats, pagination=pagination)
 
 @admin_blueprint.route('/profile_edit/<username>/', methods=['GET', 'POST'])
 @login_required
@@ -174,31 +206,11 @@ def performance():
     return report
 
 
-
 @admin_blueprint.route("reports/featured")
 @login_required
 def featured_visuals():
     bar = create_plots()
     return render_template("reports/featured.html", repo=bar)
-
-@admin_blueprint.route("/feedback")
-@login_required
-@admin_required
-def feedback():
-    return render_template("admin/feeddash.html")
-
-@admin_blueprint.route("all_feedback")
-@login_required
-@admin_required
-def feed():
-    usermodel = User
-    feedmodel = Feedback
-    featuremodel = Features
-    feed = Feedback.query.all()
-    feat = Features.query.all()
-    return render_template("admin/feedback.html", feedback=feed, 
-                           feature=feat, feedmodel=feedmodel, 
-                           featuremodel=featuremodel, usermodel=usermodel, zip=zip)
 
 @admin_blueprint.route("/roc")
 @login_required
@@ -247,16 +259,3 @@ def visuals():
 def profile():
     user = User.query.filter_by(username=current_user.username).first_or_404()
     return render_template("admin/profile.html", user=user)
-
-@admin_blueprint.route("/users", methods=['GET', 'POST'])
-@login_required
-@admin_required
-def users():
-    users = User.query.all()
-    form = UsersForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        users_email = User.query.filter_by(email=form.user.data).first_or_404()
-        users_id = User.query.filter_by(id=form.user_id.data).first_or_404()
-        #resp = json.loads(users_email)
-        return jsonify({"User": users_email.id})
-    return render_template("admin/users.html",users=users, form=form)

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from config import DevConfig
+from config import DevConfig, TestConfig
 from flask_moment import Moment
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_caching import Cache
@@ -46,7 +46,7 @@ def not_allowed(e):
 
 def create_app(object_name):
     app = Flask(__name__)
-    app.config.from_object(DevConfig)
+    app.config.from_object(TestConfig)
 
     # from .admin.routes import admin_blueprint
     # from .users.routes import user_blueprint
@@ -65,22 +65,22 @@ def create_app(object_name):
     debug_tool.init_app(app)
     cache.init_app(app)
 
+    from .mainapp import create_module as app_create_module
     from .admin import create_module as admin_create_module
     from .babel import create_module as babel_create_module
-    from .mainapp import create_module as app_create_module
     from .auth import create_module as auth_create_module
     from .users import create_module as user_create_module
     from .api_1_0 import create_module as api_create_module
     from .api_1_0 import creaate_module as feedback_create_module
     from .dashapp import init_dash
     
+    app_create_module(app)
     auth_create_module(app)
     admin_create_module(app)
     babel_create_module(app)
-    app_create_module(app)
     user_create_module(app)
     api_create_module(app)
-    feedback_create_module(app)
+    #feedback_create_module(app)
 
     #app.register_blueprint(admin_blueprint, name="administrator")
     #app.register_blueprint(app_blueprint, name="main application")
@@ -93,6 +93,6 @@ def create_app(object_name):
     app.register_error_handler(403, forbidden)
     app.register_error_handler(405, not_allowed)
 
-    #app = init_dash(app)
+    app = init_dash(app)
     return app
 

@@ -10,8 +10,8 @@
 		</div>
         <div class="user-info">
             <div class="bleep">
-                {% if user.gravataar %}
-                    <img src="../static/images/admin.png">
+                {% if user.gravatar %}
+                    <img src="{{ user.gravatar(256) }}">
                 {% else %}
                     <ion-icon name="person-outline"></ion-icon>
                 {% endif %}     
@@ -22,13 +22,13 @@
             </div>
             <div class="info-card">
                 <div class="info">
-                    <p>Email: <span>{{ user.email }}</span></p>
+                    <p>Email: <span><a href="mailto:{{ user.email }}">{{ user.email }}</a></span></p>
                 </div>
                 <div class="info">
                     <p>Username: <span>{{ user.username }}</span></p>
                 </div>
                 <div class="info">
-                    <p>User Role: <span>{{ user.role_name }}</span></p>
+                    <p>User Role: <span>{{ user.role }}</span></p>
                 </div>
                 {% if user.mobile %}
                     <div class="info">
@@ -37,7 +37,11 @@
                 {% endif %}
                 {% if user.location %}
                     <div class="info">
-                        <p>Location: <span>{{ user.mobile }}</span></p>
+                        <p>Location: 
+                            <span>
+                                <a href="www.googlemaps/?q={{ user.location }}">{{ user.location }}</a>
+                            </span>
+                        </p>
                     </div>
                 {% endif %} 
                 {% if user.about %}
@@ -66,7 +70,14 @@
                     </div>
                 {% endif %}
                 <div class="info">
-                    <p>Last Seen: <span>{{ user.last_seen.strftime('%d-%m-%Y') }}</span></p>
+                    <p>Account creation: 
+                        <span>{{ moment(user.date_created).format('LL') }}</span> 
+                    </p>
+                </div>
+                <div class="info">
+                    <p>Last Seen: 
+                        <span>{{ moment(user.last_seen).format('LL') }} ({{moment(user.last_seen).fromNow()}})</span> 
+                    </p>
                 </div>
                 {% if user.confirmed == True %}
                     <div class="info">
@@ -84,6 +95,7 @@
 {% endblock %}
 {% block js %}
     {{ super() }}
+    {{ moment.include_moment() }}
     <script>
         const back = document.getElementById('close');
         const edit = document.getElementById('edit');

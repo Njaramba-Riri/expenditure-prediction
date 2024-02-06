@@ -1,4 +1,4 @@
-{% extends 'Base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}LetsGo | Dashboard {% endblock %}
 
@@ -19,8 +19,14 @@
                 </label>
             </div>
             <div class="user" id="user">
-                <span>{{ current_user.username }}</span>
-                <img src="../static/images/admin.png" alt="">
+                <a href="{{ url_for('.profile') }}">
+                    <span>{{ current_user.username }}</span>
+                    {% if current_user.gravatar %}
+                        <img src="{{ current_user.gravatar(100)}}" alt="">
+                    {% else %}
+                        <img src="../static/images/admin.png" alt=""> 
+                    {% endif %}               
+                </a>
             </div>
         </section>
         <div class="dash-cont" id="dash-content">
@@ -95,11 +101,11 @@
                         <!-- <div id="line"></div> -->
                     </div>
                     <div class="chart">
-                        <canvas id="bar"></canvas>
-                    </div>                     
-                    <div class="chart">
                         <div id="sunburst"></div>
                     </div>
+                    <div class="chart">
+                        <canvas id="bar"></canvas>
+                    </div>                     
                 </div>
             </section> 
             <section class="mezas">
@@ -229,137 +235,7 @@
                 </div> 
             </section>                       
         </div>
-
     </div>
 </section>
-<!-- <div class="dashboard-container">
-    <section class="dashboard">
-        <div class="navigation">
-            <div class="bino">
-                <div class="bino-search">
-                    <i class="fa fa-search"></i>
-                    <input type="text" name="" id="search" placeholder="Search">
-                </div>
-                <div class="prof">
-                    <i class="fa fa-bell"></i>
-                    <div class="main" id="user">
-                        <img src="../static/images/admin.png" alt="">
-                        <a href="{{ url_for('.profile') }}">{{ current_user.username }}</a>                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        <nav class="top-nav">
-            <div class="kinda-nav">
-                <div id="reports">
-                    <div class="reportss">
-                        <i class="fa fa-chart-bar"></i>
-                        <a href="{{ url_for('/letsgo/admin/dashboard/') }}">
-                            Reports
-                        </a>
-                    </div>                    
-                </div>
-                <div>
-                    <div class="model" id="model">
-                        <i class="fa fa-line-chart"></i>
-                        <a href="{{ url_for('.reports') }}">Model Performance</a>
-                    </div>                    
-                </div>     
-                <div>
-                    <div class="sema" id="sema">
-                        <i class="fa fa-comments"></i>                    
-                        <a href="{{ url_for('.feedback') }}">Feedback</a>
-                    </div>                    
-                </div>                   
-                <div id="users">
-                    <div class="users" >
-                        <i class="fa fa-users"></i>
-                        <a href="{{ url_for('.users') }}">Users</a>
-                    </div>                    
-                </div>
-            </div>
-        </nav>
-        <div class="dashboard-panel">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="prof">
-                            <div class="user" id="user">
-                                <a href="{{ url_for('.profile') }}">{{ current_user.username }}</a>
-                                <i class="fa fa-user-circle"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row cards">
-                        <div class="col-sm-6">
-                            <div class="sys-users">
-                                <i class="fa fa-users"></i>
-                                <h3>Total Users: <strong>{{ users | length }}</strong></span></h3>
-                                <h4>Verified: {{ auth | length }}</h4>
-                                <h4>Unverified: {{ unveri | length }}</h4>
-                                <h4>Anonymous: {{ anony | length }}</h4>
-                            </div>                            
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="model-calls">
-                                <h3>Model Calls: 627</h3>
-                                <h4>Model Accuracy: 87%</h4>
-                                <h4>Drifting Rate: 2%</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="admin-tab">
-                        <div class="tab">
-                            <div class="user-tab">
-                                <div class="header">
-                                    <caption>System users over the time.</caption>
-                                </div>
-                                <div class="table_body">
-                                    <table >
-                                        <thead>
-                                            <tr>
-                                                <th>Id</th>
-                                                <th>Email</th>
-                                                <th>Username</th>
-                                                <th>Joined</th>
-                                                <th>Confirmed</th>
-                                                <th>Interactions</th>                                   
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for user in users %}
-                                            <tr>
-                                                <td>{{ user.id }}</td>
-                                                <td>{{ user.email }}</td>
-                                                <td>{{ user.username }}</td>
-                                                <td>{{ user.date_created }}</td>
-                                                {% if user.confirmed == 1 %}
-                                                <td><span class="very">{{ user.confirmed }} </span></td>
-                                                {% else %}
-                                                <td ><span class="not">{{ user.confirmed }}</span></td>
-                                                {% endif %}
-                                                <td>{{ user.role_id }}</td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>                                      
-                                </div>
-                                
-                            </div>                            
-                        </div>
-                        <div class="tab">
-                            
-                        </div>
-                        <div class="tab">
-                                 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-</div> -->
 {% endblock %}
 

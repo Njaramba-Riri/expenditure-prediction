@@ -1,4 +1,4 @@
-{% extends 'Base.html' %}
+{% extends 'base.html' %}
 
 {% block title %} Admin | Profile {% endblock %}
 
@@ -32,7 +32,7 @@
 </section>
 <script type="text/javascript">
     function editProfile(){
-        window.location.href = "{{ url_for('.update_profile', id=user.id) }}"
+        window.location.href = "{{ url_for('.update_profile', username=user.username) }}"
     }
 </script>
 {% endblock %}

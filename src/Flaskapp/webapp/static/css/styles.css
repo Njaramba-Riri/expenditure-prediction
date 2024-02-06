@@ -39,6 +39,14 @@ body{
     border-radius: 30px;
  }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    transition: background-color 50000s ease-in-out 0s;
+    -webkit-text-fill-color: #ff843f !important;
+}
+
 .messages{
     position: fixed;
     bottom: 0;
@@ -50,6 +58,7 @@ body{
     transform: translateX(300px);
     opacity: 0;
 }
+
 /* =================Pop Up Modals==================== */
 .modal {
     border-radius: none !important;
@@ -2860,7 +2869,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     transition: .5s ease-in-out;
 }
 
-/* Dashboard Charts */
+/* ==============================Dashboard Charts============================= */
 .chartSec{
     padding: 5px 14px;
     width: 100%;
@@ -2887,7 +2896,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     border-radius: 10px;
     box-shadow: 0 2px 4px 5px rgba(39, 39, 39, .2);
 }
-/* Dashboard Tables */
+/* ===============================Dashboard Tables=================================== */
 .mezas{
     position: relative;
     width: 100%;
@@ -3225,7 +3234,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     font-size: 1.15em;
 }
 
-/* UpdateProfile */
+/* ================================UpdateProfile=================================== */
 .update{
     padding-top: 0 !important;
     padding: 4% 0;
@@ -3270,12 +3279,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 
 /* Users Page */
 .users {
-    background: var(--white);
-    padding: 20px 40px;
+    background: linear-gradient(45deg, lightblue, pink);
+    padding: 6rem 40px;
     min-height: 100vh ;
 }
 .users .meza{
-    border-radius: 15px;
+    background: rgba(255, 255, 255, .5);
+    border-radius: .4rem;
     box-shadow: 0 2px 7px 5px rgba(0, 0, 0, 0.2);
     overflow: hidden;
 }
@@ -3369,6 +3379,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 .users table tbody td{
     font-size: 1em;
 }
+.users table img{
+    border-radius: 50%;
+    height: 3rem;
+    width: 3rem;
+}
 .users table tbody tr:nth-child(even){
     background: rgba(129, 129, 252, 0.2);
 }
@@ -3395,9 +3410,33 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 .users tbody tr td{
     transition: .2s ease-in-out;
 }
+.users td a{
+    text-decoration: none;
+    color: #007AFF;
+}
+.users table tr:hover a{
+    color: white;
+    transition: color 1s ease-in-out;
+}
 .users tbody tr.hide td{
     padding: 0;
     transition: .2s ease-in-out;
+}
+.users tbody tr .negative{
+    width: 60%;
+    background: rgb(240, 65, 65);
+    border-radius: 20px;
+    letter-spacing: 3px;
+    margin: .5rem 0;
+    margin-left: 2rem;
+}
+.users tbody tr .positive{
+    width: 60%;
+    background: #33a76d;
+    border-radius: 20px;
+    margin: .5rem 0;
+    margin-left: 2rem;
+    letter-spacing: 3px;
 }
 .users tbody td .true{
     background: rgb(53, 184, 103);
@@ -3436,10 +3475,65 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     color: #077e74;
 }
 
+.pagin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 2rem;
+    list-style: none;
+}
+.pagin a{
+    font-size: 1.1em;
+    text-decoration: none;
+}
+.pagin a:hover{
+    color: #ff5722;
+}
+
+/* ==========================Custom admin nav========================== */
+nav{
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    background: rgba(255, 255, 255, .95);
+    border-radius: 4rem;
+    margin: .5rem 1rem;
+    z-index: 2;
+}
+nav .be-flex{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 2rem;
+    padding: 0 1rem;
+    padding-top: .3rem;
+}
+.be-flex li:nth-child(1){
+    margin-right: auto;
+    font-size: 2rem;
+}
+.be-flex li{
+    list-style: none;
+}
+.be-flex li a{
+    text-decoration: none;
+    color: var(--dark);
+}
+.be-flex li a:hover{
+    color: #f27541;
+    transition: color .6s ease;
+}
+.be-flex li img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
 /* Profile Edit */
 .admin-edit{
     padding: 20px 10%;
-    background: var(--white);
+    background: linear-gradient(45deg, lightblue, pink);
     min-height: 100vh;
 }
 .admin-edit .user-profile{
@@ -3456,12 +3550,16 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     border-radius: 20px;
 }
 .user-profile .user-wrapper{
-    padding: 1em;
+    padding: 1rem;
 }
 .user-wrapper .over{
     padding: 5px;
     background: rgba(255, 255, 255, .2);
     border-radius: 20px;
+}
+.over img{
+    border-radius: 50%;
+    margin-left: 1rem;
 }
 .user-wrapper .over ion-icon{   
     font-size: 80px;
@@ -3495,10 +3593,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     grid-gap: 30px;
 }
 .edit-form .fields:hover{
-    padding: 5px;
+    padding-left: 1rem;
     border-radius: 20px;
     box-shadow: inset 2px 2px 5px rgba(39, 39, 39, .5);
-    transition: .4s ease-in-out;
+    transition: padding .4s ease-in-out, box-shadow .6s ease-in-out;
 }
 .edit-form label{
     padding-left: 5px;
@@ -3539,7 +3637,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 
 /* ==========View Profile=========== */
 .view-profile{
-    background: var(--white);
+    background: linear-gradient(45deg, lightblue, pink);
     padding: 20px 80px;
     height: 100%;
     min-height: 100vh;
@@ -3558,6 +3656,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     justify-content: start;
     margin-bottom: 20px;
     padding-right: 50px;
+}
+.user-info a{
+    text-decoration: none;
+    color: teal;
+}
+.user-info a:hover{
+    color: #007AFF;
 }
 .action-btns #close,
 .action-btns #edit{

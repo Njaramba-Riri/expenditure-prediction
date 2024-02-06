@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
-{% import 'macros/auth.html' as macro %}
+{% import 'macros/pagination.html' as paginate %}
 
 {% block title %}LetsGo | System Users{% endblock %}
 
 {% block content %}
+{% include 'nav.html' %}
 <div class="users">
     <div class="meza">
         <div class="heading">
-            <h2>System Users</h2>
+            <h2>System Users <ion-icon name="people-outline"></ion-icon></h2>
             <label>
                 <input type="text" name="" id="search" placeholder="Search user">
                 <ion-icon name="search-outline"></ion-icon>
@@ -17,6 +18,7 @@
             <table id="users">
                 <thead>
                     <tr>
+                        <th>Picture</th>
                         <th>Username</th>
                         <th>Email</th>
                         <th>Status</th>
@@ -31,8 +33,9 @@
                 <tbody>
                     {% for user in users %}
                     <tr>
+                        <td><img src="{{ user.gravatar(100) }}" alt=""></td>
                         <td>{{ user.username }}</td>
-                        <td>{{ user.email }}</td>
+                        <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
                         {% if user.confirmed == True %}
                             <td class="true">
                                 <!-- <span class="true">Confirmed</span> -->
@@ -44,21 +47,23 @@
                                 <ion-icon name="alert-circle-outline" title="Uncomfirmed"></ion-icon>
                             </td>
                         {% endif %}
-                        <td>{{ user.role_name }}</td>
+                        <td>{{ user.role }}</td>
                         {% if user.location == None %}
                             <td>---</td>
                         {% else %}
                             <td>{{ user.location }}</td>
                         {% endif %}                        
-                        <td>{{ user.date_created.strftime('%d-%m-%Y') }}</td>
-                        <td>{{ user.last_seen.strftime('%d-%m-%Y') }}</td>
-                        <td>{{ user.feed }}</td>
+                        <td>{{ moment(user.date_created).format('LLL') }}</td>
+                        <td>{{ moment(user.last_seen).fromNow() }}</td>
+                        <td>{{ user.feed |count }}</td>
                         <td>
                             <div class="icons">
                                 <ion-icon name="pencil-outline" title="Edit" 
                                 class="edit" class="edit" data-url="{{ url_for('.update_profile', username=user.username) }}"></ion-icon>
-                                <ion-icon name="trash-outline" title="Remove" 
-                                class="remove" class="remove" data-url="{{ url_for('.delete_profile', username=user.username) }}" ></ion-icon>
+                                {% if not user.is_administrator() %}
+                                    <ion-icon name="trash-outline" title="Remove" 
+                                    class="remove" class="remove" data-url="{{ url_for('.delete_profile', username=user.username) }}" ></ion-icon>
+                                {% endif %}
                                 <ion-icon name="eye-outline" title="View" 
                                 class="view" class="view" data-url="{{ url_for('.user_profile', username=user.username) }}"></ion-icon>
                             </div>
@@ -67,12 +72,17 @@
                     {% endfor %}
                 </tbody>
             </table>        
-        </div>              
+        </div> 
+        <hr>
+        <div class="paginate">
+            {{ paginate.pagination_widget(pagination, '.users')}}
+        </div>             
     </div>
 </div>
 {% endblock %}
 {% block js %}
     {{ super() }}
+    {{ moment.include_moment() }}
     <script type="text/javascript">
         const edits = document.querySelectorAll('.edit');
         const removes = document.querySelectorAll('.remove');

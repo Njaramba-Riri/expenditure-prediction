@@ -1,6 +1,4 @@
 import os
-import csv
-
 from webapp import db, migrate, create_app
 from webapp.auth.models import User
 from webapp.users.models import Search
