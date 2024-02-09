@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% import 'macros/_form.html' as macro %}
+
+{% block title %}LetsGo | {{ user.username }} Profile edit {% endblock %}
+
+{% block content %}
+{% include 'nav.html' %}
+<div class="edit-admin">
+    <div class="admin-details">
+        <div class="details">
+            <div class="img">
+            {% if user.gravatar %}
+                    <img src="{{ user.gravatar }}" alt="Profile picture">
+                {% else %}
+                    <img src="/static/images/admin.png" alt="">
+            {% endif %}                 
+            </div>
+            <div class="imp">
+                <p>email: <span>{{ user.email }}</span></p>
+                <p>name: <span>{{ user.name }}</span></p>
+                <p>username: <span>{{ user.username }}</span></p> 
+                <p>mobile: <span>{{ user.mobile }}</span></p>                 
+            </div>
+        </div>
+        <div class="admin-form">
+            <form action="{{ url_for('.edit_admin', username=user.username)}}" method="post">
+                {{ macro.render(form) }}
+                <div class="sub">
+                    <button type="submit" class="btn-update">Update</button>
+                </div>
+            </form>            
+        </div>
+    </div>
+</div>
+{% block js %}
+{{ super() }}
+<script>
+    var inputs = document.querySelectorAll('.input-a');
+
+    inputs.forEach((element) => {
+        element.addEventListener('click', (event) => {
+            inputs.forEach((input) => {
+                input.classList.remove('active');
+            })
+
+            element.classList.add('active');
+        });
+    });
+
+</script>
+{% endblock %}
+{% endblock %}

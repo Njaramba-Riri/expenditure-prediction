@@ -77,7 +77,7 @@
                             <td class="data">{{ feed.probability }} %</td>
                         {% endif %}
                         <td class="data">{{ feed.user_id  }}</td>
-                        <td class="data">{{ feed.date }}</td>                  
+                        <td class="data">{{ moment(feed.date).fromNow() }}</td>                  
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -89,4 +89,7 @@
         </div>
     </div>
 </section>
+    {% block js  %}
+    {{ moment.include_moment() }}
+    {% endblock %}
 {% endblock %}

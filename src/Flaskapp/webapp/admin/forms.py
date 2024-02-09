@@ -22,17 +22,18 @@ class UsersForm(FlaskForm):
     search = SubmitField("Search")
 
 class editProfile(FlaskForm):
-    email = StringField("Enter new email", validators=[DataRequired(), Email()])
-    username = StringField("Enter new username", validators=[DataRequired(), Length(1, 64), 
+    email = StringField("Assign user new email", validators=[DataRequired(), Email()])
+    name = StringField("User full name", validators=[DataRequired(), Length(max=100)])
+    username = StringField("Assign user new username", validators=[DataRequired(), Length(min=4, max=64), 
                                                          Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, 'Usernames must have only letters, numbers, dots or underscores')])
-    role = SelectField("Assign role", coerce=int)
-    mobile = TelField("Enter mobile number", validators=[Optional()])
+    role = SelectField("Assign new role", coerce=int)
+    mobile = TelField("Enter user mobile number", validators=[Optional()])
     location = StringField("Where are you from?", validators=[Optional(), Length(1, 100)])
-    about = StringField("User bio if you like.", validators=[Optional(), Length(1, 255)])
-    company = StringField("Enter your tour agency name.", validators=[Optional(), Length(5, 100)])
-    c_email = StringField("Enter company email", validators=[DataRequired(), Email()])
-    c_mobile = TelField("Enter company telephone number.", validators=[DataRequired()])
-    c_address = StringField("Your tour agency location address.", validators=[DataRequired(), Length(10, 64)])
+    about = StringField("Add user bio.", validators=[Optional(), Length(1, 255)])
+    #company = StringField("Enter your tour agency name.", validators=[Optional(), Length(5, 100)])
+    #c_email = StringField("Enter company email", validators=[DataRequired(), Email()])
+    #c_mobile = TelField("Enter company telephone number.", validators=[DataRequired()])
+    #c_address = StringField("Your tour agency location address.", validators=[DataRequired(), Length(10, 64)])
     confirmed = BooleanField("Confirmed", validators=[Optional()])
 
     def __init__(self, user, *args, **kwargs):
@@ -49,13 +50,34 @@ class editProfile(FlaskForm):
         if self.data != self.user.username and User.query.filter_by(username=field.data).first():
             raise ValidationError("The given username already exists.")
 
-    def validate_c_email(self, field):
-        if self.data != self.user.company_email and User.query.filter_by(company_email=field.data).first():
-            raise ValidationError("The given company email already exists.")    
-
     def validate_mobile(self, field):
         if len(field.data ) < 10:
             raise ValidationError("Enter a valid tel number.")
 
 
+
+class editAdmin(FlaskForm):
+    name = StringField("Admin full name.", validators=[DataRequired(), Length(min=10, max=50)])
+    email = StringField("Email address", validators=[DataRequired(), Email()])
+    username = StringField("Admin username", validators=[DataRequired(), Length(min=4, max=20)])
+    mobile = TelField("Mobile number", validators=[DataRequired()])
+    agency = StringField("Tour Company name", validators=[DataRequired(), Length(max=100)])
+    agency_email = StringField("Company email address", validators=[DataRequired(), Email()])
+    agency_mobile = TelField("Company office line/mobile", validators=[DataRequired()])
+    agency_address = StringField("Company physical address", validators=[DataRequired(), Length(max=200)])
+
+    def validate_email(self, field):
+        if self.data != self.email and User.query.filter_by(email=field.data).first():
+            raise ValidationError("Given email address already exists")
     
+    def validate_username(self, field):
+        if self.data != self.username and User.query.filter_by(username=field.data).first():
+            raise ValidationError("Username already exists")
+        
+    def validate_mobile(self, field):
+        if len(field.data) < 9 or len(field.data) > 20:
+            raise ValidationError("Enter a valid mobile number.")
+        
+    def validate_agency_mobile(self, field):
+        if len(field.data) < 9 or len(field.data) > 20:
+            raise ValidationError("Enter a valid company office number.")

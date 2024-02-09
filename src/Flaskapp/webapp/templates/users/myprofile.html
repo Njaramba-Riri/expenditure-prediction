@@ -28,14 +28,17 @@
                                 <div class="modal-body text-bold text-start">
                                     {% if user.username or user.location %}
                                         {% if user.username %}
-                                        <p><span>Username:</span> {{ current_user.username }}</p>
-                                        {% endif %}
-                                        {% if user.email %}
-                                        <p><span>Email:</span> {{ current_user.email }}</p>
+                                            {% if user.full_name %}
+                                            <p><span>Official name: </span>{{ user.full_name }}</p>
+                                            {% endif %}
+                                            {% if user.email %}
+                                            <p><span>Email:</span> {{ user.email }}</p>
+                                            {% endif %}                                            
+                                           <p><span>Username:</span> {{ user.username }}</p>
                                         {% endif %}
                                     <div>
                                         {% if user.location %}
-                                        <p><span>From:</span> <a href="http://maps.google.com/?q={{ user.nationality }}"
+                                        <p><span>From:</span> <a href="https://maps.google.com/?q={{ user.location }}"
                                             target="_blank">
                                             {{ user.location }}
                                         </a></p>
@@ -47,8 +50,8 @@
                                         <p><span>About me:</span> {{ user.about }}</p>
                                     </div>
                                     {% endif %}
-                                    <p><span>Member Since:</span> {{ user.date_created }}.</p>
-                                    <p><span>Last Seen:</span>  {{ user.last_seen }}</p>
+                                    <p><span>Member Since:</span> {{ moment(user.date_created).format('LL') }}.</p>
+                                    <p><span>Last Seen:</span>  {{ moment(user.last_seen).fromNow() }}</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
@@ -76,5 +79,9 @@
         </div>
     </div>
 </section>
+{% block js %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+{% endblock %}
 {% include 'include/footer.html' %}
 {% endblock %}

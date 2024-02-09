@@ -19,7 +19,7 @@
                 </label>
             </div>
             <div class="user" id="user">
-                <a href="{{ url_for('.profile') }}">
+                <a href="{{ url_for('.profile', username=current_user.username) }}">
                     <span>{{ current_user.username }}</span>
                     {% if current_user.gravatar %}
                         <img src="{{ current_user.gravatar(100)}}" alt="">
@@ -112,7 +112,7 @@
                 <div class="feat-tab">
                     <div class="tab-header">
                         <h2>Submited Features.</h2>
-                        <a href="" class="btn">View All</a>                    
+                        <a href="{{ url_for('.features') }}" class="btn">View All</a>                    
                     </div>
                     <div class="table_body">
                         <table>
@@ -154,7 +154,49 @@
                             </tbody>
                         </table>                                    
                     </div>
-                </div>             
+                </div>                                                        
+            </section>
+            <section class="mezas2">
+                <div class="feed-tab">
+                    <div class="tab-header">
+                        <h2>User Feedback.</h2>
+                        <a href="{{ url_for('.feed') }}" class="btn">View All</a>
+                    </div>
+                    <div class="table_body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Feedback</th>
+                                    <th>Sentiment</th>
+                                    <th>Probability</th>
+                                    <th>User_id</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for feed in feedback %}    
+                                <tr>
+                                    <td>{{ feed.id }}</td>
+                                    <td>{{ feed.feed | truncate(100, true, '......') }}</td>
+                                    {% if feed.sentiment == 'Positive' %}
+                                    <td class="data">
+                                        <span class="Positive">{{ feed.sentiment }}</span>
+                                    </td>
+                                    {% elif feed.sentiment == 'Negative' %}
+                                    <td class="data">
+                                        <span class="Negative">{{ feed.sentiment }}</span>
+                                    </td>
+                                    {% endif %}
+                                    <td>{{ feed.probability }} %</td>
+                                    <td>{{ feed.user_id }}</td>
+                                    <td>{{ moment(feed.date).fromNow() }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>                                    
+                    </div>
+                </div> 
                 <div class="user-tab">
                     <div class="tab-header">
                         <h2>System Users</h2>
@@ -190,52 +232,13 @@
                             </tbody>
                         </table>
                     </div>  
-                </div>                                            
-            </section>
-            <section class="mezas">
-                <div class="feed-tab">
-                    <div class="tab-header">
-                        <h2>User Feedback.</h2>
-                        <a href="" class="btn">View All</a>
-                    </div>
-                    <div class="table_body">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Feedback</th>
-                                    <th>Sentiment</th>
-                                    <th>Probability</th>
-                                    <th>User_id</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for feed in feedback %}    
-                                <tr>
-                                    <td>{{ feed.id }}</td>
-                                    <td>{{ feed.feed | truncate(100, true, '......') }}</td>
-                                    {% if feed.sentiment == 'Positive' %}
-                                    <td class="data">
-                                        <span class="Positive">{{ feed.sentiment }}</span>
-                                    </td>
-                                    {% elif feed.sentiment == 'Negative' %}
-                                    <td class="data">
-                                        <span class="Negative">{{ feed.sentiment }}</span>
-                                    </td>
-                                    {% endif %}
-                                    <td>{{ feed.probability }} %</td>
-                                    <td>{{ feed.user_id }}</td>
-                                    <td>{{ feed.date }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>                                    
-                    </div>
                 </div> 
             </section>                       
         </div>
     </div>
 </section>
+{% block js %}
+{{ moment.include_moment() }}
+{% endblock %}
 {% endblock %}
 

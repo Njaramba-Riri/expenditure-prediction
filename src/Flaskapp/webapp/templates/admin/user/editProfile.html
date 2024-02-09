@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% import 'macros/auth.html' as macro %}
 
-{% block title %}LetsGo | User Profile  {% endblock %}
+{% block title %}LetsGo | {{ user.username }} Profile  {% endblock %}
 
 {% block content %}	
 <section class="admin-edit">
@@ -22,7 +22,7 @@
 				</div>				
 			</div>
 			<div class="edit-form">
-				<form action="{{ url_for('.update_profile', username=user.username) }}">
+				<form action="{{ url_for('.update_profile', username=user.username) }}" method="post">
 					{{ form.hidden_tag() }}
 					{% for field in form %}
 						{% if field.widget.input_type != 'hidden' %}
@@ -33,7 +33,12 @@
 								</label>
 								<div class="input-area">
 									{{ field(class_='input') }}	
-								</div>					
+								</div>		
+								{% if field.errors %}
+									{% for e in field.errors %}
+										<p class="help-block">{{ e }}</p>
+									{% endfor %}
+								{% endif %}		
 							</div>
 							{% else %}
 								<label>

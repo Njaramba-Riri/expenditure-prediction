@@ -11,7 +11,11 @@
                 <li>
                     <a href="#about">About</a>
                 </li>
-            </div>            
+            </div>    
+            <!-- <li>
+                <a href="{{ url_for('suser.profile', username=current_user.username) }}">{{ current_user.username | upper }}</a>
+                <ion-icon name="person-circle-outline"></ion-icon>
+            </li>         -->
             {% if current_user.is_authenticated and current_user.is_administrator() %}
             <div class="item">
                 <li>

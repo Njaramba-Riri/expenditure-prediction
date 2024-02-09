@@ -1,30 +1,32 @@
-from flask import render_template, url_for, Blueprint, flash, redirect, session, request, jsonify, current_app, abort
-from .forms import UsersForm, editProfile
-from ..auth.models import User, Role
-from ..mainapp.models import Features, Feedback
-from flask_login import login_required, logout_user, current_user
-from flask_admin import BaseView, expose
-from flask_admin.contrib.sqla import ModelView
-from flask_admin.contrib.fileadmin import FileAdmin
-from ..auth import has_role, permission_required, admin_required
-from webapp import db
+import os 
+import pickle
+import random
+import json
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+import pandas as pd
+
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score, mean_squared_error
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+
+from flask import (Blueprint,render_template, redirect, url_for, 
+                   flash, session, request, jsonify, current_app, abort)
+from flask_login import login_required, current_user
 
 from ..reports.model_performance import create_model_performance
 from ..reports.data_drift import drift_report
 from ..reports.featured import plot_categorical, create_plots
-#from webapp.app.routes import model 
-import json
-import random
 
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns 
-import pandas as pd
-from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score, mean_squared_error
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-import sklearn
-import pickle 
-import os
+from webapp import db
+from ..auth import has_role, permission_required, admin_required
+from ..auth.models import User, Role
+from ..mainapp.models import Features, Feedback
+from .models import Admin
+from .forms import editAdmin, editProfile
+
+
 
 admin_blueprint = Blueprint('admin', __name__,
                             static_folder='../static/admin',
@@ -37,44 +39,26 @@ model = pickle.load(open(os.path.join(dire, "pickle_objects", "Cat.pkl"), 'rb'))
 senti_clf = pickle.load(open(os.path.join(dire, "pickle_objects", "classifier.pkl"), 'rb'))
 
 
-class CustomView(BaseView):
-    @expose('/')
-    @login_required
-    @admin_required
-    def index(self):
-        return self.render('admin/custom.html')
-    
-    @expose('/reports')
-    @login_required
-    @admin_required
-    def reports(self):
-        return self.render('admin/reportsdash.html')
-
-class CustomModelView(ModelView):
-    def is_accessible(self):
-        return current_user.is_authenticated and \
-        current_user.is_administrator()
-    pass
-
-class CustomFileAdmin(FileAdmin):
-    def is_accessible(self):
-        return current_user.is_authenticated and \
-        current_user.is_administrator()
-    pass
-
-
-@admin_blueprint.route('/')
-def home():
-    """Landing page."""
-    return render_template('/reports/featured.html',
-                           title='Plotly Dash & Flask Tutorial',
-                           template='home-template',
-                           body="This is a homepage served with Flask.")
-
 def fetch_data():
     results = Features.query.all()
     return [{column.name: getattr(row, column.name) for column in row.__table__.columns} for row in results]
 
+@admin_blueprint.route("/")
+@login_required
+@admin_required
+def admindashboard():
+    user = current_user
+    authenticated = [ user for user in users if user.confirmed ]
+    anonymous = [ user for user in users if not user.confirmed ]
+    unverified = [ user for user in users if not user.confirmed ]   
+    users = random.sample(users, min(5, len(users)))
+    feedback = Feedback.query.all()
+    feedback = random.sample(feedback, min(5, len(feedback))) 
+    features = Features.query.order_by(Features.date.desc()).all()
+    features = random.sample(features, min(5, len(features)))
+    return render_template('dashboard.html', users=users, user=user, 
+                           feedback=feedback, features=features,
+                           auth=authenticated, anony=anonymous, unveri=unverified)
 
 @admin_blueprint.route("/features", methods=['GET', 'POST'])
 @login_required
@@ -82,24 +66,6 @@ def fetch_data():
 def fetch_features():
     result = fetch_data()
     return jsonify(result)
-
-@admin_blueprint.route("/dashboard")
-@login_required
-@admin_required
-def admindashboard():
-    user = User.query.order_by(User.id).all()
-    users = User.query.all()
-    authenticated = [ user for user in users if user.confirmed ]
-    anonymous = [ user for user in users if user.is_anonymous ]
-    unverified = [ user for user in users if not user.confirmed ]   
-    users = random.sample(users, min(5, len(users)))
-    feedback = Feedback.query.all()
-    feedback = random.sample(feedback, min(5, len(feedback))) 
-    features = Features.query.order_by(Features.date.desc()).all()
-    features = random.sample(features, min(5, len(features)))
-    return render_template('dashboard.html', users=users, 
-                           feedback=feedback, features=features,
-                           auth=authenticated, anony=anonymous, unveri=unverified)
 
 @admin_blueprint.route("/users", methods=['GET', 'POST'])
 @login_required
@@ -109,7 +75,7 @@ def users():
     users = User.query.order_by(User.last_seen.desc())
     pagination = db.paginate(users, page=page, per_page=7, error_out=False)
     users = pagination.items
-    return render_template("admin/users.html",users=users, pagination=pagination)
+    return render_template("admin/users.html",users=users,  pagination=pagination)
 
 @admin_blueprint.route("/feedback")
 @login_required
@@ -145,25 +111,69 @@ def update_profile(username):
     form = editProfile(user=user)
     if request.method == 'POST' and form.validate_on_submit():
         user.email = form.email.data
+        user.full_name = form.name.data
         user.username = form.username.data
         user.mobile = form.mobile.data
-        user.name = Role.query.get(form.role.data)
+        user.role = Role.query.get(form.role.data)
         user.location = form.location.data
         user.about = form.about.data
-        user.tour_company = form.company.data
-        user.company_email = form.c_email.data
-        user.company_mobile = form.c_mobile.data
-        user.company_address = form.c_address.data
+        # user.tour_company = form.company.data
+        # user.company_email = form.c_email.data
+        # user.company_mobile = form.c_mobile.data
+        # user.company_address = form.c_address.data
         user.confirmed = form.confirmed.data
         try:
             db.session.add(user)
             db.session.commit()
-            flash('User details updated successfully.')
+            flash('User details updated successfully.', category="info")
             return redirect(url_for('.users'))
         except Exception:
             db.session.rollback()
             flash("User details not updated.", 'info')
     return render_template('/user/editProfile.html', form=form, user=user)
+
+@admin_blueprint.route("/<string:username>/admin-profile/")
+@login_required
+@admin_required
+def profile(username):
+    user = User.query.filter_by(username=username).first() or \
+        Admin.query.filter_by(username=username).first()
+    if not user:
+        flash("User not found or user is not an adminstrator", category="warning") 
+    return render_template("admin/profile.html", user=user)
+
+
+@admin_blueprint.route("/profile/edit/<string:username>", methods=['POST', 'GET'])
+@login_required
+@admin_required
+def edit_admin(username):
+    user = Admin.query.filter_by(username=username).first() 
+    if not user:
+        user = User.query.filter_by(username=username).first_or_404()
+    if not user.is_administrator():
+        return redirect(url_for('.user_profile', username=user.username))
+    form = editAdmin()
+    if form.validate_on_submit():
+        admin = Admin()
+
+        admin.name = form.name.data
+        admin.email = form.email.data
+        admin.username = form.username.data
+        admin.mobile = form.mobile.data
+        admin.agency = form.agency.data
+        admin.agency_email = form.agency_email.data
+        admin.agency_mobile = form.agency_mobile.data
+        admin.agency_address = form.agency_address.data
+        try:
+            db.session.add(admin)
+            db.session.commit()
+            flash("Adminstrator profile details updated succesfully", category="info")
+            return redirect(url_for('.profile', username=admin.username))
+        except:
+            db.session.rollback()
+            flash("Adminstrator profile not updated!.", category="warning")
+            return redirect(url_for('.profile', username=user.username))
+    return render_template("admin/editadmin.htm", form=form, user=user)
 
 @admin_blueprint.route('/user_profile/<username>/', methods=['GET', 'POST'])
 @login_required
@@ -185,16 +195,17 @@ def delete_profile(username):
         try: 
             db.session.delete(user)
             db.session.commit()
+            flash(f"User {user.username} removed successfully", category="info")
             return redirect(url_for('.users'))
         except Exception:
             db.session.rollback()
             flash("User couldn't be removed.", 'info')
             return redirect(url_for('.users'))
     else:
-        flash("User with such username not found", 'warn')
+        flash("User with such username not found", category='warning')
         return redirect(url_for('.users'))
 
-@admin_blueprint.route("reports")
+@admin_blueprint.route("/reports")
 @login_required
 def reports():
     return render_template("admin/reportsdash.html")
@@ -211,12 +222,6 @@ def performance():
 def featured_visuals():
     bar = create_plots()
     return render_template("reports/featured.html", repo=bar)
-
-@admin_blueprint.route("/roc")
-@login_required
-def roc():
-
-    return "This is roc"
 
 @admin_blueprint.route('/matrix')
 @login_required
@@ -253,9 +258,3 @@ def report():
 def visuals():
     return "This is the intended Visualization page."
 
-@admin_blueprint.route("/profile")
-@login_required
-@admin_required
-def profile():
-    user = User.query.filter_by(username=current_user.username).first_or_404()
-    return render_template("admin/profile.html", user=user)

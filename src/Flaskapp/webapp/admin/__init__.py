@@ -1,7 +1,7 @@
 from flask_admin import Admin
 from flask_admin.consts import ICON_TYPE_FONT_AWESOME
 from webapp import db
-from .routes import CustomView, CustomModelView, CustomFileAdmin
+# from .routes import CustomView, CustomModelView, CustomFileAdmin
 from ..auth.models import User, Role
 from ..mainapp.models import Features, Feedback,  Countries, SearcHDestination
 from ..users.models import Search
