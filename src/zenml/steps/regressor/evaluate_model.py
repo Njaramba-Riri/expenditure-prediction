@@ -41,6 +41,7 @@ def evaluate_regressor(
     """
     try:
         y_pred = model.predict(X_test)
+        y_pred = np.exp(y_pred)
 
         mse = MSE()
         mse_score = mse.calculate_scores(y_test, y_pred)

@@ -19,15 +19,12 @@ from utils.regressor.model_train import Linear, RandomForest, CatBoost, XGBoost,
 
 experiment_tracker = Client().active_stack.experiment_tracker
 
-with open("src/mlzen/steps/regressor/models.yml", "r") as f:
+with open("src/zenml/steps/regressor/models.yml", "r") as f:
     model_configs = yaml.safe_load(f)
 
 @step(name="Regressor Model Training", enable_cache=True, experiment_tracker=experiment_tracker.name)
 def train_regressor(
-    X_train: np.ndarray, y_train: np.ndarray, 
-    X_test: np.ndarray, y_test: np.ndarray) -> Tuple[
-        Annotated[RegressorMixin, "Logistic Regressor"],
-        Annotated[RegressorMixin, "Forest Regressor"],
+    X_train: np.ndarray, y_train: np.ndarray) -> Tuple[
         Annotated[CatBoostRegressor, "Catboost Regressor"],
         Annotated[RegressorMixin, "XGB Regressor"],
         Annotated[RegressorMixin, "LGBM Regressor"]
@@ -37,8 +34,6 @@ def train_regressor(
     Args:
         X_train(np.ndarray): Input numpy arrays training features.
         y_train(np.ndarray): Input numpy arrays training target variable.
-        X_test(np.ndarray): Input numpy arrays validation features.
-        y_test(np.ndarray): Input numpy arrays validation target variable.
     
     Returns:
         Regressor trained models.
@@ -52,15 +47,15 @@ def train_regressor(
             model_name = model_config["name"]
             model_parameters = model_config["parameters"]
 
-            if model_name == "Linear":
-                model = Linear()
-                mlflow.sklearn.autolog()
-                trained_lr = model.train(X_train, y_train, **model_parameters)
-            elif model_name == "Forest":
-                model = RandomForest()
-                mlflow.autolog()
-                trained_rf = model.train(X_train, y_train, **model_parameters)
-            elif model_name == "CatBoost":
+            # if model_name == "Linear":
+            #     model = Linear()
+            #     mlflow.sklearn.autolog()
+            #     trained_lr = model.train(X_train, y_train, **model_parameters)
+            # elif model_name == "Forest":
+            #     model = RandomForest()
+            #     mlflow.autolog()
+            #     trained_rf = model.train(X_train, y_train, **model_parameters)
+            if model_name == "CatBoost":
                 model = CatBoost()
                 #mlflow.catboost.log_model(model,"catboost")
                 trained_cat = model.train(X_train, y_train, **model_parameters)
@@ -74,7 +69,7 @@ def train_regressor(
                 trained_lgb = model.train(X_train, y_train, **model_parameters)
             else:
                 raise ValueError("Model with the name `{}` is not supported.".format(model_name))
-        return(trained_lr, trained_rf, trained_cat, trained_xgb, trained_lgb)
+        return(trained_cat, trained_xgb, trained_lgb)
     except Exception as e:
         logging.error("Error while training regressor models: {}".format(e))
         raise e

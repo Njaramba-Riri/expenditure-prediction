@@ -16,7 +16,7 @@ from utils.classifier.model_train import RandomForest, CatBoost, XGBoost, LightG
 
 experiment_tracker = Client().active_stack.experiment_tracker
 
-with open('src/mlzen/steps/classifier/models.yml', 'r') as f:
+with open('src/zenml/steps/classifier/models.yml', 'r') as f:
     model_configs = yaml.safe_load(f)
 
 

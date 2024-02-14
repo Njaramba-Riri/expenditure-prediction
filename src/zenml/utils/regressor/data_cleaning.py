@@ -9,8 +9,8 @@ import numpy as np
 from pandas.core.api import Series as Series
 
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import OneHotEncoder, StandardScaler, RobustScaler, MinMaxScaler
-from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler, RobustScaler
+from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split, StratifiedKFold
 
@@ -20,6 +20,7 @@ class DataStrategy(ABC):
     Args:
         ABC (_type_): Helper class for creating ABC using inheritance.
     """
+    @abstractmethod
     def clean_data(self, df: pd.DataFrame) -> Union[pd.DataFrame, pd.Series]:
         """Attribute of the DataStrategy class that when call, it handles the specific function of cleaning data.
 
@@ -48,16 +49,6 @@ class DataCleanStrategy(DataStrategy):
             Union[pd.DataFrame, pd.Series]: The output pandas dataframe or series.
         """
         try:
-            df.drop(columns=["ID", "payment_mode", "most_impressing"], axis=1, inplace=True)
-            df["country"].replace(
-                {
-                    "UKRAIN": "UKRAINE",
-                    "SWIZERLAND": "SWITZERLAND",
-                    "DJIBOUT": "DJIBOUTI",
-                    "PHILIPINES": "PHILIPPINES",
-                    "UAE": "UNITED ARAB EMIRATES"
-                }, inplace=True
-            )
             df.drop_duplicates(keep='first', inplace=True)
             return df
         except Exception as e:
@@ -80,31 +71,37 @@ class DataPreprocessStrategy(DataStrategy):
             Union[pd.DataFrame, pd.Series, np.ndarray]: Numpy arrays of preprocessed data.
         """
         try:
-            features = df.drop('total_cost', axis=1)
-            numerical = features.select_dtypes(include=np.number).columns.to_list()
-            categorical = features.select_dtypes(exclude=np.number).columns.to_list()
+            df.drop('total_cost', axis=1, inplace=True)
+            numerical = df.select_dtypes(include=np.number).columns.to_list()
+            categorical = df.select_dtypes(exclude=np.number).columns.to_list()
 
-            numerical_pipeline = Pipeline(steps=[
-                ('imputer', SimpleImputer(strategy="median")),
-                ('scaler', RobustScaler())
-            ])
-
-            categorical_pipeline = Pipeline(steps=[
-                ("imputer", SimpleImputer(strategy="most_frequent")),
-                ("encoder", OneHotEncoder(sparse_output=False, max_categories=50)),
-                ("scaler", MinMaxScaler())
-            ])
+            for col in categorical:
+                num_unique = df[col].nunique()
+                if num_unique <= 5:
+                    categorical_pipe = make_pipeline(SimpleImputer(strategy='constant', fill_value=str('None')),
+                                                     OrdinalEncoder())
+                else:
+                    categorical_pipe = make_pipeline(SimpleImputer(strategy='constant', fill_value=str('None')),
+                                                     OneHotEncoder(sparse_output=False, max_categories=30))
+            
+            numerical_pipeline = make_pipeline((SimpleImputer(strategy="median")),
+                                               ('scaler', RobustScaler()))
 
             transformer = ColumnTransformer(transformers=[
                 ("numerical", numerical_pipeline, numerical),
-                ("categorical", categorical_pipeline, categorical)
+                ("categorical", categorical_pipe, categorical)
             ])
 
-            X = transformer.fit_transform(df[numerical + categorical])
-            y = np.array(df['total_cost'])
+            pipeline = Pipeline(steps=[
+                ('transformer', transformer),
+                ('scaler', StandardScaler())
+            ])
 
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=True, random_state=42)
-
+            inputs = pipeline.fit_transform(df)
+            target = np.array(df['total_cost'])
+            X_train, X_test, y_train, y_test = train_test_split(inputs, target, test_size=0.2,
+                                                                shuffle=True, random_state=42)
+            
             return X_train, X_test, y_train, y_test
         except Exception as e:
             logging.error("Error while preprocessing the dataframe: {}".format(e))

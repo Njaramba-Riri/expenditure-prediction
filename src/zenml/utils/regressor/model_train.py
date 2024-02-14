@@ -10,8 +10,6 @@ from catboost import CatBoostRegressor
 from xgboost import XGBRegressor
 from lightgbm import LGBMRegressor
 
-
-
 class TrainRegressor(ABC):
     """Abstract class that defines the strategy for training regressor models.
 

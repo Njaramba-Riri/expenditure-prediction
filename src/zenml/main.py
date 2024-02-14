@@ -12,7 +12,7 @@ if __name__ == "__main__":
     )
 
     print(Client().active_stack.experiment_tracker.get_tracking_uri())
-    run_classifier(data_path=path)
-    run_regressor(data_path="Datasets/Train (1).csv")
+    #run_classifier(data_path=path)
+    run_regressor(data_path="Datasets/engineer2.csv")
     
     
