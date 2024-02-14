@@ -7,14 +7,14 @@
 /.vscode
 /.github
 catboost_info/
+Datasets/
 expenditure/
 /fastapi/
 Flask/
 notebooks/
 
-
-
 config.py
+
 /.zen
 *.pyc
 *.sqlite
