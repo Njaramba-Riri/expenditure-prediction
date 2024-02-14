@@ -3,7 +3,7 @@ from flask_httpauth import HTTPBasicAuth
 from itsdangerous import Serializer
 Serializer()
 
-from ..auth.models import User
+from ..auth.models import User, 
 from .routes import api_blueprint
 from .errors import forbidden
 
