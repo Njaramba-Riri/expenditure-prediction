@@ -14,6 +14,7 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from flask import (Blueprint,render_template, redirect, url_for, 
                    flash, session, request, jsonify, current_app, abort)
 from flask_login import login_required, current_user
+from sqlalchemy import exc
 
 from ..reports.model_performance import create_model_performance
 from ..reports.data_drift import drift_report
@@ -47,18 +48,15 @@ def fetch_data():
 @login_required
 @admin_required
 def admindashboard():
-    user = current_user
-    authenticated = [ user for user in users if user.confirmed ]
-    anonymous = [ user for user in users if not user.confirmed ]
-    unverified = [ user for user in users if not user.confirmed ]   
-    users = random.sample(users, min(5, len(users)))
+    all_u = User.query.all()
+    users = random.sample(all_u, min(3, len(all_u)))
     feedback = Feedback.query.all()
     feedback = random.sample(feedback, min(5, len(feedback))) 
     features = Features.query.order_by(Features.date.desc()).all()
     features = random.sample(features, min(5, len(features)))
-    return render_template('dashboard.html', users=users, user=user, 
-                           feedback=feedback, features=features,
-                           auth=authenticated, anony=anonymous, unveri=unverified)
+    late_feed = Feedback.query.order_by(Feedback.date.desc()).limit(10).all()
+    return render_template('dashboard.html', users=users, all=all_u, 
+                           feedback=feedback, features=features, feed=late_feed)
 
 @admin_blueprint.route("/features", methods=['GET', 'POST'])
 @login_required
@@ -75,7 +73,7 @@ def users():
     users = User.query.order_by(User.last_seen.desc())
     pagination = db.paginate(users, page=page, per_page=7, error_out=False)
     users = pagination.items
-    return render_template("admin/users.html",users=users,  pagination=pagination)
+    return render_template("admin/users.html", users=users, pagination=pagination)
 
 @admin_blueprint.route("/feedback")
 @login_required
@@ -117,10 +115,6 @@ def update_profile(username):
         user.role = Role.query.get(form.role.data)
         user.location = form.location.data
         user.about = form.about.data
-        # user.tour_company = form.company.data
-        # user.company_email = form.c_email.data
-        # user.company_mobile = form.c_mobile.data
-        # user.company_address = form.c_address.data
         user.confirmed = form.confirmed.data
         try:
             db.session.add(user)
@@ -157,7 +151,7 @@ def edit_admin(username):
         admin = Admin()
 
         admin.name = form.name.data
-        admin.email = form.email.data
+        #admin.email = form.email.data
         admin.username = form.username.data
         admin.mobile = form.mobile.data
         admin.agency = form.agency.data
@@ -169,9 +163,9 @@ def edit_admin(username):
             db.session.commit()
             flash("Adminstrator profile details updated succesfully", category="info")
             return redirect(url_for('.profile', username=admin.username))
-        except:
+        except BaseException as e:
             db.session.rollback()
-            flash("Adminstrator profile not updated!.", category="warning")
+            flash("Adminstrator profile not updated!: {}".format(e), category="warning")
             return redirect(url_for('.profile', username=user.username))
     return render_template("admin/editadmin.htm", form=form, user=user)
 

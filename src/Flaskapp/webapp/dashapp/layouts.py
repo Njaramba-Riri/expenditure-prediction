@@ -6,7 +6,7 @@ from plotly.subplots import make_subplots
 from ..auth.models import User, Role
 from ..mainapp.models import Features, Feedback
 
-train = pd.read_csv('~/Desktop/expenditure/Datasets/Train.csv', encoding='iso-8859-1', on_bad_lines='skip')
+train = pd.read_csv('/home/riri/Desktop/expenditure/Datasets/Train.csv', encoding='iso-8859-1', on_bad_lines='skip')
 train.drop("Tour_ID", axis=1, inplace=True)
 sample_train = train.head(10)
 
@@ -89,7 +89,7 @@ def dash_layout(app):
                                     )
                                 ],
                                 id="country",
-                                className="col-md-4"
+                                className="country"
                             ),
                             html.Div(
                                 children=[
@@ -189,7 +189,7 @@ def dash_layout(app):
                                     ),
                                 ],
                                 id="interactive",
-                                className="col-md-6"
+                                className="selects"
                             ),                                
 
                         ],
@@ -215,17 +215,30 @@ def dash_layout(app):
                                                     ),
                                                 ],
                                                 "layout": {
-                                                    "title": "The proportion of cost category"
+                                                    "title": "Cost category"
                                                 }
                                             },
-                                            className="col-mddd-5"
-                                        ), 
-                                        go.Sunburst(
-                                            labels=train['purpose'],
-                                            values=train['purpose'].value_counts()
+                                            className="don-1"
+                                        ),
+                                        dcc.Graph(
+                                            id="sunburst",
+                                            config={"displayModeBar": False},
+                                            figure={
+                                                "data": [
+                                                    go.Sunburst(
+                                                        labels=train["purpose"].unique(),
+                                                        parents=train["main_activity"].unique(),
+                                                        values=train["main_activity"].value_counts()
+                                                    ),
+                                                ],
+                                                "layout": {
+                                                    "title": "Main Activity."
+                                                }
+                                            },
+                                            className="don-2"
                                         )                                       
                                     ],
-                                    id="col-md-5"
+                                    id="doughts"
                                 ),
                                 dcc.Graph(
                                     id="scatter-plot",
@@ -285,7 +298,7 @@ def dash_layout(app):
                         }
                     ],
                     "layout": {
-                        "title": "NYC 311 Calls category.",
+                        "title": "Distribution of Target class.",
                         "height": 500,
                         "padding": 150,
                         "colorway": ["#17b897"],
@@ -324,7 +337,7 @@ def dash_layout(app):
                         {
                             'x': train['main_activity'],
                             #'y': train['cost_category'],
-                            'type': 'bar'
+                            'type': 'histogram'
                         }
                     ],
                     "layout": {
@@ -361,7 +374,7 @@ def dash_layout(app):
                         id="sample-dataset",
                         columns=[
                             {"name":i, "id":i}
-                            for i in df.columns
+                            for i in train.columns
                         ],
                         data=sample_train.to_dict("records"),
                         style_cell=dict(textAlign='left'),

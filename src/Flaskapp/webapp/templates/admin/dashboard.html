@@ -33,7 +33,7 @@
             <section class="cardBox">
                 <div class="card" data-tilt>
                     <div>
-                        <div class="figures">{{ users | length }}</div>
+                        <div class="figures">{{ all | count }}</div>
                         <div class="title">Total Users</div>
                     </div>
                     <div class="icontitle">
@@ -42,7 +42,11 @@
                 </div>
                 <div class="card" data-tilt>
                     <div>
-                        <div class="figures">{{ users | length }}</div>
+                        {% for users in all %}
+                            {% if not users %}
+                                <div class="figures">{{ users }}</div>
+                            {% endif %}
+                        {% endfor %}
                         <div class="title">New Users</div>
                     </div>
                     <div class="icontitle">
@@ -51,7 +55,7 @@
                 </div>
                 <div class="card" data-tilt>
                     <div>
-                        <div class="figures">{{ feed | length }}</div>
+                        <div class="figures">{{ feedback | length }}</div>
                         <div class="title">Feedback</div>
                     </div>
                     <div class="icontitle">

@@ -7,7 +7,7 @@
             <a href="{{ url_for('.admindashboard') }}">Dashboard</a>
         </li>
         <li>
-            <a href="{{ url_for('.profile', username=user.username) }}">
+            <a href="{{ url_for('.profile', username=current_user.username) }}">
                 <span>{{ current_user.username | capitalize }}</span>
                 {% if current_user.gravatar %}
                     <span><img src="{{ current_user.gravatar(100) }}" alt=""></span>

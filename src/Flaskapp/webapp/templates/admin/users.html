@@ -47,7 +47,7 @@
                                 <ion-icon name="alert-circle-outline" title="Uncomfirmed"></ion-icon>
                             </td>
                         {% endif %}
-                        <td>{{ user.role }}</td>
+                        <td>{{ user.role.name | lower }}</td>
                         {% if user.location == None %}
                             <td>---</td>
                         {% else %}

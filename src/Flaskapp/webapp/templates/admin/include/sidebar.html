@@ -1,64 +1,62 @@
-
-	<div class="savigation">
-		<ul>
-			<li>
-				<a href="">
-					<span class="icon"><ion-icon name="paper-plane"></ion-icon></span>
-					<span class="item">LetsGo</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ url_for('.admindashboard') }}" class="dash">
-					<span class="icon"><ion-icon name="speedometer-outline"></ion-icon></span>
-					<span class="item">Dashboard</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ url_for('app.index') }}" class="home">
-					<span class="icon"><ion-icon name="home-outline"></ion-icon></span>
-					<span class="item">Home</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ url_for('.reports') }}">
-					<span class="icon"><ion-icon name="bar-chart-outline"></ion-icon></span>
-					<span class="item">Model Performace</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ url_for('/letsgo/admin/dashboard/')}}" class="dash-app">
-					<span class="icon"><ion-icon name="pie-chart-outline"></ion-icon></span>
-					<span class="item">Reports</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ url_for('.users') }}" class="goers">
-					<span class="icon"><ion-icon name="people-outline"></ion-icon></span>
-					<span class="item">Users</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ url_for('.feed') }}">
-					<span class="icon"><ion-icon name="chatbubbles-outline"></ion-icon></span>
-					<span class="item">Feedback</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ url_for('.profile', username=current_user.username) }}">
-					<span class="icon"><ion-icon name="person-outline"></ion-icon></span>
-					<span class="item">Profile</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ url_for('auth.logout') }}">
-					<span class="icon"><ion-icon name="log-out"></ion-icon></span>
-					<span class="item">Log Out</span>
-				</a>
-			</li>
-		</ul>
-	</div>
+<div class="savigation">
+	<ul>
+		<li>
+			<a href="">
+				<span class="icon"><ion-icon name="paper-plane"></ion-icon></span>
+				<span class="item">LetsGo</span>
+			</a>
+		</li>
+		<li>
+			<a href="{{ url_for('.admindashboard') }}" class="dash">
+				<span class="icon"><ion-icon name="speedometer-outline"></ion-icon></span>
+				<span class="item">Dashboard</span>
+			</a>
+		</li>
+		<li>
+			<a href="{{ url_for('app.index') }}" class="home">
+				<span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+				<span class="item">Home</span>
+			</a>
+		</li>
+		<li>
+			<a href="{{ url_for('.reports') }}">
+				<span class="icon"><ion-icon name="bar-chart-outline"></ion-icon></span>
+				<span class="item">Model Performace</span>
+			</a>
+		</li>
+		<li>
+			<a href="{{ url_for('/letsgo/admin/dashboard/')}}" class="dash-app">
+				<span class="icon"><ion-icon name="pie-chart-outline"></ion-icon></span>
+				<span class="item">Reports</span>
+			</a>
+		</li>
+		<li>
+			<a href="{{ url_for('.users') }}" class="goers">
+				<span class="icon"><ion-icon name="people-outline"></ion-icon></span>
+				<span class="item">Users</span>
+			</a>
+		</li>
+		<li>
+			<a href="{{ url_for('.feed') }}">
+				<span class="icon"><ion-icon name="chatbubbles-outline"></ion-icon></span>
+				<span class="item">Feedback</span>
+			</a>
+		</li>
+		<li>
+			<a href="{{ url_for('.profile', username=current_user.username) }}">
+				<span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+				<span class="item">Profile</span>
+			</a>
+		</li>
+		<li>
+			<a href="{{ url_for('auth.logout') }}">
+				<span class="icon"><ion-icon name="log-out"></ion-icon></span>
+				<span class="item">Log Out</span>
+			</a>
+		</li>
+	</ul>
 </div>
- 
+
 <!-- <div class="sidebar">
 	<div class="admin">
 		<i class="fa fa-paper-plane"></i>

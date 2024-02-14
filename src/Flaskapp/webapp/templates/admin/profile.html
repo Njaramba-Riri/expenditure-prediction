@@ -18,10 +18,14 @@
                 </div> 
             </div>
             <h3>Profile Details.</h3>
-            <p>Name: <strong>{{ user.name }}</strong></p>
+            {% if user.name %}
+                <p>Name: <strong>{{ user.name }}</strong></p>
+            {% endif %}
             <p>Email: <strong>{{ user.email }}</strong></p>
             <p>Username: <strong> {{ user.username }}</strong></p>
-            <p>Mobile: <strong>{{ user.mobile }}</strong></p>
+            {% if user.mobile %}
+                <p>Mobile: <strong>{{ user.mobile }}</strong></p>
+            {% endif %}
         </div>                     
         <div class="org">
             <h3>Organization Details.</h3>

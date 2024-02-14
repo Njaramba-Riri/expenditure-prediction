@@ -70,19 +70,22 @@ def dash_callbacks(app):
         }
 
         return line_chart, histogram_chart
-    
+
     @app.callback(
-        Output("scatter-plot", "figure"),
-        Input("slider", "value")
+            Output("scatter-plot", "figure"),
+            Input("slider", "value")
     )
     def update_scatter_chart(range_slider):
-        data = train
-
         low, high = range_slider
         mask = (train['total_male'].values > low) & (train['total_male'].values < high)
-        fig = go.Scatter(
-            x=train[mask], 
-            y=train[mask],
+        
+        # Assuming 'x_column' and 'y_column' are the names of the columns you want to plot
+        fig = go.Figure(
+            data=go.Scatter(
+                x=train.loc[mask, 'country'], 
+                y=train.loc[mask, 'purpose'],
+                mode='markers'  # This adds the markers to the plot
             )
+        )
 
         return fig

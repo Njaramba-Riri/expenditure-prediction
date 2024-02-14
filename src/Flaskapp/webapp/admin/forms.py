@@ -1,3 +1,4 @@
+from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, TextAreaField ,widgets, TelField, SearchField
 from wtforms import ValidationError, BooleanField, SubmitField, SelectField
@@ -58,7 +59,7 @@ class editProfile(FlaskForm):
 
 class editAdmin(FlaskForm):
     name = StringField("Admin full name.", validators=[DataRequired(), Length(min=10, max=50)])
-    email = StringField("Email address", validators=[DataRequired(), Email()])
+    # email = StringField("Email address", validators=[DataRequired(), Email()])
     username = StringField("Admin username", validators=[DataRequired(), Length(min=4, max=20)])
     mobile = TelField("Mobile number", validators=[DataRequired()])
     agency = StringField("Tour Company name", validators=[DataRequired(), Length(max=100)])
@@ -66,9 +67,12 @@ class editAdmin(FlaskForm):
     agency_mobile = TelField("Company office line/mobile", validators=[DataRequired()])
     agency_address = StringField("Company physical address", validators=[DataRequired(), Length(max=200)])
 
-    def validate_email(self, field):
-        if self.data != self.email and User.query.filter_by(email=field.data).first():
-            raise ValidationError("Given email address already exists")
+    # def validate_email(self, field):
+    #     if self.data != self.email and User.query.filter_by(email=field.data).first():
+    #         raise ValidationError("Given email address already exists")
+
+    #     if self.data != self.email and current_user.email == field.data:
+    #         raise ValidationError("Your current email can't be your new email.")
     
     def validate_username(self, field):
         if self.data != self.username and User.query.filter_by(username=field.data).first():
