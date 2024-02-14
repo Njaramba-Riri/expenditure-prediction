@@ -207,8 +207,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
   let sidebar_list = document.querySelectorAll(".savigation li");
 
   function activeLink() {
-      sidebar_list.forEach((item) => {
-          item.classList.remove("hovered");
+      sidebar_list.forEach((items) => {
+          items.classList.remove("hovered");
+
       });
       this.classList.add("hovered");
 
@@ -254,90 +255,89 @@ document.addEventListener("DOMContentLoaded", (e) => {
 });
 
 
-document.addEventListener('DOMContentLoaded', function() {
-  // Get all items
-  let items = document.querySelectorAll('.savigation ul li a');
+// document.addEventListener('DOMContentLoaded', function() {
+//   let items = document.querySelectorAll('.savigation ul li a'); // Corrected the class name from '.savigation' to '.navigation'
 
-  // Function to remove 'hovered' class from all items and add it to the clicked item
-  function activeLink(event) {
-    event.preventDefault(); // Prevent the default action of the anchor tag
+//   // Function to remove 'hovered' class from all items and add it to the clicked item
+//   function activeLink(event) {
+//     event.preventDefault();
 
-    // Add 'active' and 'hovered' classes to the clicked item
-    this.classList.add('active', 'hovered');
+//     // Remove 'active' and 'hovered' classes from all items
+//     items.forEach((item) => {
+//       item.classList.remove('active', 'hovered');
+//     });
 
-    // Remove 'active' and 'hovered' classes from all items
-    items.forEach((item) => {
-      item.classList.remove('active', 'hovered');
-    });
+//     this.classList.add('active', 'hovered'); // Moved this line after the forEach loop to ensure the clicked item gets the 'active' and 'hovered' classes
 
+//     // Save the active item to localStorage
+//     localStorage.setItem('activeItem', '.' + this.className.replace(/ /g, '.'));
 
+//     // Fetch the new page content
+//     let content  = document.getElementById("dash-content");
 
-    // Save the active item to localStorage
-    localStorage.setItem('activeItem', '.' + this.className.replace(/ /g, '.'));
+//     fetch(this.href)
+//       .then(response => response.text())
+//       .then(data => {
+//         // Insert the new content into the DOM
+//         content.innerHTML = data;
+//       })
+//       .catch(error => console.error('Error:', error));
+//   }
 
-    // Fetch the new page content
-    let content  = document.querySelector("#dash-content");
+//   function handleClick(event) {
+//     // Check if the clicked element is an anchor tag
+//     if (event.target.tagName === 'A') {
+//       event.preventDefault(); // Prevent the default action of the anchor tag
 
-    fetch(this.href)
-      .then(response => response.text())
-      .then(data => {
-        // Insert the new content into the DOM
-        content.innerHTML = data;
-      })
-      .catch(error => console.error('Error:', error));
+//       // Fetch the new page content
+//       fetch(event.target.href)
+//         .then(response => response.text())
+//         .then(data => {
+//           // Insert the new content into the #dash-content element
+//           content.innerHTML = data;
+//         })
+//         .catch(error => console.error('Error:', error));
+//     }
+//   }
 
-      function handleClick(event) {
-        // Check if the clicked element is an anchor tag
-        if (event.target.tagName === 'A') {
-          event.preventDefault(); // Prevent the default action of the anchor tag
-      
-          // Fetch the new page content
-          fetch(event.target.href)
-            .then(response => response.text())
-            .then(data => {
-              // Insert the new content into the #main-dah element
-              content.innerHTML = data;
-            })
-            .catch(error => console.error('Error:', error));
-        }
-      }
-      
-      // Attach the handleClick function to the click event of the #main-dah element
-      content.addEventListener('click', handleClick);
-  }
+//   // Attach the handleClick function to the click event of the #dash-content element
+//   let content = document.getElementById("dash-content"); // Moved this line outside the activeLink function
+//   content.addEventListener('click', handleClick);
 
-  // Attach the activeLink function to the click event of each item
-  items.forEach((item) => {
-    item.addEventListener('click', activeLink);
+//   // Attach the activeLink function to the click event of each item
+//   items.forEach((item) => {
+//     item.addEventListener('click', activeLink);
 
-    // Add 'hovered' class when mouse enters
-    item.addEventListener('mouseover', function() {
-      this.classList.add('hovered');
-    });
+//     // Add 'hovered' class when mouse enters
+//     item.addEventListener('mouseover', function() {
+//       this.classList.add('hovered');
+//     });
 
-    // Remove 'hovered' class when mouse leaves
-    item.addEventListener('mouseout', function() {
-      if (!this.classList.contains('active')) {
-        this.classList.remove('hovered');
-      }
-    });
-  });
+//     // Remove 'hovered' class when mouse leaves
+//     item.addEventListener('mouseout', function() {
+//       if (!this.classList.contains('active')) {
+//         this.classList.remove('hovered');
+//       }
+//     });
+//   });
 
-  // On page load, get the class of the last clicked item from localStorage
-  let activeItemClass = localStorage.getItem('activeItem');
+//   // On page load, get the class of the last clicked item from localStorage
+//   let activeItemClass = localStorage.getItem('activeItem');
 
-  // If there is a class in localStorage, add the 'hovered' class to the corresponding item
-  if (activeItemClass) {
-    let activeItem = document.querySelector(activeItemClass);
-    if (activeItem) {
-      activeItem.classList.add('hovered');
-    }
-  }
-});
+//   // If there is a class in localStorage, add the 'hovered' class to the corresponding item
+//   if (activeItemClass) {
+//     let activeItem = document.querySelector(activeItemClass);
+//     if (activeItem) {
+//       activeItem.classList.add('hovered');
+//     }
+//   }
+// });
+
 
 
 
 // Searching Users Table.
+
 document.addEventListener('DOMContentLoaded', (event) => {
   search = document.getElementById('search');
   if (search) {

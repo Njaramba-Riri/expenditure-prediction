@@ -1811,15 +1811,15 @@ figure:hover figcaption::before{
     padding-left: 1rem;
     padding-top: 1rem;
 }
-.close {
+.exit {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.exit:hover,
+.exit:focus {
     color: #f5f5f5;
     text-decoration: none;
     cursor: pointer;
@@ -2032,62 +2032,71 @@ figure:hover figcaption::before{
 }
 /* Feedback form */
 .feed{
-    padding: 8% 0;
     height: 100%;
     min-height: 60vh;
-    background-image: linear-gradient(to left, gainsboro, rgba(192, 88, 192, .7));
+    background-image: linear-gradient(45deg, lightblue, rgba(192, 88, 192, .5));
+    padding: 5rem 1em;
 }
-.feed .moana{
-    padding: 13% 0;
+.feed .moana-form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+.moana-form .moana{
     color: #fff;
 }
 .moana h1{
     font-size: 50px;
     font-weight: 600;
+    margin: 1rem 0;
 }
 .moana p{
     font-size: 18px;
     font-weight: 300;
     text-align: start;
 }
-.feed .moana-form{
-    padding-left: 3%;
+.moana p span{
+    color: #100319;
+    font-style: italic;
+    font-weight: 700;
 }
-.feed .feed-form{
+.moana-form .feed-form{
     width: 100%;
     height: 100%;
-    box-shadow: none;
-    border-radius: 20px;
-    padding: 10px 20px;
+    background-color: rgba(155, 155, 155, .2);
+    border-radius: .2rem;
+    padding: 1rem;
 }
-
+.feed-form:hover{
+    background: linear-gradient(180deg, rgb(103, 131, 141) 60%, rgb(216, 157, 166));
+}
 .feed .label{
-    color:  #2c2121;
+    color:  #100;
     font-size: 20px;
-    margin-left: 20px;
 }
 .input-box .text-area{
     width: 100%;
     height: 350px;
     font-size: 15px;
-    background: rgb(252, 251, 251);
+    background-color: transparent;
     font-weight: 300;
-    color:#000000;
-    padding: 10px 10px;
-    margin-bottom: 5px;
-    border-radius: 20px;
-    border: none !important;
+    color: whitesmoke;
+    padding: .5rem 1rem;
+    border-radius: .3rem;
+    border: 1px solid wheat;
     outline: none !important;
 }
 .feed .send-btn{
-    width: 80px;
-    height: 30px;
+    width: 100px;
+    height: 35px;
     font-size: 17px;
     border-radius: 15px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, .8);
     border: none !important;
+    outline: none !important;
     float: right;
-    margin-right: 3%;
+    margin: 1rem;
 }
 .feed .send-btn:hover{
     transform: scale(1.05);
@@ -2211,6 +2220,14 @@ figure:hover figcaption::before{
 }
 .item1 h2{
     font-size: 3rem;
+}
+.item1 img{
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    margin-top: -6rem;
+    float: right;
 }
 .item1 .block{
     display: flex;
@@ -2632,45 +2649,47 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     width: 300px;
     height: 100%;
     background: var(--blue);
-    border-left: 10px solid var(--blue);
-    transition: 2s;
+    /* border-left: 10px solid var(--gray); */
+    /* transition: 2s; */
     overflow: hidden;
 }
 .savigation.active{
     width: 80px;
-    transition: 2s ease;
+    transition: width 1s ease-in-out;
 }
 .savigation.active ul{
-    left: -20px;
-    transition: 5s ease-in-out;
+    padding-left: 1rem;
+    transition: padding-left .5s ease-in-out;
 }
 .savigation.active ul li .item{
-    opacity: .2;
-    transition: 2s ease;
+    opacity: 0;
+    transition: opacity .8s ease;
 }
 .savigation ul{
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100%; 
 }
 .savigation  ul li{
     position: relative;
     width: 100%;
+    height: 100%;
     list-style: none;
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
-    padding: 0 ;
 }
 .savigation ul li:hover,
 .savigation ul li.hovered{
     padding-left: 20px;
-    transition: 1s ease padding-left;
-    background: var(--gray);
+    transition: padding-left 1s ease ;
+    background: var(--white);
 }
 .savigation.active ul li:hover,
 .savigation.active ul li.hovered{
-    padding-left: 0 !important;
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+    padding-left: 0;
 }
 .savigation ul li:nth-child(1){
     margin-bottom: 40px;
@@ -2683,36 +2702,29 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     font-style: italic;
     padding: 0 5px;
 }
+.savigation ul li:last-child{
+    margin-top: 5rem;
+}
 .savigation ul li a{
     position: relative;
-    display: block;
     width: 100%;
     display: flex;
+    align-items: center;
     text-decoration: none !important;
     color: var(--white);
+    padding: .5rem 0;
 }
 .savigation ul li:hover a,
 .savigation ul li.hovered a{
     color: var(--blue);
 }
-.savigation ul li a .icon{
-    position: relative;
-    display: block;
-    min-width: 60px;
-    height: 50px;
-    line-height: 75px;
-    text-align: center;
-}
+
 .savigation ul li a .icon ion-icon,
 .savigation ul li a .icon i{
-    font-size: 1.75rem;
+    font-size: 2rem;
 }
 .savigation ul li a .item{
-    position: relative;
-    display: block;
-    padding: 0 10px;
-    height: 60px;
-    line-height: 60px;
+    margin-left: 1rem;
     text-align: start;
     white-space: nowrap;
 }
@@ -2726,7 +2738,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     height: 50px; 
     background: transparent;
     border-radius: 50%;
-    box-shadow: 35px 35px 0 10px var(--gray);
+    box-shadow: 35px 35px 0 10px var(--white);
     pointer-events: none !important;
 }
 .savigation ul li:hover a::after,
@@ -2739,10 +2751,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     height: 50px;
     background: transparent;
     border-radius: 50%;
-    box-shadow: 35px -35px 0 10px var(--gray);
+    box-shadow: 35px -35px 0 10px var(--white);
     pointer-events: none !important;
 }
-/* Admin */
+/*==================================Admin=========================================*/
 .main-dash{
     background: var(--white);
     position: absolute;
@@ -4068,14 +4080,7 @@ nav .be-flex{
         width: 310px;
         left: 30px;
     }
-    .feed{
-        padding: 80px 0;
-        height: 85vh;
-    }
-    .feed .feed-form{
-        width: 100%;
-        translate: none;
-    }
+
 }
 
 /*=========== Extra small devices================= */

@@ -92,7 +92,8 @@ def form():
                      cost_probability=None, user_id=user_id)
             db.session.add(features)
             db.session.flush()
-            session['feature_id'] = features.id 
+            session['feature_id'] = features.id
+            session['user'] = features.user_id
             db.session.commit()
             session['category'] = category
             session['probability'] = probability
@@ -109,7 +110,7 @@ def predict():
     probability = session.get('probability')
     features = session.get('features')
     feature_id = session.get('feature_id')
-    if not probability:
+    if not probability or current_user.is_authenticated and ( current_user.id != session.get('user')):
         flash("Kindly provide your travel details first", category="info")
         return redirect(url_for('.form'))
     form = feedback()
