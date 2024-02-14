@@ -1,4 +1,5 @@
 import logging
+from rich import print
 
 logger = logging.getLogger(__name__)
 
@@ -165,11 +166,13 @@ def api():
     
     username = request.json.get('username', None)
     password = request.json.get('password', None)
+    print(f"Password: {password}")
     if not username:
         return jsonify({"msg": "Missing username parameter"}), 400
     if not password:
         return jsonify({"msg": "Missing password parameter"}), 400
     user = authenticate(username, password)
+    print(f"User: {user}")
     if not user:
         return jsonify({"msg": "Invalid credentials."})
     access_token = create_access_token(identity=user.id)

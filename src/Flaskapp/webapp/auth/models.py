@@ -4,11 +4,11 @@ import jwt
 from time import time
 
 from flask import current_app, request, has_request_context
-from flask_login import AnonymousUserMixin, UserMixin, login_manager
+from flask_login import AnonymousUserMixin, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from webapp import db, cache
-from . import bcrypt
+from . import bcrypt, login_manager
 
 roles = db.Table(
     'role_users',
@@ -224,12 +224,16 @@ class User(UserMixin, db.Model):
                 return True
         return False
     
-class AnonymousUser(AnonymousUserMixin):
-    def can(self, permissions):
-        return False
-    
-    def is_administrator(self):
-        return False
-    
-login_manager.anonymous_user = AnonymousUser
+    class AnonymousUser(AnonymousUserMixin):
+        def __init__(self):
+            super(User).__init__()
+            self.id = None
+            self.username = 'Guest'
+            
+        def can(self, permissions):
+            return False
+        
+        def is_administrator(self):
+            return False
 
+    login_manager.anonymous_user = AnonymousUser

@@ -30,9 +30,10 @@ def load_user(userid):
     from .models import User
     return User.query.get(userid)
 
-class LetsGoAnonymousUser(AnonymousUserMixin):
-    def __init__(self):
-        self.username = 'Guest'
+# class LetsGoAnonymousUser(AnonymousUserMixin):
+#     def __init__(self):
+#         self.id = 0
+#         self.username = 'Guest'
 
 def has_role(name):
     def real_decorator(f):
@@ -120,5 +121,6 @@ def authenticate(username, password):
     if not user:
         return None
     if not user.check_password(password):
-        return None
+        return "Wrong password."
     return user
+
