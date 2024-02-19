@@ -656,13 +656,16 @@ svg text.loader-i{
 @keyframes bounce {
     0%, 100%{
         opacity: 0;
+        transform: translateY(0);
     }
     50%{
-        opacity: 1;
+        opacity: 0;
         transform: translateY(600px);
     }
 }
-
+.intro lottie-player{
+    margin-top: 5rem;
+}
 /*==============After Home============== */
 .carousels {
     background: #000b;
@@ -695,7 +698,6 @@ svg text.loader-i{
     background-color: rgba(0, 0, 0, 0.35);
     z-index: 1;
 }
-
 .carousel-caption {
     position: absolute;
     display: contents;
@@ -1211,7 +1213,7 @@ figure:hover figcaption::before{
     margin: 20px;
 }
 
-/*Feedback*/
+/*===============================Feedback====================================*/
 .feedback{
     padding: 4rem 0;
     height: 100%;
@@ -1274,7 +1276,7 @@ figure:hover figcaption::before{
 }
 
 
-/*Footer*/
+/*=======================================Footer====================================*/
 .footer{
     height: 100%;
     background-image: linear-gradient(to right, #141e30, #243b55);
@@ -1403,8 +1405,8 @@ figure:hover figcaption::before{
     font-style: italic;
 }
 
-/* Error pages */
-/* NOT Found */
+/* ======================================Error pages========================================= */
+/* ======================================NOT Found=================== */
 .error{
     background-image: linear-gradient(180deg, rgba(39, 39, 39, .5), #df4bba), url('../images/404.jpg');
     background-size: cover;
@@ -1445,7 +1447,7 @@ figure:hover figcaption::before{
     transform: scale(1.1);
 }
 
-/* Forbiddem */
+/*=======================================Forbiddem============================================ */
 .forbidden{
     height: 90vh;
     padding: 10rem;
@@ -1486,7 +1488,7 @@ figure:hover figcaption::before{
     font-size: 18px;
 }
 
-/*Form Page*/
+/*===========================================Form Page==============================================*/
 .form{
     background-image: linear-gradient(45deg, rgba(0, 0, 0 , 0.7), rgba(0, 0, 0, 0.7)), url("/static/images/letsgo.jpg");
     background-size: cover;
@@ -1670,7 +1672,7 @@ figure:hover figcaption::before{
 }
 
 
-/* Result Page */
+/*=====================================Result Page============================================= */
 .results{
     padding: 7rem 3rem;
     height: 100%;
@@ -1976,17 +1978,16 @@ figure:hover figcaption::before{
     transition: transform 2s ease-in-out;
 }
 
-/* Thanks Page */
+/* ===================================Thanks Page=================================== */
 .thanks {
     padding: 100px 0;
     height: 100vh;
-    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url("/static/images/mal2.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url("/static/images/mal2.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     text-align: center;
 }
-
 .thanks h2{
     padding-top: 40px;
     font-size: 70px;
@@ -2030,12 +2031,20 @@ figure:hover figcaption::before{
     border: none !important;
     transform: scale(.97);
 }
-/* Feedback form */
+/*===================================User Feedback====================================== */
 .feed{
     height: 100%;
     min-height: 60vh;
-    background-image: linear-gradient(45deg, lightblue, rgba(192, 88, 192, .5));
+    background-image: linear-gradient(45deg, rgb(6, 8, 8), lightblue 50%, rgb(219, 153, 164));
     padding: 5rem 1em;
+    position: static;
+}
+.feed::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(39, 39, 39 , .4);
+    z-index: -1;
 }
 .feed .moana-form{
     display: flex;
@@ -2067,6 +2076,7 @@ figure:hover figcaption::before{
     background-color: rgba(155, 155, 155, .2);
     border-radius: .2rem;
     padding: 1rem;
+    z-index: 3;
 }
 .feed-form:hover{
     background: linear-gradient(180deg, rgb(103, 131, 141) 60%, rgb(216, 157, 166));
