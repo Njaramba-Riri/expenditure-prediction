@@ -92,15 +92,23 @@ def clean_data(df: pd.DataFrame) -> Tuple[
 
 @step(experiment_tracker=experiment_tracker.name)
 def train_model(
-    X_train: np.ndarray, 
-    y_train: np.ndarray,
+    X_train: Union[np.ndarray, pd.DataFrame], 
+    y_train: Union[np.ndarray, pd.DataFrame],
     config: str
     ) -> Union [ClassifierMixin, CatBoostClassifier]:
-    """
-    Trains the model.
+    """Trains the ML models.
 
     Args:
-        df (pd.DataFrame): Input features.
+        X_train (np.ndarray): Numpy array or pandas dataframe input features.
+        y_train (np.ndarray): NUmpy array or pandas dataframe input target feature.
+        config (str): Yaml file containing the defined ML algorithms.
+
+    Raises:
+        ValueError: _description_
+        e: _description_
+
+    Returns:
+        Union [ClassifierMixin, CatBoostClassifier]: Base Sklearn classifier mixin or catboost classifier.
     """
     try:
         model = None
@@ -140,17 +148,6 @@ def evaluate_model(
         Annotated[float, "roc_auc"],
         Annotated[float, "acc_score"]
     ]:
-    """
-    Evaluates the model on the loaded data.
-
-    Args:
-        model (ClassifierMixin): _description_
-        X_test (pd.DataFrame): _description_
-        y_test (pd.DataFrame): _description_
-
-    Raises:
-        Exception: When the model fails to be evaluated.
-    """
     try:
         prediction = model.predict(X_test)
         precision = PrecisionScore()
@@ -178,4 +175,3 @@ def evaluate_model(
     except Exception as e:
         logging.error("Error while evaluating model: {}".format(e))
         raise e
-
