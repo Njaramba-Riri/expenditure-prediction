@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}LetsGO | Not Found {% endblock %}
+
+{% block content %}
+{% include 'include/navigation.html' %}
+<div class="error" >
+    <div id="toCenter">
+        <h1>404, PAGE NOT FOUND.</h1>
+        <div class="page">
+            <h3>Oooops, your bad. Looks like you navigated to a non-existent page.</h3>
+            <button type="button" class="btn-back" onclick="goBack()">Go Back</button>
+        </div>        
+    </div>
+</div>
+{% include 'include/footer.html' %}
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    function goBack(){
+        window.history.back()
+    }
+</script>
+{% endblock %}

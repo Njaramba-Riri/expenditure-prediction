@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% import 'macros/pagination.html' as paginate %}
+
+{% block title  %}LetsGo | User Feedback{% endblock %}
+
+{% block content %}
+{% include 'nav.html' %}
+<section class="users">
+    <div class="meza">
+        <div class="heading">
+            <h2>User Feedback <ion-icon name="chatbubbles-outline"></ion-icon></h2>
+            <label>
+                <input type="text" name="" id="search" placeholder="Search feedback">
+                <ion-icon name="search-outline"></ion-icon>
+            </label>
+        </div> 
+        <div class="table-main">
+            <table id="users">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Feedback</th>
+                        <th>Sentiment</th>
+                        <th>Probability </th>
+                        <th>User</th>
+                        <th>Timestamp</th>
+                    </tr>                
+                </thead>
+                <tbody>
+                    {% for feed in feedback %}
+                        <tr title="Click for more." data-bs-toggle="modal" data-bs-target="#features">
+                            {% for feature in features %}                        
+                                {% if feed.feature_id == feature.id %}
+                                    <div class="modal fade" id="features" data-bs-keyboard="false" tabindex="-1" aria-labelledby="featureBackdropLabel"
+                                    aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="featureBackdropLabel">Feature Details</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="">
+                                                        {% if feed.user_id %}
+                                                            {% for user in users %}
+                                                                {% if feed.user_id == user.id %}
+                                                                    <p><span>{{ user.username }}</span> said: <span>&quot;{{ feed.feed }}&quot;</span></p>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            <p>Said <span>&quot;{{ feed.feed }}&quot;</span></p>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="submitted" style="padding: .5rem; border: 1px solid brown; margin: .5rem 0;">
+                                                        <p style="text-align: center; font-weight: 500;"><strong>Feature Details:</strong></p>
+                                                        <p>Country: <span>{{ feature.country }}</span</p>
+                                                        <p>Region: <span>{{ feature.region }}</span></p>
+                                                        <p>Age Group: <span>{{ feature.age_group }}</span></p>
+                                                        <p>Travel With: <span>{{ feature.travel_with }}</span</p>
+                                                        <p>Purpose of Visit: <span>{{ feature.purpose }}</span></p>
+                                                        <p>Main Activity of the Visit: <span>{{ feature.main_activity }}</span</p>
+                                                        <p>Information Source: <span>{{ feature.info_source }}</span></p>
+                                                        <p>Tour Arrangement: <span>{{ feature.tour_arrangement }}</span></p>
+                                                        <p>International Transport: <span>{{ feature.package_transport_int }}</span></p>
+                                                        <p>Package Accomodation: <span>{{ feature.package_accomodation }}</span></p>
+                                                        <p>Nights in Mainland Tz: <span>{{ feature.night_mainland }}</span></p>
+                                                        <p>Nights in Zanzibar: <span>{{ feature.night_zanzibar }}</span></p>
+                                                        <p>Length of stay: <span>{{ feature.staycation }}</span></p>                                                        
+                                                    </div>
+                                                    <div class="preds">
+                                                        <p>Predicted Category: <span class="cat">{{ feature.predicted_category  }}</span></p>
+                                                        <p>Predicted Cost: <span class="cat">{{ (feature.total_cost / 2300) | round(2) }} USD</span></p>                                                
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}                              
+                            <td class="data">{{ feed.id }}</td>
+                            <td>{{ feed.feed | truncate(100, true, '.....') }}</td>
+                            {% if feed.sentiment == 'Positive' %}
+                                <td class="data"><span class="positive">{{ feed.sentiment }}</span></td>
+                            {% elif feed.sentiment == 'Negative' %}
+                                <td class="data"><span class="negative">{{ feed.sentiment }}</span></td>
+                            {% endif %}
+                            {% if feed.probability %}
+                                <td class="data">{{ feed.probability }} %</td>
+                            {% else %}
+                                <td style="color: brown;"><i class="fa fa-warning"></i> None</td>
+                            {% endif %}
+                            {% if feed.user_id %}
+                                {% for user in users %}
+                                    {% if feed.user_id == user.id %}
+                                        <td class="data">   
+                                            <a href="{{ url_for('.user_profile', username=user.username) }}">
+                                                {{ user.username  }}
+                                            </a>                                     
+                                        </td>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <td style="color: brown;"><i class="fa fa-warning"></i> None</td>
+                            {% endif %}
+                            <td class="data">{{ moment(feed.date).fromNow() }}</td>                  
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>            
+        </div>
+        <hr>
+        <div class="paginate">
+            {{ paginate.pagination_widget(pagination,'.feed')}}
+        </div>
+    </div>
+    <div class="prof-footer">
+        <p>&copy;2024. <i class="fa fa-paper-plane"></i>LetsGo. All rights reseved.</p>
+        <p>Made with <i class="fa fa-fire"></i> and<i class="fa fa-heart"></i>by LetsGo Team.</p>
+    </div>
+</section>
+    {% block js  %}
+    {{ moment.include_moment() }}
+    {% endblock %}
+{% endblock %}

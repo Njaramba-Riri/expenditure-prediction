@@ -1,0 +1,93 @@
+*{
+    font-family: 'Times New Roman', Times, serif;
+    padding: 0 0;
+}
+#dash-container{
+    background: #000000;
+    padding-top: 20px;
+    height: 100%;
+}
+h1{
+    font-size: 40px;
+    font-weight: 600;
+    color: #fff;
+}
+p{
+    font-size: 12px;
+    color: #fff;
+    letter-spacing: 4px;
+    text-align: center;
+}
+.header{
+    text-align: center;
+    font-size: 50px;
+    background-color: seagreen
+}
+#dash-container #dash-intro{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 1rem;
+    padding: 1rem;
+    background: #100319;
+}
+.section-title{
+    font-size: 30px;
+    color: #fff;
+    text-align: center;
+}
+#country #graph{
+    width: 100%;
+}
+#candidate{
+    color: #fff;
+    font-size: 14px;
+}
+.menu{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.menu .menu-title{
+    font-size: 10px;
+    color: #fff;
+    text-align: center;
+}
+.menu .dropdown{
+    width: 100%;
+    padding: 0 5px;
+}
+
+#interactive .big-card{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5rem;
+}
+#interactive .card{
+    width: 100%;
+    margin: 0 10px;
+}
+#donuts{
+    background: tan;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 1rem;
+}
+#donuts .don-1{
+    background: seagreen;
+    border-radius: .4rem;
+}
+#donuts #doughts{
+    background-color: red;
+    display: flex;
+    gap: 1rem;
+
+}
+ div .plots {
+    background: seagreen;
+}
+#sample-dataset{
+    overflow: auto;
+}

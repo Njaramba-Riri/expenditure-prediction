@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+{% block title %} LetsGo | Prediction Results {% endblock %}
+
+{% block content %}
+{% include 'include/navigation.html' %}
+<section class="results">
+    <div class="result">
+        <div class="predictions">
+            <h1>What we've got?.</h1>
+            <p>Here's your predictions...</p>        
+            <div class="another-box">
+                <p>
+                    From the <span onclick="showDetails()" id="details" title="Click to see"> details</span> 
+                    that you have provided, your spending category alongside your predicted total cost will be as follows: 
+                </p>
+               {% if feature %}
+                    <div class="predicted">
+                        <h4>Cost Category:<span>{{ feature.predicted_category }}.</span> </h4>
+                        <h4>Total Cost: <span>{{ (feature.total_cost / 2300) | round(2) }} USD</span></h4>
+                        <h4>Probability:<span>{{ "%.2f" | format(feature.probability) }} %.</span></h4>
+                    </div>
+                    <div class="details" id="features">      
+                        <div class="features">
+                            {{ feature.feature }}
+                            <p>Country: <strong>{{ feature.country  }}</strong></p>
+                            <p>Age group: <strong>{{ feature.age_group }}</strong></p>
+                            <p>Travel: <strong>{{ feature.travel_with }}</strong></p>
+                            <p>Tour purpose: <strong>{{ feature.purpose }}</strong></p>
+                            <p>Main activity: <strong>{{ feature.main_activity }}</strong></p>
+                            <p>Info source: <strong>{{ feature.info_source }}</strong></p>
+                            <p>Arrangement: <strong>{{ feature.tour_arrangement }}</strong></p>
+                            <p>Int'l transport: <strong>{{ feature.package_transport_int }}</strong></p>
+                            <p>Accomodation: <strong>{{ feature.package_accomodation }}</strong></p>
+                            <p>Nights mainland: <strong>{{ feature.night_mainland }}</strong></p>
+                            <p>Nights Zanzibar: <strong>{{ feature.night_zanzibar }}</strong></p>                    
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="mawoni">
+                    <p>A quick one, how do you feel about the predictions?.</p>
+                    <div class="ions">
+                        <i class="fa fa-thumbs-up" title="Satisfied" 
+                        onclick="showMessage('We are happy you liked the prediction!.')"></i>
+                        <!-- <ion-icon name="thumbs-up-outline" title="Satisfied" 
+                        onclick="showMessage('We are happy you liked the prediction!.')"></ion-icon>  -->
+                        <i class="fa fa-smile" title="Neutral" 
+                        onclick="showMessage('We will take that!, fairs. :)')"></i>
+                        <!-- <ion-icon name="happy-outline" title="Neutral" 
+                        onclick="showMessage('We will take that, tuko happy sana.')"></ion-icon> -->
+                        {% if current_user.is_authenticated %}
+                            <i class="fa fa-thumbs-down"  title="Disatisfied." onclick="unhappyFeed()" id="Disatisfied"></i>
+                            <!-- <ion-icon name="thumbs-down-outline" title="Disatisfied." onclick="unhappyFeed()" id="Disatisfied"></ion-icon>  -->                            
+                            <form action="{{ url_for('.predict') }}" method="post" id="mawoni">
+                                {{ form.hidden_tag() }}
+                                {% for field in form %}
+                                    <div class="user-mawoni">
+                                        {% if field.type == 'TextAreaField' %}
+                                            {{ field(class_='input', placeholder=field.label.text) }}
+                                        {% else %}
+                                            {{ field(class_='send-btn') }}
+                                        {% endif %}                                    
+                                    </div>
+                                {% endfor %}
+                            </form>  
+                        {% else %}
+                            <i class="fa fa-thumbs-down"  title="Disatisfied." 
+                            onclick="showMessage('Trust us, we are equally concerned. Would you kindly provide more information?.')" id="Disatisfied"></i>
+                            <!-- <ion-icon name="thumbs-down-outline" title="Disatisfied." onclick="unhappyFeed()" id="Disatisfied"></ion-icon>  -->                            
+                            <div id="mawoni">
+                                <a href="{{ url_for('auth.signin') }}" style="text-decoration: none;">
+                                    <i class="fa fa-info-circle" style="color: brown; font-size: .8em !important;"></i>
+                                    <small>Sign to send feedback</small>
+                                </a>
+                            </div>
+                        {% endif %}
+                        <div id="feed-modal">
+                            <div class="feed-content">
+                                <span class="close">&times;</span>
+                                <p id="modalText">
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="recommended">
+            <div class="hea-re">
+                {% if current_user.is_authenticated %}
+                    <h2><span>{{ current_user.username | title }}</span>, Here's places within your budget.</h2>
+                {% else %}
+                    <h2>All within your budget. It's all yours.</h2>
+                {% endif %}                
+            </div>
+            <div class="places">
+                <ul class="gallery">                
+                    <li>
+                        <figure>
+                            <a href=""><img src="/static/images/maasai.jpeg" alt="" srcset=""></a>
+                            <figcaption>
+                                <main>
+                                    <p class="">
+                                        <span><i class="fa fa-map-marker"></i>Mara</span>
+                                        <span><i class="fa fa-sun"></i>4 Days</span>
+                                        <span><i class="fa fa-moon"></i>3 Nights</span>
+                                    </p>
+                                    <h3>Maasai Mara</h3>
+                                    <p>
+                                        Experience an authentic encounter with the Maasai community, 
+                                        renowned for their cultural richness and unique way of life  
+                                    </p>
+                                </main>
+                                <footer>
+                                    <div>
+                                        <p class="small">From</p>
+                                        <p class="price">$300</p>
+                                        <i class="fa fa-arrow-right"></i>
+                                    </div>
+                                </footer>
+                            </figcaption>
+                            <i class="fa fa-location"></i>
+                        </figure> 
+                    </li> 
+                    <li>
+                        <figure>
+                            <a href=""><img src="/static/images/ele.jpg" alt=""></a>
+                            <figcaption>
+                                <main>
+                                    <p>                        
+                                        <span><i class="fa fa-map-marker"></i>Serengeti</span>
+                                        <span><i class="fa fa-sun"></i>4 Days</span>
+                                        <span><i class="fa fa-moon"></i>3 Nights</span>
+                                    </p>
+                                    <h3>Serengeti</h3>
+                                    <p>Book your safari today and get ready to be awed by the beauty of the African savannah!</p>
+                                </main>
+                                <footer>
+                                    <div>
+                                        <p class="small">From</p>
+                                        <p class="price">$100</p>
+                                        <i class="fa fa-arrow-right"></i>
+                                    </div>
+                                </footer>
+                            </figcaption>
+                            <i class="fa fa-location"></i>
+                        </figure>
+                    </li> 
+                </ul>
+            </div>
+            <div class="btn-activity">
+                {% if current_user.is_authenticated %}
+                    <button type="button" class="activity-btn" onclick="toActivity()">Discover More.</button>
+                {% else %}
+                    <button type="button" class="activity-btn" onclick="toActivity()">Sign In to Discover More.</button>
+                {% endif  %}                
+            </div>            
+        </div>        
+    </div>
+</section>
+<section class="teaser">
+    <div class="another">
+        <div class="row">
+            <h3> Feels like a rollercoaster?.</h3>
+            <p>Give it another try?.</p>
+            <div class="btns">
+                <button type="button" onclick="toForm()" class="result-btn">Of Course.</button>
+                <button type="button" onclick="toThanks()" class="result-btn">I'm good.</button>                
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'include/footer.html' %}
+{% endblock %}
+{% block js %}
+    {{ super() }}
+    <script type="text/javascript">
+        var modal  = document.querySelector("#feed-modal");
+        var exi = document.querySelector(".close");
+        var is = document.querySelectorAll("i");
+
+        is.forEach(function(i){
+            i.addEventListener('click', ()=>{
+                is.forEach(function(otherIs){
+                    otherIs.style.pointerEvents = 'none';
+                    otherIs.classList.remove('active');
+                });
+
+                i.classList.toggle('active');
+            });
+        });
+
+        function showMessage(message){
+            document.getElementById("modalText").innerHTML = message;
+            modal.classList.add("active");
+        }
+    
+        exi.onclick = function(){
+            modal.style.display = "none";
+        }
+      
+        window.onclick = function(event){
+            if (event.target == modal){
+            modal.style.display = "none";
+            }
+        }
+        function toActivity(){
+            window.location.href = "{{ url_for('suser.activity', username=current_user.username) }}"
+        }
+        function toSign(){
+            window.location.href = "{{ url_for('auth.signin') }}"
+        }
+        function toForm(){
+            window.location.href = "{{ url_for('app.form') }}"
+        }
+        function toThanks(){
+            window.location.href = "{{ url_for('app.thanks') }}"
+        }
+    
+        var showDetails = document.getElementById("features")
+        showDetails.addEventListener('click', function(){
+            showDetails.classList.add('features-show')
+        })
+    </script>
+{% endblock %}

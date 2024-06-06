@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}LetsGo | Monitoring Reports{% endblock %}
+
+{% block content %}
+{% include 'nav.html' %}
+<div class="repos">
+  <!-- <div class="bird">
+    <a href="{{ url_for('report.show_tests') }}">View Tests</a>
+  </div> -->
+  <div class="tests">
+    {{ visuals | safe }}
+  </div>
+  <div class="prof-footer">
+    <p>&copy;2024. LetsGo. All rights reseved.</p>
+    <p>Made with <i class="fa fa-fire"></i> and<i class="fa fa-heart"></i>by LetsGo Team.</p>
+  </div>
+</div>
+{% endblock %}

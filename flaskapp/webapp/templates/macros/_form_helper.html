@@ -1,0 +1,36 @@
+{% macro render_form(form) %}
+    {{ form.hidden_tag() }}
+    {% for field in form %}
+        {% if field.widget.input_type != 'hidden' %}
+            {% if field.type == "SelectField" %}
+            <div class="col-md-4">
+                <div class="input-box">
+                    {{ field.label }}
+                    {{ field(class_='select-multiple') }}
+                    {% if field.errors %}
+                        {% for e in field.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            {% elif field.type == "IntegerField" %}
+            <div class="col-md-3">
+                <div class="input-box">
+                    {{ field.label }}
+                    {{ field(class_='number') }}
+                    {% if field.errors %}
+                        {% for e in field.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+            <div class="input-box">
+                {{ field(class_='pred-btn', id='submit-btn') }}
+            </div>
+            {% endif %}
+        {% endif %}
+    {% endfor%}
+{% endmacro %}

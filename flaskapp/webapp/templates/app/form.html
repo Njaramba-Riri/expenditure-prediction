@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% import 'macros/_form_helper.html' as macro %}
+
+{% block title %}LetsGo | Travel Itinerary{% endblock %}
+
+{% block content %}
+{#% include 'include/loader.html' %#}
+{% include 'include/navigation.html' %}
+<div id="page-contents">
+    <section class="form">
+        <div class="page-items">
+            <div class="descri">
+                <h3>Kindly pick your travel characteristics.</h3>
+                <p>Not sure how you're supposed to go about it?, don't stress out. :))</p>   
+                <button type="submit" class="descri-btn" data-bs-toggle="modal" 
+                data-bs-target="#itineraryHelpModal">Help.</button>
+                <div class="modal fade" id="itineraryHelpModal" data-bs-keyboard="false" tabindex="-1"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="popup-header">
+                                    <img src="{{ url_for('static', filename='images/check.png')}}" alt="">
+                                    <h2 class="modal-title" id="itineraryHelp">Key Take Away:</h2>
+                                </div>
+                                <div class="popup-content">
+                                    <div class="heads">
+                                        <p>1. Country: The country you're coming from.</p>
+                                        <p>2. Age Group: Your respective age group.</p>
+                                        <p>3. Travel Companion: Who will you be travelling with?.</p>
+                                        <p>4. Nights Mainland Tz: Total nights/days you're going to spend in Mainland Tanzania.</p>
+                                        <p>5. Nights in Zanzibar: Total nights/days you're going to spend in Zanzibar.</p>
+                                        <p>6. Purpose: Main reason you're visiting Tanzania?. </p>
+                                        <p>7. Main activity: Tourism activity which will take most of your time during your visit.</p>
+                                        <p>8. Source of Information: Where did you hear about Tanzanian tourism?.</p>
+                                        <p>9. Tour Arrangement: Which kind of tour arrangement do you have?.</p>
+                                        <p>10. Transport International: Will your tour package facilitate international travel?.</p>
+                                        <p>11. Package Accomodation: Will the tour package facilitate your accomodation while in Tanzania?.</p>
+                                    </div>
+                                    <div class="back-btn">
+                                        <button type="button" class="btn-form" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>     
+            </div>
+            <div class="content">
+                <form class="row" action="{{ url_for('app.form') }}" method="post">
+                    {{ macro.render_form(form) }}
+                </form>        
+            </div>            
+        </div>
+    </section>
+    {% include 'include/footer.html' %} 
+</div>
+{% block js %}
+{{ super() }}
+<script>
+    let popup = document.getElementById("pass");
+
+        function openPass() {
+            popup.classList.add("pop-show");
+            popup.classList.add("dark-back");
+        }
+
+        function closePop() {
+            popup.classList.remove("pop-show");
+        }
+</script>
+{% endblock %}
+{% endblock %}

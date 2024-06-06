@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}LetsGo | User Feedback{% endblock %}
+
+{% block content %}
+{% include 'include/navigation.html' %}
+<section class="feed">
+    <div class="moana-form">
+        <div class="moana">
+            <h1>User Feedback.</h1>
+            <p><span>{{ current_user.username | title }}</span>, at LetsGo we really do value 
+                feedback from our platform users. Take your time and spill the tea.</p>
+        </div>
+        <div class="feed-form">
+            <form action="{{ url_for('app.sema') }}" method="post">
+                {{ form.hidden_tag() }}
+                {% for field in form  %}
+                    {% if field.widget.input_type != 'hidden' %}
+                    <div class="input-box">
+                        {{ field.label(class_='label') }}
+                        {{ field(class_='text-area') | escape }}
+                    </div>
+                    <button type="submit" class="send-btn btn-success">Send</button>
+                    {% endif %}
+                {% endfor %}
+            </form>
+        </div>                  
+    </div>     
+</section>
+<script type="text/javascript">
+    const feedback = document.querySelector("feedback")
+
+    function sendFeedback(){
+        alert("Thank for your feedback, admin will be in touch.")
+        window.location.href = "{{ url_for('suser.activity', username=current_user.username) }}"
+    }
+</script>
+{% include 'include/footer.html' %}
+{% endblock %}

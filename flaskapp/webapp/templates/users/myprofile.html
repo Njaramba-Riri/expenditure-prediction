@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    LetsGo |
+    {% if user.id == current_user.id %}
+        Hey {{ (user.username).split()[0] }} :)
+    {% elif current_user.is_authenticated and current_user.is_administrator() %}
+        {{ (user.username).split()[0] }} Profile 
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+{% include 'include/navigation.html' %}
+<section class="profile">
+    <div class="header" id="header">
+        {% if current_user != user and current_user.is_administrator() %}
+            <p style="color: brown;"><i class="fa fa-info-circle"></i> 
+                Viewing {% if not ((user.username).split()[0]).endswith('s') %} 
+                    {{ (user.username).split()[0] }}'s {% else %} {{ (user.username).split()[0] }} {% endif %} 
+                profile as administrator.
+            </p>
+            <p class="honcho" data-url="{{ url_for('admin.users') }}" id="user-tab">Back to users</p>
+        {% else %}
+            <h3 id="jambo">Jambo 
+                {% if user.full_name %}
+                    {{ (user.full_name).split()[0] }}, 
+                {% else %}
+                    {{ user.username | title }}
+                {% endif %}
+                glad to see you here.
+            </h3>
+            <button type="button" id="exit">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {% if user.is_administrator() %}
+                <p class="honcho" data-url="{{ url_for('admin.profile', username=user.username) }}" id="user-tab">Admin View</p>
+            {% endif %}
+        {% endif %} 
+    </div> 
+    <div class="profile-items">
+        <div class="over">
+            {% if user.gravatar %}
+                <img src="{{ user.gravatar(256) }}" alt="">
+            {% else %}
+                <img src="{{ url_for('static', filename='/images/admin.png') }}" alt="">
+            {% endif %}
+            {% if user.location %}
+                <a href="https://www.google.maps?q={{user.location}}">
+                    <i class="fa fa-map-marker"></i>
+                    {{user.location}}
+                </a>
+            {% endif %}
+            {% if user.full_name %}
+                <span><i class="fa fa-user-tag"></i>{{ user.full_name | title }}</span>
+            {% endif %}
+            <p><i class="fa fa-at"></i> {{ user.username }}</p>
+            {% if current_user.is_administrator() %}
+                <p><i class="fa fa-clock"></i> Last activity was {{ moment(user.last_seen).fromNow() }}</p>
+            {% endif %}
+        </div>
+        <div class="profile-cards">
+            <div class="profile-card">
+                <span class="fa-stack fa-3x">
+                     <i class="fa fa-square fa-stack"></i><i class="fa fa-user-circle fa-stack-1x fa-inverse"></i>
+                </span>
+                <h2>Profile</h2>
+                <p class="links cl-effect-1">
+                    {% if current_user != user and current_user.is_administrator() %}
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#ProfileBackdrop">Manage {{ (user.username).split()[0] }} Profile</a>
+                    {% else %}
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#ProfileBackdrop">Manage Your Profile</a>
+                    {% endif %}
+                    <div class="modal fade" id="ProfileBackdrop" data-bs-keyboard="false" tabindex="-1" aria-labelledby="PofileBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="ProfileBackdropLabel">
+                                        {% if current_user != user and current_user.is_administrator() %}
+                                            <span style="font-weight: 600;">{{ (user.username).split()[0] | title }}</span> Profile
+                                        {% else %}
+                                            Hey <span style="font-weight: 600;">{{ (user.username).split()[0] | title }} </span>:)
+                                        {% endif %}                                        
+                                        <span class="text-uppercase" >
+                                    </h5>
+                                </div>
+                                <div class="modal-body text-start">
+                                    {% if user.username or user.location %}
+                                        {% if user.username %}
+                                            {% if user.full_name %}
+                                            <p><i class="fa fa-user-circle"></i> Name: <span>{{ user.full_name }}</span></p>
+                                            {% endif %}
+                                            {% if user.email %}
+                                                {% if current_user.is_administrator() %}
+                                                    <p><i class="fa fa-envelope"></i> Email: <a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+                                                {% else %}
+                                                    <p><i class="fa fa-envelope"></i> Email: <span>{{ user.email }}</span> </p>
+                                                {% endif %}
+                                            {% endif %}                                            
+                                           <p><i class="fa fa-user-tag"></i> Username: <span>{{ user.username }}</span> </p>
+                                        {% endif %}
+                                    <div>
+                                        {% if user.location %}
+                                        <p><i class="fa fa-map-marker"></i> From: 
+                                            <span> 
+                                                <a href="https://maps.google.com/?q={{ user.location }}"target="_blank">{{ user.location }}</a>
+                                            </span>
+                                        </p>
+                                        {% endif %}
+                                    </div>
+                                    {% endif %}
+                                    {% if user.about %}
+                                    <div>
+                                        <p><i class="fa fa-medal"></i> About me: <span> {{ user.about }}</span></p>
+                                    </div>
+                                    {% endif %}
+                                    <p><i class="fa fa-calendar"></i> Member Since: <span>{{ moment(user.date_created).format('LL') }}</span>.</p>
+                                    {% if current_user.is_administrator() %}
+                                        <p> <i class="fa fa-clock"></i> Last Seen: <span>{{ moment(user.last_seen).fromNow() }}</span></p>
+                                    {% endif %}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    {% if current_user != user and current_user.is_administrator() %}
+                                        <a type="button"  href="{{ url_for('admin.user_profile', username=user.username) }}" class="btn btn-primary">
+                                            Edit Profile
+                                        </a>                                        
+                                    {% else %}
+                                        <a type="button"  href="{{ url_for('suser.update', username=current_user.username) }}" class="btn btn-primary">
+                                            Edit Profile
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </p>
+            </div>
+            <div class="profile-card">
+                <span class="fa-stack fa-3x">
+                    <i class="fa fa-square fa-stack "></i><i class="fa fa-face-grin-stars fa-stack-1x fa-inverse"></i>
+                </span>
+                {% if current_user != user and current_user.is_administrator() %}
+                    <h2>Activity</h2>
+                    <p class="links cl-effect-1">
+                        <a href="{{ url_for('suser.activity', username=user.username) }}">
+                            See {{ (user.username).split()[0] }}'s Activity
+                        </a>
+                    </p>
+                {% else %}
+                    <h2>My Activity</h2>
+                    <p class="links cl-effect-1">
+                        <a href="{{ url_for('suser.activity', username=user.username) }}">
+                            See Your Activity
+                        </a>
+                    </p>
+                {% endif %}
+            </div>    
+        </div>
+    </div>
+    <div class="prof-footer">
+        <p>&copy;2024. LetsGo. All rights reseved.</p>
+        <p>Made with <i class="fa fa-fire"></i> and<i class="fa fa-heart"></i>by LetsGo Team.</p>
+    </div>
+</section>
+{% endblock %}
+{% block js %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+    <script>
+        var users = document.getElementById("user-tab");
+        var jambo = document.getElementById("header");
+        var mia = document.getElementById("exit");
+
+        users.addEventListener('click', function(){
+            url = users.getAttribute('data-url');
+
+            setTimeout(function(){
+                window.location.href = url;
+            }, 1000);
+
+            this.style.cursor = 'progress';
+        });
+
+        mia.addEventListener('click', function(){
+            jambo.classList.add('hide');
+        });
+    </script>
+{% endblock %}

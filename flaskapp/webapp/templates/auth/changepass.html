@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% import 'macros/auth.html' as macro %}
+
+{% block title %}LetsGo | Reset Password {% endblock %}
+
+{% block content %}
+{% include 'include/navigation.html' %}
+<section class="login">
+    <div class="welcome">
+    </div>
+    <div class="auth-form">
+        <form action="{{ url_for('auth.password_reset', token=token) }}" method="post">
+            <div class="wrapper">
+                <div class="empa">
+                    <p>Just a reminder: <small>A strong password should contain at least one unique character, 
+                        capital letter and a number.</small>
+                    </p>
+                </div>
+                 {{ macro.authenticate(form) }}
+                <div class="login-register" title="You will be redirected to login page after change of password.">
+                    <button type="submit" class="submit-btn" id="submit-btn">
+                        <span class="btn-text">
+                            Reset Password
+                        </span>
+                        <div class="btn-loader">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </button>
+                </div>                 
+            </div>
+        </form>  
+    </div>
+    <div class="footer-note" style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; border-top: 1px solid gray; padding: 0.5rem 1rem"> 
+        <div style="float: left;">
+            &copy;2024. <i class="fa fa-paper-plane"></i>LetsGo. All rights reserved.
+        </div>
+        <div style="float: right;">
+            Made with <i class="fa fa-heart"></i> by LetsGo Team.
+        </div>
+    </div> 
+</section>
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}LetsGo | {{ (user.username).split()[0] }} Profile {% endblock %}
+
+{% block content %}
+{% include 'nav.html' %}
+<div class="view-profile">
+    <div class="user-profile">
+		<div class="header">
+			<h2>{{ (user.username).split()[0] | title }} Profile</h2>
+		</div>
+        <div class="user-info">
+            <div class="bleep">
+                {% if not user.gravatar %}
+                    <img src="{{ user.gravatar(256) }}">
+                {% else %}
+                    <ion-icon name="person-outline"></ion-icon>
+                {% endif %}     
+                <div class="action-btns">
+                    <button type="submit" onclick="toEdit()" id="edit">Edit</button>
+                    <button type="submit" onclick="toBack()" id="close">Back</button>
+                </div>    
+                <p data-url="{{ url_for('suser.profile', username=user.username)}}" id="prof">
+                    User View
+                </p>             
+            </div>
+            <div class="info-card">
+                <div class="info">
+                    <p>Email: <span><a href="mailto:{{ user.email }}">{{ user.email }}</a></span></p>
+                </div>
+                <div class="info">
+                    <p>Username: <span>{{ user.username }}</span></p>
+                </div>
+                <div class="info">
+                    {% if user.role.name == 'Administrator' %}
+                        <p>User Role: 
+                            <span style="color: brown;" title="This user has administrative privileges.">
+                                <i class="fa fa-info-circle"></i> 
+                                {{ user.role.name }}
+                            </span>
+                        </p>
+                    {% else %}
+                        <p>User Role: <span>{{ user.role.name }}</span></p>
+                    {% endif %}
+                </div>
+                {% if user.mobile %}
+                    <div class="info">
+                        <p>Mobile: <span>{{ user.mobile }}</span></p>
+                    </div>
+                {% endif %}
+                {% if user.location %}
+                    <div class="info">
+                        <p>Location: 
+                            <span>
+                                <a href="https://www.google.maps/?q={{ user.location }}" target="_blank">{{ user.location }}</a>
+                            </span>
+                        </p>
+                    </div>
+                {% endif %} 
+                {% if user.about %}
+                    <div class="info">
+                        <p>Bio: <span>{{ user.about }}</span></p>
+                    </div>
+                {% endif %} 
+                {% if user.tour_company %}
+                    <div class="info">
+                        <p>Tour Company: <span>{{ user.tour_company }}</span></p>
+                    </div>
+                {% endif %} 
+                {% if user.company_email %}
+                    <div class="info">
+                        <p>Company Email: <span>{{ user.company_email }}</span></p>
+                    </div>
+                {% endif %}
+                {% if user.company_mobile %}
+                    <div class="info">
+                        <p>Company Mobile: <span>{{ user.company_mobile }}</span></p>
+                    </div>
+                {% endif %}
+                {% if user.company_address %}
+                    <div class="info">
+                        <p>Company Address: <span>{{ user.company_address }}</span></p>
+                    </div>
+                {% endif %}
+                <div class="info">
+                    <p>Account creation: 
+                        <span>{{ moment(user.date_created).format('LL') }}</span> 
+                    </p>
+                </div>
+                <div class="info">
+                    <p>Last activity was: 
+                        <span>{{moment(user.last_seen).fromNow()}}<span style="color: #100319;">on</span>{{moment(user.last_seen).format('LLL') }}</span> 
+                    </p>
+                </div>
+                {% if user.confirmed == True %}
+                    <div class="info">
+                        <p>Account Status: <span>Confirmed</span></p>
+                    </div>
+                {% else %}
+                <div class="info">
+                    <p>Account Status: <span>Unconfirmed</span></p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+	</div>
+    <div class="prof-footer">
+        <p>&copy;2024. LetsGo. All rights reseved.</p>
+        <p>Made with <i class="fa fa-fire"></i> and<i class="fa fa-heart"></i>by LetsGo Team.</p>
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+    <script>
+        const back = document.getElementById('close');
+        const edit = document.getElementById('edit');
+        const toProf = document.getElementById('prof');
+
+        if (back){
+            back.addEventListener('click', (event) => {
+                window.history.back();
+            });
+        }
+
+        if(edit){
+            edit.addEventListener('click', (event) => {
+                window.location.href = "{{ url_for('.update_profile', username=user.username)}}";
+            });
+        }
+
+        toProf.addEventListener('click', ()=>{
+            window.location.href = toProf.getAttribute("data-url");
+        })
+    </script>
+{% endblock %}

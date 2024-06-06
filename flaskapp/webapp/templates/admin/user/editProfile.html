@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% import 'macros/auth.html' as macro %}
+
+{% block title %}LetsGo | {{ user.username }} Profile  {% endblock %}
+
+{% block content %}	
+{% include 'nav.html' %}
+<section class="admin-edit">
+	<div class="user-profile">
+		<div class="header">
+			<h2>{{ (user.username).split()[0] }} Profile</h2>
+		</div>
+		<div class="user-wrapper">
+			<div class="high">
+				{% if not user.gravatar() %}
+					<img src="{{ user.gravatar(size=100) }}" alt="Profile">
+				{% else %}
+					<ion-icon name="person-outline"></ion-icon>
+					<!-- <img src="{{ url_for('static', filename='/images/admin.png') }}" alt=""> -->
+				{% endif %}
+				<div class="cred">
+					<h4>Username: <span><a href="{{ url_for('.user_profile', username=user.username)}}">{{ user.username }}</a></span></h4>
+					<h4>Email:  <span><a href="mailto: {{ user.email }}" target="_top">{{ user.email }}</a></span></h4>					
+				</div>				
+			</div>
+			<div class="edit-form">
+				<form action="{{ url_for('.update_profile', username=user.username) }}" method="post">
+					{{ form.hidden_tag() }}
+					{% for field in form %}
+						{% if field.widget.input_type != 'hidden' %}
+							{% if field.type != 'BooleanField' %}
+							<div class="fields">
+								<label>
+									{{ field.label }}
+								</label>
+								<div class="input-area">
+									{{ field(class_='input') }}	
+								</div>		
+								{% if field.errors %}
+									{% for e in field.errors %}
+										<p class="help-block">{{ e }}</p>
+									{% endfor %}
+								{% endif %}		
+							</div>
+							{% else %}
+								<label>
+									{{ field.label }}
+									{{ field }}
+								</label>
+							{% endif %}
+						{% endif %}
+					{% endfor %}
+					<div class="submit">
+						<button type="submit" class="update-btn">Update</button>
+					</div>					
+				</form>				
+			</div>
+		</div>
+	</div>
+	<!-- <div class="prof-footer">
+        <p>&copy;2024. <i class="fa fa-paper-plane"></i>LetsGo. All rights reseved.</p>
+        <p>Made with <i class="fa fa-fire"></i> and<i class="fa fa-heart"></i>by LetsGo Team.</p>
+    </div>             -->
+</section>
+{% endblock %}

@@ -1,0 +1,56 @@
+@media only screen and (max-width: 600px){
+    .form{
+        padding: 5rem 1rem;
+    }
+    .form .page-items{
+        padding: 0;
+        grid-template-columns: 1fr;
+    }
+    .form .descri{
+        padding: 0;
+    }
+    .descri p{
+        font-size: 1em;
+    }
+    .chartSec  .sect2,
+    .chartSec .sect1{
+        grid-template-columns: 1fr;
+    }
+    .admin-edit{
+        padding: 2rem 1rem;
+    }
+    .edit-form form{
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .edit-form .input-area{
+        width: 100%;
+    }
+    .view-profile{
+        padding: 2rem 1rem;
+    }
+    .user-info .bleep{
+        display: block;
+        margin-bottom: 2rem;
+    }
+    .bleep .action-btns{
+        margin-top: 1rem;
+    }
+    .user-info .info-card{
+        grid-template-columns: 1fr;
+    }
+    .info-card span{
+        width: 100%;
+    }
+    .users{
+        padding: 2rem 1rem;
+        height: 100%;
+    }
+    .feed .moana-form{
+        display: grid;
+    }
+
+    .mezas,
+    .mezas2{
+        grid-template-columns: 1fr;
+    }
+}

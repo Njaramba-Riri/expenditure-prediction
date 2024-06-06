@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% import 'macros/auth.html' as macro %}
+
+{% block title %}LetsGo | Forgot Password {% endblock %}
+
+{% block content %}
+{% include 'include/navigation.html' %}
+<section class="login">
+    <div class="welcome">
+    </div>
+    <div class="forgot-form">
+        <form action="{{ url_for('auth.forgotpass') }}" method="post" id="auth">
+            <div class="wrapper">
+                <div class="empa">
+                    <h2>Forgot Password?.</h2>
+                    <p>Don't you worry!, just provide your email in the below field.</p>
+                </div>
+                {{ macro.authenticate(form) }}
+                <div class="login-register">
+                    <button type="submit" class="submit-btn" id="submit-btn">
+                        <span class="btn-text">Reset Password</span>
+                        <div class="btn-loader">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </button>
+                </div>                
+            </div>              
+        </form>             
+    </div> 
+   <div class="footer-note" style="position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; border-top: 1px solid gray;"> 
+        <div style="float: left;">
+            &copy;2024. <i class="fa fa-paper-plane"></i>LetsGo. All rights reserved.
+        </div>
+        <div style="float: right;">
+            Made with <i class="fa fa-heart"></i> by LetsGo Team.
+        </div>
+    </div>     
+</section>
+{% block js %}
+{{ super() }}
+<script type="text/javascript">
+    $(document).ready(function () {
+            var messages = "{{ get_flashed_messages() }}";
+
+            if (typeof messages != 'undefined' && messages != '[]') {
+                $("#myModal").modal();
+            };
+        });
+</script>
+{% endblock %}
+{% endblock %}

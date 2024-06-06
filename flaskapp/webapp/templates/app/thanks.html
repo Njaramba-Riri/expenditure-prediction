@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %} LetsGo | Thanks {% endblock %}
+
+{% block content %}
+{% include 'include/navigation.html' %}
+<section class="thanks">
+    <h2>Couldn't be better.</h2>
+    <div class="container">
+        <h3>Thank you for interacting with our app.</h3>
+        <p >Having a burning issue?, kindly leave us your feedback. We love feedback!. </p>
+        <div class="name" >
+            <button type="submit" onclick="feedback_button('Satisfied')" class="btn-thanks btn-success">I'm good</button>
+            <button type="button" onclick="feedback_button('Disatisfied')" class="btn-thanks btn-info">Actually I do</button>
+        </div>
+    </div>
+</section>
+{% include 'include/footer.html' %}
+{% block script %}
+    <script>
+        const name = document.querySelector(".name");
+
+        function feedback_button(feedback){
+            if (feedback === 'Satisfied') {
+                alert("Thank you for your feedback, we're really grateful for that.")
+                window.location.href = "{{ url_for('suser.activity', username=current_user.username) }}"
+            } else if(feedback === 'Disatisfied'){
+                window.location.href = "{{ url_for('app.sema') }}"
+            }
+        }
+    </script>
+{% endblock %}
+{% endblock %}

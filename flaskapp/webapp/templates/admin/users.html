@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% import 'macros/pagination.html' as paginate %}
+
+{% block title %}LetsGo | System Users{% endblock %}
+
+{% block content %}
+{% include 'nav.html' %}
+<div class="users">
+    <div class="meza">
+        <div class="heading">
+            <h2>System Users <ion-icon name="people-outline"></ion-icon></h2>
+            <label>
+                <input type="text" name="" id="search" placeholder="Search user">
+                <ion-icon name="search-outline"></ion-icon>
+            </label>
+        </div>  
+        <div class="table-main">
+            <table id="users">
+                <thead>
+                    <tr>
+                        <th>Avatar</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Role</th>
+                        <th>From</th>
+                        <th>Joined</th>
+                        <th>Last Seen</th>
+                        <th>Interactivity</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td><img src="{{ user.gravatar(100) }}" alt=""></td>
+                        {% if user.username == current_user.username %}
+                            <td title="That'll be you."><a href="{{ url_for('suser.profile', username=user.username)}}">{{ user.username | title}}</a></td>
+                        {% else %}
+                            <td><a href="{{ url_for('suser.profile', username=user.username) }}">{{ user.username | title }}</a></td>
+                        {% endif %}
+                        <td><a href="mailto:{{ user.email }}">{{ user.email }}</a></td>
+                        {% if user.confirmed == True %}
+                            <td class="true">
+                                <ion-icon name="checkmark-circle-outline" title="Confirmed"></ion-icon>
+                            </td>
+                        {% else %}
+                            <td class="false">
+                                <ion-icon name="alert-circle-outline" title="Unconfirmed"></ion-icon>
+                            </td>
+                        {% endif %}
+                        <td>{{ user.role.name | title }}</td>
+                        {% if user.location == None %}
+                            <td>---</td>
+                        {% else %}
+                            <td title="{{ user.location }}">{{ user.location | truncate(30) }}</td>
+                        {% endif %}                        
+                        <td>{{ moment(user.date_created).format('LL') }}</td>
+                        <td>{{ moment(user.last_seen).fromNow() }}</td>
+                        <td>{{ features | count }}</td>
+                        {% for feature in features %}
+                            {% if feature.user_id == user.id %}
+                                
+                            {% endif %}
+                        {% endfor %}
+                        <td>
+                            <div class="icons">
+                                <ion-icon name="pencil-outline" title="Edit" 
+                                class="edit" class="edit" data-url="{{ url_for('.update_profile', username=user.username) }}"></ion-icon>
+                                {% if not user.is_administrator() %}
+                                    <ion-icon name="trash-outline" title="Remove" 
+                                    class="remove" class="remove" data-url="{{ url_for('.delete_profile', username=user.username) }}" ></ion-icon>
+                                {% endif %}
+                                <ion-icon name="eye-outline" title="View" 
+                                class="view" class="view" data-url="{{ url_for('.user_profile', username=user.username) }}"></ion-icon>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>        
+        </div> 
+        <hr>
+        <div class="paginate">
+            {{ paginate.pagination_widget(pagination, '.users')}}
+        </div> 
+    </div>
+    <div class="prof-footer">
+        <p>&copy;2024. <i class="fa fa-paper-plane"></i>LetsGo. All rights reseved.</p>
+        <p>Made with <i class="fa fa-fire"></i> and<i class="fa fa-heart"></i>by LetsGo Team.</p>
+    </div>            
+</div>
+{% endblock %}
+{% block js %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+    <script type="text/javascript">
+        const edits = document.querySelectorAll('.edit');
+        const removes = document.querySelectorAll('.remove');
+        const views = document.querySelectorAll('.view');
+
+        edits.forEach(edit => {
+            edit.addEventListener('click', function() {
+                window.location.href = this.getAttribute('data-url');
+            });           
+        });
+
+        removes.forEach(remove => {
+            remove.addEventListener('click', function() {
+                alert("Confirm that you want to remove this user, this action can't be reversed.")
+                window.location.href = this.getAttribute('data-url');
+            });            
+        });
+
+        views.forEach(view => {
+            view.addEventListener('click', function() {
+                window.location.href = this.getAttribute('data-url');
+            });            
+        });
+
+    </script>
+{% endblock %}
